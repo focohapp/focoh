@@ -1,0 +1,28 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1024" y2="1024" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#4A8C5C"/>
+      <stop offset="100%" stop-color="#2A5A38"/>
+    </linearGradient>
+  </defs>
+  <!-- Fundo -->
+  <rect width="1024" height="1024" rx="220" fill="url(#bg)"/>
+  
+  <!-- Onda centralizada verticalmente em 512, começa em x=80 termina ponto em x=944 -->
+  <!-- Três ondas completas + ponto final -->
+  <path 
+    d="M80 512 
+       C140 380, 240 380, 300 512 
+       C360 644, 460 644, 520 512 
+       C580 380, 680 380, 740 512
+       C790 610, 840 560, 870 512"
+    stroke="white"
+    stroke-width="68"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+    opacity="0.95"
+  />
+  <!-- Ponto de chegada -->
+  <circle cx="944" cy="512" r="84" fill="white" opacity="0.97"/>
+</svg>

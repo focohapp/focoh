@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<!-- saved from url=(0048)file:///C:/Users/Vinicius/Downloads/index_2.html -->
+<html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Focoh">
+<meta name="theme-color" content="#4A8C5C">
+<link rel="manifest" href="file:///C:/Users/Vinicius/Downloads/manifest.json">
+<link rel="apple-touch-icon" href="file:///C:/Users/Vinicius/Downloads/icon.svg">
+<title>Foco — App para TDAH</title>
+<link href="./Foco — App para TDAH_files/css2" rel="stylesheet">
+<style>
+  :root {
+    --green:       #4A8C5C;
+    --green-mid:   #6AAF80;
+    --green-light: #A8D4B4;
+    --green-bg:    #EEF7F1;
+    --bege:        #F5EFE4;
+    --bege-mid:    #E8DDD0;
+    --bege-dark:   #C4B49A;
+    --white:       #FFFFFF;
+    --mist:        #FAFDF8;
+    --ink:         #1A2E22;
+    --ink-soft:    #3D5446;
+    --ink-muted:   #7A9485;
+    --orange:      #E8854A;
+    --orange-bg:   #FDF0E8;
+    --purple:      #7A6AB4;
+    --purple-bg:   #F0EEF9;
+    --yellow:      #D4A820;
+    --yellow-bg:   #FDF6E0;
+    --red:         #C44A4A;
+    --red-bg:      #FAEAEA;
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: #E8E8E8;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 40px 20px;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  /* ── PHONE FRAME ── */
+  .phone {
+    width: 375px;
+    background: var(--mist);
+    border-radius: 44px;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 10px #1A1A1A,
+      0 0 0 12px #333,
+      0 40px 80px rgba(0,0,0,0.4);
+    min-height: 812px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Status bar */
+  .status-bar {
+    background: var(--white);
+    padding: 14px 24px 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .status-time { font-size: 15px; font-weight: 600; color: var(--ink); }
+  .status-icons { display: flex; gap: 6px; align-items: center; }
+  .status-icons span { font-size: 12px; color: var(--ink); }
+
+  /* Notch */
+  .notch {
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 120px; height: 30px;
+    background: #1A1A1A;
+    border-radius: 0 0 20px 20px;
+    z-index: 10;
+  }
+
+  /* ── SCREEN ── */
+  .screen {
+    flex: 1;
+    overflow-y: auto;
+    display: none;
+    flex-direction: column;
+    background: var(--mist);
+  }
+  .screen.active { display: flex; }
+  .screen::-webkit-scrollbar { display: none; }
+
+  /* ── BOTTOM NAV ── */
+  .bottom-nav {
+    background: var(--white);
+    border-top: 1px solid var(--bege-mid);
+    padding: 8px 0 20px;
+    display: flex;
+    justify-content: space-around;
+    flex-shrink: 0;
+  }
+
+  .nav-item {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 3px;
+    cursor: pointer; padding: 4px 12px;
+    border-radius: 12px; transition: all 0.2s;
+    border: none; background: none;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .nav-item.active .nav-icon { color: var(--green); }
+  .nav-item.active .nav-label { color: var(--green); font-weight: 600; }
+
+  .nav-icon { font-size: 20px; color: var(--bege-dark); transition: color 0.2s; }
+  .nav-label { font-size: 10px; color: var(--bege-dark); letter-spacing: 0.3px; transition: color 0.2s; }
+
+  /* ── HOME SCREEN ── */
+  .home-header {
+    background: linear-gradient(160deg, var(--green) 0%, #3A7A4A 100%);
+    padding: 20px 24px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .home-header::before {
+    content: '';
+    position: absolute; top: -40px; right: -40px;
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+  }
+
+  .home-header::after {
+    content: '';
+    position: absolute; bottom: -20px; left: 20px;
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+
+  .home-greeting {
+    font-size: 13px; color: rgba(255,255,255,0.7);
+    letter-spacing: 0.5px; margin-bottom: 4px;
+  }
+
+  .home-name {
+    font-size: 24px; font-weight: 700; color: var(--white);
+    margin-bottom: 20px;
+  }
+
+  .home-energy {
+    background: rgba(255,255,255,0.12);
+    border-radius: 16px; padding: 14px 16px;
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .energy-emoji { font-size: 28px; }
+
+  .energy-text {
+    font-size: 13px; color: rgba(255,255,255,0.8); margin-bottom: 4px;
+  }
+
+  .energy-label {
+    font-size: 16px; font-weight: 700; color: var(--white);
+  }
+
+  .energy-bar-wrap {
+    flex: 1;
+  }
+
+  .energy-bar {
+    height: 6px; background: rgba(255,255,255,0.2);
+    border-radius: 100px; overflow: hidden;
+  }
+
+  .energy-fill {
+    height: 100%; width: 72%;
+    background: linear-gradient(90deg, #A8D4B4, #FFFFFF);
+    border-radius: 100px;
+  }
+
+  /* Focus timer card */
+  .focus-card {
+    background: rgba(255,255,255,0.95);
+    border-radius: 20px; padding: 20px;
+    display: flex; align-items: center; gap: 16px;
+    cursor: pointer;
+  }
+
+  .focus-timer {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--green-bg);
+    border: 2px solid var(--green-light);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .focus-timer-num { font-size: 16px; font-weight: 800; color: var(--green); line-height: 1; }
+  .focus-timer-label { font-size: 8px; color: var(--green-mid); letter-spacing: 1px; text-transform: uppercase; }
+
+  .focus-text { flex: 1; }
+  .focus-title { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+  .focus-sub { font-size: 12px; color: var(--ink-muted); }
+
+  .focus-play {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--green); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0;
+  }
+
+  /* Section */
+  .home-section { padding: 20px 20px 0; }
+
+  .section-row {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 14px;
+  }
+
+  .section-title {
+    font-size: 17px; font-weight: 700; color: var(--ink);
+  }
+
+  .section-link {
+    font-size: 12px; color: var(--green); font-weight: 600;
+    border: none; background: none; cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  /* Código do dia */
+  .codigo-card {
+    background: linear-gradient(135deg, var(--purple-bg), #E8E6F8);
+    border: 1px solid #C8C0E8;
+    border-radius: 20px; padding: 18px;
+    margin-bottom: 20px; cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .codigo-card:hover { transform: scale(1.01); }
+
+  .codigo-badge {
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--purple); font-weight: 700; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .codigo-title {
+    font-size: 18px; font-weight: 700; color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .codigo-desc {
+    font-size: 13px; color: var(--ink-soft); line-height: 1.5;
+    margin-bottom: 14px;
+  }
+
+  .codigo-btn {
+    background: var(--purple); color: var(--white);
+    border: none; border-radius: 100px; padding: 8px 20px;
+    font-size: 12px; font-weight: 700; cursor: pointer;
+    font-family: 'Nunito', sans-serif; letter-spacing: 0.5px;
+  }
+
+  /* Tarefas do dia */
+  .task-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+
+  .task-item {
+    background: var(--white); border-radius: 14px;
+    padding: 14px 16px; display: flex;
+    align-items: center; gap: 12px;
+    border: 1.5px solid transparent;
+    transition: all 0.2s; cursor: pointer;
+  }
+
+  .task-item.done { opacity: 0.5; border-color: var(--green-light); }
+
+  .task-check {
+    width: 22px; height: 22px; border-radius: 50%;
+    border: 2px solid var(--bege-dark);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: all 0.2s;
+  }
+
+  .task-item.done .task-check {
+    background: var(--green); border-color: var(--green);
+    color: var(--white); font-size: 12px;
+  }
+
+  .task-text {
+    flex: 1; font-size: 14px; color: var(--ink); font-weight: 500;
+  }
+
+  .task-item.done .task-text {
+    text-decoration: line-through; color: var(--ink-muted);
+  }
+
+  .task-time {
+    font-size: 11px; color: var(--bege-dark); flex-shrink: 0;
+  }
+
+  .task-color {
+    width: 4px; height: 36px; border-radius: 100px; flex-shrink: 0;
+  }
+
+  /* Conquistas */
+  .wins-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px; margin-bottom: 24px;
+  }
+
+  .win-card {
+    background: var(--white); border-radius: 16px;
+    padding: 16px; text-align: center;
+  }
+
+  .win-emoji { font-size: 28px; margin-bottom: 6px; }
+  .win-value { font-size: 22px; font-weight: 800; color: var(--ink); line-height: 1; margin-bottom: 2px; }
+  .win-label { font-size: 11px; color: var(--ink-muted); }
+
+  /* ── FOCO SCREEN ── */
+  .foco-screen {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; padding: 24px 20px;
+  }
+
+  .foco-header {
+    width: 100%; display: flex; justify-content: space-between;
+    align-items: center; margin-bottom: 32px;
+  }
+
+  .foco-title { font-size: 20px; font-weight: 700; color: var(--ink); }
+
+  .foco-mode {
+    font-size: 11px; color: var(--green); font-weight: 700;
+    background: var(--green-bg); padding: 5px 12px;
+    border-radius: 100px; letter-spacing: 1px; text-transform: uppercase;
+  }
+
+  /* Timer circle */
+  .timer-wrap {
+    position: relative; width: 220px; height: 220px;
+    margin-bottom: 32px;
+  }
+
+  .timer-svg {
+    width: 220px; height: 220px;
+    transform: rotate(-90deg);
+  }
+
+  .timer-bg { fill: none; stroke: var(--bege-mid); stroke-width: 8; }
+  .timer-progress { fill: none; stroke: var(--green); stroke-width: 8; stroke-linecap: round; stroke-dasharray: 628; stroke-dashoffset: 157; transition: stroke-dashoffset 0.5s; }
+
+  .timer-center {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+
+  .timer-time { font-size: 48px; font-weight: 800; color: var(--ink); line-height: 1; }
+  .timer-label { font-size: 13px; color: var(--ink-muted); margin-top: 4px; }
+
+  /* Mode selector */
+  .mode-tabs {
+    display: flex; gap: 8px; margin-bottom: 28px;
+  }
+
+  .mode-tab {
+    flex: 1; text-align: center; padding: 10px;
+    border-radius: 14px; border: 2px solid var(--bege-mid);
+    background: var(--white); cursor: pointer;
+    font-size: 12px; font-weight: 600; color: var(--ink-muted);
+    font-family: 'Nunito', sans-serif; transition: all 0.2s;
+  }
+
+  .mode-tab.active {
+    border-color: var(--green); color: var(--green); background: var(--green-bg);
+  }
+
+  .mode-tab-emoji { font-size: 18px; display: block; margin-bottom: 3px; }
+
+  /* Controls */
+  .timer-controls { display: flex; gap: 20px; align-items: center; margin-bottom: 28px; }
+
+  .ctrl-btn {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--bege); border: none; cursor: pointer;
+    font-size: 18px; display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .ctrl-btn:hover { background: var(--bege-mid); }
+
+  .ctrl-play {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: var(--green); border: none; cursor: pointer;
+    font-size: 24px; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 20px rgba(74,140,92,0.4); transition: all 0.2s;
+  }
+  .ctrl-play:hover { transform: scale(1.05); }
+
+  /* Task during focus */
+  .foco-task {
+    width: 100%; background: var(--white);
+    border-radius: 16px; padding: 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+
+  .foco-task-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
+  .foco-task-text { font-size: 14px; font-weight: 600; color: var(--ink); flex: 1; }
+  .foco-task-change { font-size: 11px; color: var(--green); font-weight: 600; border: none; background: none; cursor: pointer; font-family: 'Nunito', sans-serif; }
+
+  /* ── CÓDIGOS SCREEN ── */
+  .codigos-header {
+    background: linear-gradient(160deg, var(--purple) 0%, #5A4A94 100%);
+    padding: 20px 24px 28px;
+  }
+
+  .codigos-title { font-size: 22px; font-weight: 800; color: var(--white); margin-bottom: 4px; }
+  .codigos-sub { font-size: 13px; color: rgba(255,255,255,0.7); }
+
+  .codigos-list { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; }
+
+  .codigo-item {
+    background: var(--white); border-radius: 18px;
+    padding: 18px; cursor: pointer; transition: all 0.2s;
+    border: 1.5px solid transparent;
+  }
+  .codigo-item:hover { border-color: var(--purple); }
+
+  .codigo-item-header {
+    display: flex; gap: 12px; align-items: flex-start; margin-bottom: 10px;
+  }
+
+  .codigo-item-emoji {
+    width: 44px; height: 44px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; flex-shrink: 0;
+  }
+
+  .codigo-item-title { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+  .codigo-item-sub { font-size: 12px; color: var(--ink-muted); }
+
+  .codigo-item-desc {
+    font-size: 13px; color: var(--ink-soft); line-height: 1.5;
+    margin-bottom: 12px;
+  }
+
+  .codigo-item-footer {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+
+  .codigo-duration {
+    font-size: 11px; color: var(--ink-muted);
+    display: flex; align-items: center; gap: 4px;
+  }
+
+  .btn-iniciar {
+    background: var(--purple); color: var(--white);
+    border: none; border-radius: 100px; padding: 7px 18px;
+    font-size: 12px; font-weight: 700; cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .codigo-item.done .codigo-item-title { color: var(--ink-muted); }
+  .codigo-done-badge {
+    font-size: 10px; color: var(--green); background: var(--green-bg);
+    padding: 4px 10px; border-radius: 100px; font-weight: 700;
+  }
+
+  /* ── DIÁRIO SCREEN ── */
+  .diario-header {
+    background: var(--white); padding: 20px 24px;
+    border-bottom: 1px solid var(--bege-mid);
+  }
+
+  .diario-title { font-size: 20px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .diario-date { font-size: 13px; color: var(--ink-muted); }
+
+  .humor-section { padding: 20px; }
+
+  .humor-label { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 14px; }
+
+  .humor-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: 8px; margin-bottom: 24px;
+  }
+
+  .humor-item {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 5px; cursor: pointer; padding: 10px 6px;
+    border-radius: 14px; border: 2px solid transparent;
+    background: var(--white); transition: all 0.2s;
+  }
+
+  .humor-item.active { border-color: var(--green); background: var(--green-bg); }
+  .humor-emoji { font-size: 28px; }
+  .humor-text { font-size: 10px; color: var(--ink-muted); font-weight: 600; text-align: center; }
+  .humor-item.active .humor-text { color: var(--green); }
+
+  .energia-section { padding: 0 20px 20px; }
+  .energia-label { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 14px; }
+
+  .energia-slider {
+    height: 8px; background: var(--bege-mid);
+    border-radius: 100px; position: relative; margin-bottom: 8px;
+  }
+
+  .energia-fill {
+    height: 100%; width: 70%; background: linear-gradient(90deg, var(--green-light), var(--green));
+    border-radius: 100px;
+  }
+
+  .energia-thumb {
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--green); border: 3px solid var(--white);
+    box-shadow: 0 2px 8px rgba(74,140,92,0.4);
+    position: absolute; top: 50%; left: 70%;
+    transform: translate(-50%, -50%);
+  }
+
+  .energia-labels {
+    display: flex; justify-content: space-between;
+    font-size: 10px; color: var(--ink-muted);
+  }
+
+  .nota-section { padding: 0 20px 20px; }
+  .nota-label { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 10px; }
+
+  .nota-input {
+    width: 100%; background: var(--white);
+    border: 1.5px solid var(--bege-mid); border-radius: 16px;
+    padding: 14px 16px; font-size: 14px; color: var(--ink);
+    font-family: 'Nunito', sans-serif; resize: none; outline: none;
+    line-height: 1.6;
+  }
+  .nota-input:focus { border-color: var(--green); }
+
+  .vitoria-section { padding: 0 20px 20px; }
+  .vitoria-label { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 10px; }
+
+  .vitoria-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+
+  .vitoria-item {
+    background: var(--green-bg); border-radius: 12px;
+    padding: 12px 14px; display: flex; align-items: center; gap: 10px;
+  }
+
+  .vitoria-star { font-size: 16px; }
+  .vitoria-text { font-size: 13px; color: var(--ink-soft); font-weight: 500; }
+
+  .btn-add-vitoria {
+    width: 100%; background: transparent; border: 2px dashed var(--green-light);
+    border-radius: 12px; padding: 12px; font-size: 13px; color: var(--green);
+    font-weight: 600; cursor: pointer; font-family: 'Nunito', sans-serif;
+    transition: all 0.2s;
+  }
+  .btn-add-vitoria:hover { background: var(--green-bg); }
+
+  .btn-salvar-diario {
+    margin: 0 20px 20px; display: block; width: calc(100% - 40px);
+    background: var(--green); color: var(--white);
+    border: none; border-radius: 100px; padding: 16px;
+    font-size: 15px; font-weight: 700; cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    box-shadow: 0 8px 20px rgba(74,140,92,0.3);
+  }
+
+  /* ── COMUNIDADE SCREEN ── */
+  .comunidade-header {
+    background: linear-gradient(160deg, var(--orange) 0%, #C4703A 100%);
+    padding: 20px 24px 28px;
+  }
+
+  .comunidade-title { font-size: 22px; font-weight: 800; color: var(--white); margin-bottom: 4px; }
+  .comunidade-sub { font-size: 13px; color: rgba(255,255,255,0.8); }
+
+  .comunidade-tabs {
+    background: var(--white); border-bottom: 1px solid var(--bege-mid);
+    display: flex; padding: 0 20px;
+  }
+
+  .ctab {
+    flex: 1; text-align: center; padding: 14px 8px;
+    font-size: 13px; font-weight: 600; color: var(--ink-muted);
+    border-bottom: 2px solid transparent; cursor: pointer;
+    border: none; background: none; font-family: 'Nunito', sans-serif;
+    transition: all 0.2s;
+  }
+  .ctab.active { color: var(--orange); border-bottom-color: var(--orange); }
+
+  .post-list { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; }
+
+  .post-card {
+    background: var(--white); border-radius: 18px; padding: 16px;
+  }
+
+  .post-header {
+    display: flex; gap: 10px; align-items: center; margin-bottom: 10px;
+  }
+
+  .post-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 700; color: var(--white);
+    flex-shrink: 0;
+  }
+
+  .post-name { font-size: 13px; font-weight: 700; color: var(--ink); }
+  .post-time { font-size: 11px; color: var(--ink-muted); }
+
+  .post-tag {
+    margin-left: auto; font-size: 10px; padding: 3px 10px;
+    border-radius: 100px; font-weight: 700;
+  }
+
+  .post-text {
+    font-size: 14px; color: var(--ink-soft); line-height: 1.6; margin-bottom: 12px;
+  }
+
+  .post-reactions {
+    display: flex; gap: 12px;
+  }
+
+  .reaction {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 12px; color: var(--ink-muted); cursor: pointer;
+    border: none; background: none; font-family: 'Nunito', sans-serif;
+  }
+
+  /* Modo crise */
+  .crise-banner {
+    margin: 16px 20px 0;
+    background: linear-gradient(135deg, var(--red-bg), #FDF0F0);
+    border: 1.5px solid #E8B4B4; border-radius: 16px;
+    padding: 16px; display: flex; gap: 12px; align-items: center;
+    cursor: pointer;
+  }
+
+  .crise-icon { font-size: 24px; flex-shrink: 0; }
+  .crise-title { font-size: 14px; font-weight: 700; color: var(--red); margin-bottom: 2px; }
+  .crise-sub { font-size: 12px; color: var(--ink-soft); }
+  .crise-arrow { font-size: 18px; color: var(--red); margin-left: auto; }
+
+  /* ── LABEL PAGES ── */
+  .page-label {
+    background: rgba(0,0,0,0.5);
+    color: white; font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase; text-align: center;
+    padding: 4px 0; font-weight: 700;
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     PHONE 1 — HOME
+════════════════════════════════════════ -->
+<div class="phone">
+  <div class="notch"></div>
+  <div class="status-bar">
+    <span class="status-time">09:41</span>
+    <div class="status-icons"><span>●●●</span><span>WiFi</span><span>🔋</span></div>
+  </div>
+
+  <div class="screen active" id="screen-home">
+
+    <!-- Header -->
+    <div class="home-header">
+      <div class="home-greeting">Bom dia, Vinicius 👋</div>
+      <div class="home-name">Como você está hoje?</div>
+      <div class="home-energy">
+        <div class="energy-emoji">⚡</div>
+        <div class="energy-bar-wrap">
+          <div class="energy-text">Energia atual</div>
+          <div class="energy-label">Alta — 72%</div>
+          <div class="energy-bar" style="margin-top:6px"><div class="energy-fill"></div></div>
+        </div>
+      </div>
+      <div class="focus-card" onclick="goScreen(&#39;foco&#39;)">
+        <div class="focus-timer">
+          <div class="focus-timer-num">25</div>
+          <div class="focus-timer-label">min</div>
+        </div>
+        <div class="focus-text">
+          <div class="focus-title">Modo Foco</div>
+          <div class="focus-sub">Próxima sessão disponível</div>
+        </div>
+        <div class="focus-play">▶</div>
+      </div>
+    </div>
+
+    <!-- Código do dia -->
+    <div class="home-section">
+      <div class="section-row">
+        <div class="section-title">Código do dia</div>
+        <button class="section-link" onclick="goScreen(&#39;codigos&#39;)">Ver todos</button>
+      </div>
+      <div class="codigo-card" onclick="goScreen(&#39;codigos&#39;)">
+        <div class="codigo-badge">🔮 Reset Codes™ · Hoje</div>
+        <div class="codigo-title">Código da Procrastinação</div>
+        <div class="codigo-desc">A procrastinação não é preguiça — é um código de proteção instalado. Hoje vamos identificar e desativar a origem.</div>
+        <button class="codigo-btn">Iniciar meditação · 3 min</button>
+      </div>
+    </div>
+
+    <!-- Tarefas -->
+    <div class="home-section">
+      <div class="section-row">
+        <div class="section-title">Tarefas de hoje</div>
+        <button class="section-link">+ Adicionar</button>
+      </div>
+      <div class="task-list">
+        <div class="task-item done" onclick="toggleTask(this)">
+          <div class="task-color" style="background:var(--green)"></div>
+          <div class="task-check">✓</div>
+          <div class="task-text">Responder e-mails</div>
+          <div class="task-time">08:00</div>
+        </div>
+        <div class="task-item" onclick="toggleTask(this)">
+          <div class="task-color" style="background:var(--orange)"></div>
+          <div class="task-check"></div>
+          <div class="task-text">Gravar vídeo do TikTok</div>
+          <div class="task-time">10:00</div>
+        </div>
+        <div class="task-item" onclick="toggleTask(this)">
+          <div class="task-color" style="background:var(--purple)"></div>
+          <div class="task-check"></div>
+          <div class="task-text">Sessão com cliente</div>
+          <div class="task-time">14:00</div>
+        </div>
+        <div class="task-item" onclick="toggleTask(this)">
+          <div class="task-color" style="background:var(--yellow)"></div>
+          <div class="task-check"></div>
+          <div class="task-text">Estudar Reset Codes N2</div>
+          <div class="task-time">16:00</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Conquistas -->
+    <div class="home-section">
+      <div class="section-row">
+        <div class="section-title">Suas conquistas</div>
+      </div>
+      <div class="wins-grid" style="margin-bottom:24px">
+        <div class="win-card">
+          <div class="win-emoji">🔥</div>
+          <div class="win-value">7</div>
+          <div class="win-label">dias em sequência</div>
+        </div>
+        <div class="win-card">
+          <div class="win-emoji">⏱️</div>
+          <div class="win-value">4h20</div>
+          <div class="win-label">em foco essa semana</div>
+        </div>
+        <div class="win-card">
+          <div class="win-emoji">✅</div>
+          <div class="win-value">23</div>
+          <div class="win-label">tarefas concluídas</div>
+        </div>
+        <div class="win-card">
+          <div class="win-emoji">🔮</div>
+          <div class="win-value">5</div>
+          <div class="win-label">códigos desativados</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /screen-home -->
+
+  <!-- PHONE 1 BOTTOM NAV -->
+  <div class="bottom-nav">
+    <button class="nav-item active" onclick="goScreen(&#39;home&#39;)">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">Início</span>
+    </button>
+    <button class="nav-item" onclick="goScreen(&#39;foco&#39;)">
+      <span class="nav-icon">⏱️</span>
+      <span class="nav-label">Foco</span>
+    </button>
+    <button class="nav-item" onclick="goScreen(&#39;codigos&#39;)">
+      <span class="nav-icon">🔮</span>
+      <span class="nav-label">Códigos</span>
+    </button>
+    <button class="nav-item" onclick="goScreen(&#39;diario&#39;)">
+      <span class="nav-icon">📔</span>
+      <span class="nav-label">Diário</span>
+    </button>
+    <button class="nav-item" onclick="goScreen(&#39;comunidade&#39;)">
+      <span class="nav-icon">💬</span>
+      <span class="nav-label">Comunidade</span>
+    </button>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════
+     PHONE 2 — FOCO TIMER
+════════════════════════════════════════ -->
+<div class="phone">
+  <div class="notch"></div>
+  <div class="status-bar">
+    <span class="status-time">09:41</span>
+    <div class="status-icons"><span>●●●</span><span>WiFi</span><span>🔋</span></div>
+  </div>
+  <div class="page-label">Tela de Foco</div>
+
+  <div class="screen active">
+    <div class="foco-screen">
+      <div class="foco-header">
+        <div class="foco-title">Modo Foco</div>
+        <div class="foco-mode">Pomodoro</div>
+      </div>
+
+      <!-- Mode tabs -->
+      <div class="mode-tabs" style="width:100%">
+        <div class="mode-tab active">
+          <span class="mode-tab-emoji">🎯</span>
+          Foco<br><small>25 min</small>
+        </div>
+        <div class="mode-tab">
+          <span class="mode-tab-emoji">☕</span>
+          Pausa<br><small>5 min</small>
+        </div>
+        <div class="mode-tab">
+          <span class="mode-tab-emoji">🌿</span>
+          Longa<br><small>15 min</small>
+        </div>
+        <div class="mode-tab">
+          <span class="mode-tab-emoji">⚡</span>
+          Hiperfoco<br><small>50 min</small>
+        </div>
+      </div>
+
+      <!-- Timer -->
+      <div class="timer-wrap">
+        <svg class="timer-svg" viewBox="0 0 220 220">
+          <circle class="timer-bg" cx="110" cy="110" r="100"></circle>
+          <circle class="timer-progress" cx="110" cy="110" r="100"></circle>
+        </svg>
+        <div class="timer-center">
+          <div class="timer-time">18:34</div>
+          <div class="timer-label">restando</div>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="timer-controls">
+        <button class="ctrl-btn">⏮</button>
+        <button class="ctrl-play">⏸</button>
+        <button class="ctrl-btn">⏭</button>
+      </div>
+
+      <!-- Current task -->
+      <div class="foco-task" style="width:100%">
+        <div class="foco-task-dot"></div>
+        <div class="foco-task-text">Gravar vídeo do TikTok</div>
+        <button class="foco-task-change">Trocar</button>
+      </div>
+
+      <!-- Sessão info -->
+      <div style="width:100%;display:flex;gap:10px;margin-top:12px">
+        <div style="flex:1;background:var(--white);border-radius:14px;padding:12px;text-align:center">
+          <div style="font-size:20px;font-weight:800;color:var(--ink)">3</div>
+          <div style="font-size:11px;color:var(--ink-muted)">sessões hoje</div>
+        </div>
+        <div style="flex:1;background:var(--white);border-radius:14px;padding:12px;text-align:center">
+          <div style="font-size:20px;font-weight:800;color:var(--ink)">1h15</div>
+          <div style="font-size:11px;color:var(--ink-muted)">em foco hoje</div>
+        </div>
+        <div style="flex:1;background:var(--white);border-radius:14px;padding:12px;text-align:center">
+          <div style="font-size:20px;font-weight:800;color:var(--orange)">🔥 7</div>
+          <div style="font-size:11px;color:var(--ink-muted)">dias seguidos</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <button class="nav-item"><span class="nav-icon">🏠</span><span class="nav-label">Início</span></button>
+    <button class="nav-item active"><span class="nav-icon">⏱️</span><span class="nav-label">Foco</span></button>
+    <button class="nav-item"><span class="nav-icon">🔮</span><span class="nav-label">Códigos</span></button>
+    <button class="nav-item"><span class="nav-icon">📔</span><span class="nav-label">Diário</span></button>
+    <button class="nav-item"><span class="nav-icon">💬</span><span class="nav-label">Comunidade</span></button>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════
+     PHONE 3 — CÓDIGOS RESET CODES
+════════════════════════════════════════ -->
+<div class="phone">
+  <div class="notch"></div>
+  <div class="status-bar">
+    <span class="status-time">09:41</span>
+    <div class="status-icons"><span>●●●</span><span>WiFi</span><span>🔋</span></div>
+  </div>
+  <div class="page-label">Tela de Códigos Reset Codes™</div>
+
+  <div class="screen active">
+    <div class="codigos-header">
+      <div class="codigos-title">Códigos Reset Codes™</div>
+      <div class="codigos-sub">Meditações guiadas para desativar padrões</div>
+    </div>
+
+    <div class="codigos-list">
+
+      <div class="codigo-item done">
+        <div class="codigo-item-header">
+          <div class="codigo-item-emoji" style="background:var(--green-bg)">✅</div>
+          <div>
+            <div class="codigo-item-title">Código da Autossabotagem</div>
+            <div class="codigo-item-sub">Concluído hoje · 3 min</div>
+          </div>
+        </div>
+        <div class="codigo-item-footer">
+          <div class="codigo-duration">Desativado com sucesso</div>
+          <div class="codigo-done-badge">✓ Feito</div>
+        </div>
+      </div>
+
+      <div class="codigo-item" style="border-color:var(--purple);background:var(--purple-bg)">
+        <div class="codigo-item-header">
+          <div class="codigo-item-emoji" style="background:white">🔮</div>
+          <div>
+            <div class="codigo-item-title">Código da Procrastinação</div>
+            <div class="codigo-item-sub">Hoje · Recomendado para você</div>
+          </div>
+        </div>
+        <div class="codigo-item-desc">
+          A procrastinação não é falta de força de vontade. É um código de proteção instalado no campo. Vamos identificar a origem e desativar na raiz.
+        </div>
+        <div class="codigo-item-footer">
+          <div class="codigo-duration">⏱ 3 minutos</div>
+          <button class="btn-iniciar">Iniciar agora</button>
+        </div>
+      </div>
+
+      <div class="codigo-item">
+        <div class="codigo-item-header">
+          <div class="codigo-item-emoji" style="background:var(--orange-bg)">🔥</div>
+          <div>
+            <div class="codigo-item-title">Código do Medo de Errar</div>
+            <div class="codigo-item-sub">Amanhã</div>
+          </div>
+        </div>
+        <div class="codigo-item-desc">
+          O perfeccionismo no TDAH vem do medo de errar. Esse código paralisa antes de começar. Vamos desativá-lo.
+        </div>
+        <div class="codigo-item-footer">
+          <div class="codigo-duration">⏱ 5 minutos</div>
+          <button class="btn-iniciar" style="background:var(--orange)">Em breve</button>
+        </div>
+      </div>
+
+      <div class="codigo-item">
+        <div class="codigo-item-header">
+          <div class="codigo-item-emoji" style="background:var(--yellow-bg)">💛</div>
+          <div>
+            <div class="codigo-item-title">Código do Não Merecimento</div>
+            <div class="codigo-item-sub">Próxima semana</div>
+          </div>
+        </div>
+        <div class="codigo-item-desc">
+          Sentir que não merece coisas boas é um dos códigos mais comuns em pessoas com TDAH. Raiz geracional e emocional.
+        </div>
+        <div class="codigo-item-footer">
+          <div class="codigo-duration">⏱ 4 minutos</div>
+          <button class="btn-iniciar" style="background:var(--yellow)">Bloqueado</button>
+        </div>
+      </div>
+
+      <div class="codigo-item">
+        <div class="codigo-item-header">
+          <div class="codigo-item-emoji" style="background:#E8F4FF">💙</div>
+          <div>
+            <div class="codigo-item-title">Código do Hiperfoco</div>
+            <div class="codigo-item-sub">Aprenda a usar como superpoder</div>
+          </div>
+        </div>
+        <div class="codigo-item-desc">
+          O hiperfoco é seu maior dom. Esse código te ensina a ativá-lo intencionalmente em vez de esperar ele aparecer.
+        </div>
+        <div class="codigo-item-footer">
+          <div class="codigo-duration">⏱ 6 minutos</div>
+          <button class="btn-iniciar" style="background:#5A8AC4">Bloqueado</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <button class="nav-item"><span class="nav-icon">🏠</span><span class="nav-label">Início</span></button>
+    <button class="nav-item"><span class="nav-icon">⏱️</span><span class="nav-label">Foco</span></button>
+    <button class="nav-item active"><span class="nav-icon">🔮</span><span class="nav-label">Códigos</span></button>
+    <button class="nav-item"><span class="nav-icon">📔</span><span class="nav-label">Diário</span></button>
+    <button class="nav-item"><span class="nav-icon">💬</span><span class="nav-label">Comunidade</span></button>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════
+     PHONE 4 — DIÁRIO
+════════════════════════════════════════ -->
+<div class="phone">
+  <div class="notch"></div>
+  <div class="status-bar">
+    <span class="status-time">09:41</span>
+    <div class="status-icons"><span>●●●</span><span>WiFi</span><span>🔋</span></div>
+  </div>
+  <div class="page-label">Tela do Diário</div>
+
+  <div class="screen active" style="overflow-y:auto">
+    <div class="diario-header">
+      <div class="diario-title">Diário de hoje</div>
+      <div class="diario-date">Terça-feira, 7 de julho de 2026</div>
+    </div>
+
+    <div class="humor-section">
+      <div class="humor-label">Como você está agora? 😊</div>
+      <div class="humor-grid">
+        <div class="humor-item"><span class="humor-emoji">😔</span><span class="humor-text">Mal</span></div>
+        <div class="humor-item"><span class="humor-emoji">😕</span><span class="humor-text">Regular</span></div>
+        <div class="humor-item active"><span class="humor-emoji">😊</span><span class="humor-text">Bem</span></div>
+        <div class="humor-item"><span class="humor-emoji">😄</span><span class="humor-text">Ótimo</span></div>
+        <div class="humor-item"><span class="humor-emoji">🤩</span><span class="humor-text">Incrível</span></div>
+      </div>
+    </div>
+
+    <div class="energia-section">
+      <div class="energia-label">Nível de energia ⚡</div>
+      <div class="energia-slider">
+        <div class="energia-fill"></div>
+        <div class="energia-thumb"></div>
+      </div>
+      <div class="energia-labels">
+        <span>Esgotado</span>
+        <span>Energizado</span>
+      </div>
+    </div>
+
+    <div class="nota-section">
+      <div class="nota-label">Como foi seu dia? ✍️</div>
+      <textarea class="nota-input" rows="4" placeholder="Escreva livremente... sem julgamentos.">Hoje consegui gravar o vídeo que estava evitando há dias. Senti que o código da procrastinação realmente mudou algo em mim.</textarea>
+    </div>
+
+    <div class="vitoria-section">
+      <div class="vitoria-label">Suas vitórias de hoje 🏆</div>
+      <div class="vitoria-list">
+        <div class="vitoria-item"><span class="vitoria-star">⭐</span><span class="vitoria-text">Acordei no horário</span></div>
+        <div class="vitoria-item"><span class="vitoria-star">⭐</span><span class="vitoria-text">Fiz 2 sessões de foco</span></div>
+        <div class="vitoria-item"><span class="vitoria-star">⭐</span><span class="vitoria-text">Gravei o vídeo do TikTok</span></div>
+      </div>
+      <button class="btn-add-vitoria">+ Adicionar vitória</button>
+    </div>
+
+    <button class="btn-salvar-diario">Salvar diário do dia</button>
+  </div>
+
+  <div class="bottom-nav">
+    <button class="nav-item"><span class="nav-icon">🏠</span><span class="nav-label">Início</span></button>
+    <button class="nav-item"><span class="nav-icon">⏱️</span><span class="nav-label">Foco</span></button>
+    <button class="nav-item"><span class="nav-icon">🔮</span><span class="nav-label">Códigos</span></button>
+    <button class="nav-item active"><span class="nav-icon">📔</span><span class="nav-label">Diário</span></button>
+    <button class="nav-item"><span class="nav-icon">💬</span><span class="nav-label">Comunidade</span></button>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════
+     PHONE 5 — COMUNIDADE
+════════════════════════════════════════ -->
+<div class="phone">
+  <div class="notch"></div>
+  <div class="status-bar">
+    <span class="status-time">09:41</span>
+    <div class="status-icons"><span>●●●</span><span>WiFi</span><span>🔋</span></div>
+  </div>
+  <div class="page-label">Tela da Comunidade</div>
+
+  <div class="screen active">
+    <div class="comunidade-header">
+      <div class="comunidade-title">Comunidade Foco</div>
+      <div class="comunidade-sub">Espaço seguro · Sem julgamentos</div>
+    </div>
+
+    <!-- Modo crise banner -->
+    <div class="crise-banner">
+      <div class="crise-icon">🆘</div>
+      <div>
+        <div class="crise-title">Modo Crise</div>
+        <div class="crise-sub">Está em colapso? Toque aqui agora.</div>
+      </div>
+      <div class="crise-arrow">›</div>
+    </div>
+
+    <div class="comunidade-tabs">
+      <button class="ctab active">Geral</button>
+      <button class="ctab">TDAH</button>
+      <button class="ctab">LGBTQIA+</button>
+      <button class="ctab">Pais</button>
+      <button class="ctab">Altas Hab.</button>
+      <button class="ctab">Cuidadores</button>
+    </div>
+
+    <div class="post-list">
+      <div class="post-card">
+        <div class="post-header">
+          <div class="post-avatar" style="background:var(--green)">C</div>
+          <div>
+            <div class="post-name">Camila R.</div>
+            <div class="post-time">há 2 horas</div>
+          </div>
+          <div class="post-tag" style="background:var(--green-bg);color:var(--green)">🏆 Vitória</div>
+        </div>
+        <div class="post-text">Fiz 3 sessões de foco hoje sem interrupção! Parecia impossível antes do Foco. O código da procrastinação mudou mesmo algo em mim 🔮</div>
+        <div class="post-reactions">
+          <button class="reaction">❤️ 24</button>
+          <button class="reaction">💬 8</button>
+          <button class="reaction">🔥 12</button>
+        </div>
+      </div>
+
+      <div class="post-card">
+        <div class="post-header">
+          <div class="post-avatar" style="background:var(--purple)">L</div>
+          <div>
+            <div class="post-name">Lucas M.</div>
+            <div class="post-time">há 5 horas</div>
+          </div>
+          <div class="post-tag" style="background:var(--purple-bg);color:var(--purple)">💬 Desabafo</div>
+        </div>
+        <div class="post-text">Dia difícil hoje. Não consegui fazer nada que planejei. Mas pelo menos abri o app e registrei no diário. Pequena vitória 🌱</div>
+        <div class="post-reactions">
+          <button class="reaction">🤗 31</button>
+          <button class="reaction">💬 15</button>
+          <button class="reaction">💜 27</button>
+        </div>
+      </div>
+
+      <div class="post-card">
+        <div class="post-header">
+          <div class="post-avatar" style="background:var(--orange)">M</div>
+          <div>
+            <div class="post-name">Mariana F.</div>
+            <div class="post-time">ontem</div>
+          </div>
+          <div class="post-tag" style="background:var(--orange-bg);color:var(--orange)">💡 Dica</div>
+        </div>
+        <div class="post-text">Descobri que funciono muito melhor de manhã cedo. O app mapeou isso no meu diário de energia e agora organiza minhas tarefas difíceis pra esse horário. Mudou tudo! 🌅</div>
+        <div class="post-reactions">
+          <button class="reaction">❤️ 18</button>
+          <button class="reaction">💬 6</button>
+          <button class="reaction">⭐ 22</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <button class="nav-item"><span class="nav-icon">🏠</span><span class="nav-label">Início</span></button>
+    <button class="nav-item"><span class="nav-icon">⏱️</span><span class="nav-label">Foco</span></button>
+    <button class="nav-item"><span class="nav-icon">🔮</span><span class="nav-label">Códigos</span></button>
+    <button class="nav-item"><span class="nav-icon">📔</span><span class="nav-label">Diário</span></button>
+    <button class="nav-item active"><span class="nav-icon">💬</span><span class="nav-label">Comunidade</span></button>
+  </div>
+</div>
+
+<script>
+  function goScreen(name) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById('screen-' + name);
+    if (target) {
+      target.classList.add('active');
+      document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    }
+  }
+
+  function toggleTask(el) {
+    el.classList.toggle('done');
+    const check = el.querySelector('.task-check');
+    if (el.classList.contains('done')) {
+      check.textContent = '✓';
+    } else {
+      check.textContent = '';
+    }
+  }
+
+  // Tab switching
+  document.querySelectorAll('.mode-tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+      this.closest('.mode-tabs').querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  document.querySelectorAll('.ctab').forEach(tab => {
+    tab.addEventListener('click', function() {
+      this.closest('.comunidade-tabs').querySelectorAll('.ctab').forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  document.querySelectorAll('.humor-item').forEach(item => {
+    item.addEventListener('click', function() {
+      this.closest('.humor-grid').querySelectorAll('.humor-item').forEach(i => i.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('sw.js')
+      .then(function(reg) { console.log('SW registered'); })
+      .catch(function(err) { console.log('SW error:', err); });
+  });
+}
+</script>
+
+
+</body></html>
