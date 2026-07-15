@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0055)file:///C:/Users/Vinicius/Downloads/focoh-firebase.html -->
+<!-- saved from url=(0048)file:///C:/Users/Vinicius/Downloads/index_3.html -->
 <html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -9,7 +9,6 @@
 <meta name="apple-mobile-web-app-title" content="Focoh">
 <meta name="theme-color" content="#4A8C5C">
 <title>Focoh — Para mentes que funcionam diferente</title>
-<link href="./index_files/css2" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
 :root {
@@ -35,7 +34,6 @@ html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--
 .nav-label { font-size: 10px; color: var(--bege-dark); font-weight: 600; }
 .nav-btn.active .nav-label { color: var(--green); font-weight: 700; }
 
-/* LOADING */
 #loading { position: fixed; inset: 0; background: var(--green-deep); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; }
 .loading-logo { margin-bottom: 20px; }
 .loading-title { font-size: 48px; font-weight: 900; color: white; letter-spacing: -1px; margin-bottom: 8px; }
@@ -47,7 +45,6 @@ html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--
 .loading-dot:nth-child(3) { animation-delay: 0.4s; }
 @keyframes pulse { 0%,80%,100% { opacity:0.3; transform:scale(0.8); } 40% { opacity:1; transform:scale(1); } }
 
-/* ONBOARDING */
 #onboarding { position: fixed; inset: 0; z-index: 999; background: var(--green-deep); display: none; flex-direction: column; align-items: center; justify-content: center; padding: 40px 28px; text-align: center; }
 .ob-step { display: none; flex-direction: column; align-items: center; width: 100%; }
 .ob-step.active { display: flex; }
@@ -66,7 +63,6 @@ html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--
 .ob-input { width: 100%; background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3); border-radius: 14px; padding: 14px 18px; font-size: 18px; color: white; font-family: 'Nunito', sans-serif; font-weight: 600; outline: none; margin-bottom: 20px; text-align: center; }
 .ob-input::placeholder { color: rgba(255,255,255,0.4); }
 
-/* HOME */
 .home-header { background: linear-gradient(160deg, var(--green) 0%, var(--green-deep) 100%); padding: 20px 20px 24px; flex-shrink: 0; }
 .home-greeting { font-size: 13px; color: rgba(255,255,255,0.75); margin-bottom: 3px; }
 .home-name { font-size: 22px; font-weight: 800; color: white; margin-bottom: 16px; }
@@ -112,7 +108,6 @@ html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--
 .win-value { font-size: 22px; font-weight: 800; color: var(--ink); line-height: 1; margin-bottom: 2px; }
 .win-label { font-size: 10px; color: var(--ink-muted); }
 
-/* FOCO */
 .foco-header { background: white; padding: 20px 20px 16px; border-bottom: 1px solid var(--bege-mid); flex-shrink: 0; }
 .foco-screen-title { font-size: 20px; font-weight: 800; color: var(--ink); }
 .mode-tabs { display: flex; gap: 8px; padding: 16px 20px 0; flex-shrink: 0; }
@@ -139,7 +134,6 @@ html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--
 .foco-stat-val { font-size: 20px; font-weight: 800; color: var(--ink); }
 .foco-stat-label { font-size: 10px; color: var(--ink-muted); }
 
-/* CODIGOS */
 .codigos-header { background: linear-gradient(160deg, var(--purple) 0%, #5A4A94 100%); padding: 20px 20px 24px; flex-shrink: 0; }
 .codigos-title { font-size: 22px; font-weight: 800; color: white; margin-bottom: 4px; }
 .codigos-sub { font-size: 13px; color: rgba(255,255,255,0.7); }
@@ -151,7 +145,6 @@ html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--
 .codigo-item-sub { font-size: 12px; color: var(--ink-muted); }
 .codigo-locked { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--bege-dark); font-weight: 600; }
 
-/* DIARIO */
 .diario-header { background: white; padding: 20px; border-bottom: 1px solid var(--bege-mid); flex-shrink: 0; }
 .diario-title { font-size: 20px; font-weight: 800; color: var(--ink); margin-bottom: 3px; }
 .diario-date { font-size: 13px; color: var(--ink-muted); }
@@ -176,7 +169,6 @@ html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--
 .btn-add-vitoria { width: 100%; background: transparent; border: 2px dashed var(--green-light); border-radius: 12px; padding: 12px; font-size: 13px; color: var(--green); font-weight: 700; cursor: pointer; font-family: 'Nunito', sans-serif; }
 .btn-salvar-diario { width: 100%; background: var(--green); color: white; border: none; border-radius: 100px; padding: 16px; font-size: 15px; font-weight: 800; cursor: pointer; font-family: 'Nunito', sans-serif; box-shadow: 0 8px 20px rgba(74,140,92,0.3); margin-bottom: 24px; }
 
-/* COMUNIDADE */
 .com-header { background: linear-gradient(160deg, var(--orange) 0%, #C4703A 100%); padding: 20px 20px 24px; flex-shrink: 0; }
 .com-title { font-size: 22px; font-weight: 800; color: white; margin-bottom: 4px; }
 .com-sub { font-size: 13px; color: rgba(255,255,255,0.8); }
@@ -198,7 +190,6 @@ html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--
 .post-reactions { display: flex; gap: 12px; }
 .reaction { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--ink-muted); cursor: pointer; border: none; background: none; font-family: 'Nunito', sans-serif; }
 
-/* CONTADOR */
 .counter-card { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 18px; padding: 18px; width: 100%; margin-bottom: 20px; }
 .counter-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 10px; font-weight: 700; text-align: center; }
 .counter-nums { display: flex; align-items: baseline; gap: 6px; justify-content: center; margin-bottom: 10px; }
@@ -209,7 +200,6 @@ html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--
 .counter-bar-inner { height: 100%; background: linear-gradient(90deg, var(--green-light), white); border-radius: 100px; transition: width 1s ease; }
 .counter-info { font-size: 11px; color: rgba(255,255,255,0.5); text-align: center; }
 
-/* MODAL */
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 500; display: none; align-items: flex-end; }
 .modal-overlay.active { display: flex; }
 .modal-box { background: white; border-radius: 24px 24px 0 0; padding: 32px 24px 40px; width: 100%; max-width: 430px; margin: 0 auto; }
@@ -219,11 +209,9 @@ html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--
 @keyframes breathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.2); } }
 .modal-close { width: 100%; background: var(--green); color: white; border: none; border-radius: 100px; padding: 14px; font-size: 15px; font-weight: 800; cursor: pointer; font-family: 'Nunito', sans-serif; }
 
-/* TOAST */
 .toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: var(--ink); color: white; padding: 12px 24px; border-radius: 100px; font-size: 14px; font-weight: 600; z-index: 400; opacity: 0; transition: opacity 0.3s; white-space: nowrap; pointer-events: none; }
 .toast.show { opacity: 1; }
 
-/* USER INFO BAR */
 .user-bar { background: rgba(255,255,255,0.08); border-radius: 12px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
 .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: white; overflow: hidden; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; color: var(--green); }
 .user-name { font-size: 13px; font-weight: 700; color: white; flex: 1; }
@@ -233,7 +221,6 @@ html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--
 </head>
 <body>
 
-<!-- LOADING -->
 <div id="loading" style="display: none;">
   <div class="loading-logo">
     <svg width="72" height="48" viewBox="0 0 80 56" fill="none">
@@ -250,9 +237,7 @@ html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--
   </div>
 </div>
 
-<!-- ONBOARDING -->
 <div id="onboarding" style="display: flex;">
-  <!-- Step 1 -->
   <div class="ob-step active" id="ob1">
     <div style="margin-bottom:20px">
       <svg width="72" height="48" viewBox="0 0 80 56" fill="none">
@@ -262,11 +247,10 @@ html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--
     </div>
     <div class="ob-title">focoh</div>
     <div class="ob-sub">Para mentes que<br>funcionam diferente.</div>
-    <button class="ob-btn" onclick="loginGoogle()">🔐 Entrar com Google</button>
+    <button class="ob-btn" id="loginBtn" onclick="loginGoogle()">🔐 Entrar com Google</button>
     <p style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:8px">Seus dados ficam salvos e seguros</p>
   </div>
 
-  <!-- Step 2: Trilha -->
   <div class="ob-step" id="ob2">
     <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.6);font-weight:700;margin-bottom:14px">Passo 1 de 2</div>
     <div class="ob-title" style="font-size:22px">O que melhor<br>te descreve?</div>
@@ -284,7 +268,6 @@ html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--
     <button class="ob-btn" onclick="nextOb(3)">Continuar →</button>
   </div>
 
-  <!-- Step 3: Pronto -->
   <div class="ob-step" id="ob3">
     <div style="font-size:52px;margin-bottom:16px">🎉</div>
     <div class="ob-title">Tudo pronto,<br><span id="nomeDisplay">amigo</span>!</div>
@@ -307,10 +290,8 @@ html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--
   </div>
 </div>
 
-<!-- MAIN APP -->
 <div id="app" style="display:none">
 
-  <!-- HOME -->
   <div class="screen active" id="screen-home">
     <div class="home-header">
       <div class="home-greeting" id="homeGreeting">Bom dia 👋</div>
@@ -359,7 +340,6 @@ html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--
     </div>
   </div>
 
-  <!-- FOCO -->
   <div class="screen" id="screen-foco">
     <div class="foco-header"><div class="foco-screen-title">⏱️ Modo Foco</div></div>
     <div class="mode-tabs">
@@ -397,7 +377,6 @@ html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--
     </div>
   </div>
 
-  <!-- CODIGOS -->
   <div class="screen" id="screen-codigos">
     <div class="codigos-header">
       <div class="codigos-title">Reset Codes™</div>
@@ -429,7 +408,6 @@ html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--
     </div>
   </div>
 
-  <!-- DIARIO -->
   <div class="screen" id="screen-diario">
     <div class="diario-header">
       <div class="diario-title">Diário de hoje</div>
@@ -466,7 +444,6 @@ html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--
     </div>
   </div>
 
-  <!-- COMUNIDADE -->
   <div class="screen" id="screen-comunidade">
     <div class="com-header">
       <div class="com-title">Comunidade Focoh</div>
@@ -503,7 +480,6 @@ html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--
     <div style="height:20px"></div>
   </div>
 
-  <!-- BOTTOM NAV -->
   <div class="bottom-nav">
     <button class="nav-btn active" onclick="goTo(&#39;home&#39;)"><span class="nav-icon">🏠</span><span class="nav-label">Início</span></button>
     <button class="nav-btn" onclick="goTo(&#39;foco&#39;)"><span class="nav-icon">⏱️</span><span class="nav-label">Foco</span></button>
@@ -513,7 +489,6 @@ html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--
   </div>
 </div>
 
-<!-- CRISE MODAL -->
 <div class="modal-overlay" id="criseModal" onclick="closeCrise(event)">
   <div class="modal-box">
     <div class="modal-title">🆘 Modo Crise</div>
@@ -526,11 +501,10 @@ html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--
 
 <div class="toast" id="toast"></div>
 
-<!-- FIREBASE -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-import { getFirestore, doc, setDoc, getDoc, addDoc, collection, onSnapshot, query, orderBy, serverTimestamp, updateDoc, increment } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, addDoc, collection, onSnapshot, query, orderBy, serverTimestamp, updateDoc, increment, deleteDoc } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+import { getAuth, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCn7b466tI-mFor-4mNTjE-b0ELE05qH-s",
@@ -546,6 +520,8 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
+const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
+
 let currentUser = null;
 let userData = null;
 let selectedTrilhas = [];
@@ -559,7 +535,15 @@ let sessionsToday = 0;
 let tasksCompleted = 0;
 let diariesCount = 0;
 
-// ═══ AUTH ═══
+getRedirectResult(auth).then((result) => {
+  if (result && result.user) {
+    currentUser = result.user;
+  }
+}).catch((e) => {
+  console.error('Erro no redirect de login:', e);
+  showToast('❌ Erro ao entrar. Tente novamente.');
+});
+
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     currentUser = user;
@@ -571,12 +555,20 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 window.loginGoogle = async function() {
+  const btn = document.getElementById('loginBtn');
+  if (btn) { btn.textContent = 'Entrando...'; btn.disabled = true; }
   try {
-    const result = await signInWithPopup(auth, provider);
-    currentUser = result.user;
-    await loadUserData();
+    if (isMobile) {
+      await signInWithRedirect(auth, provider);
+    } else {
+      const result = await signInWithPopup(auth, provider);
+      currentUser = result.user;
+      await loadUserData();
+    }
   } catch(e) {
+    console.error(e);
     showToast('❌ Erro ao entrar. Tente novamente.');
+    if (btn) { btn.textContent = '🔐 Entrar com Google'; btn.disabled = false; }
   }
 };
 
@@ -586,16 +578,13 @@ async function loadUserData() {
   
   if (snap.exists()) {
     userData = snap.data();
-    // Update last seen
     await updateDoc(userRef, { lastSeen: serverTimestamp() });
     showApp();
   } else {
-    // New user - show onboarding step 2
     document.getElementById('loading').style.display = 'none';
     document.getElementById('onboarding').style.display = 'flex';
     document.querySelectorAll('.ob-step').forEach(s => s.classList.remove('active'));
     document.getElementById('ob2').classList.add('active');
-    // Increment counter
     await updateCounter();
   }
 }
@@ -623,18 +612,15 @@ function showApp() {
   document.getElementById('onboarding').style.display = 'none';
   document.getElementById('app').style.display = 'flex';
   
-  // Update UI with user data
   const name = currentUser.displayName?.split(' ')[0] || 'amigo';
   const hour = new Date().getHours();
   const greeting = hour < 12 ? 'Bom dia' : hour < 18 ? 'Boa tarde' : 'Boa noite';
   document.getElementById('homeGreeting').textContent = `${greeting}, ${name} 👋`;
   document.getElementById('homeName').textContent = 'Como você está hoje?';
   
-  // Date
   const now = new Date();
   document.getElementById('diarioDate').textContent = now.toLocaleDateString('pt-BR', {weekday:'long', day:'numeric', month:'long'});
   
-  // Load stats
   loadStats();
   loadPosts();
   loadTasks();
@@ -736,7 +722,6 @@ function formatTime(date) {
   return `há ${Math.floor(diff/86400)} dias`;
 }
 
-// ═══ ONBOARDING ═══
 window.toggleTrilha = function(el, trilha) {
   el.classList.toggle('selected');
   if (el.classList.contains('selected')) {
@@ -754,7 +739,6 @@ window.nextOb = async function(step) {
     document.getElementById('ob3').classList.add('active');
     const name = currentUser?.displayName?.split(' ')[0] || 'amigo';
     document.getElementById('nomeDisplay').textContent = name;
-    // Load real counter
     const count = await loadCounter();
     document.getElementById('obCounter').textContent = count;
     const pct = Math.min(100, (count/500)*100);
@@ -765,7 +749,6 @@ window.nextOb = async function(step) {
 
 window.finishOnboarding = async function() {
   if (!currentUser) return;
-  // Save user to Firestore
   await setDoc(doc(db, 'users', currentUser.uid), {
     name: currentUser.displayName,
     email: currentUser.email,
@@ -781,7 +764,6 @@ window.finishOnboarding = async function() {
   showApp();
 };
 
-// ═══ NAVIGATION ═══
 window.goTo = function(screen) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + screen).classList.add('active');
@@ -791,7 +773,6 @@ window.goTo = function(screen) {
   document.getElementById('screen-' + screen).scrollTop = 0;
 };
 
-// ═══ TASKS ═══
 window.addTask = async function() {
   const text = prompt('Nova tarefa:');
   if (!text?.trim() || !currentUser) return;
@@ -817,12 +798,10 @@ window.toggleTask = async function(id, currentDone) {
 
 window.deleteTask = async function(id) {
   if (!currentUser) return;
-  const { deleteDoc } = await import("https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js");
   await deleteDoc(doc(db, 'users', currentUser.uid, 'tasks', id));
   showToast('🗑️ Tarefa removida');
 };
 
-// ═══ TIMER ═══
 const circumference = 2 * Math.PI * 90;
 
 window.selectMode = function(el, time, mins) {
@@ -853,7 +832,6 @@ window.toggleTimer = async function() {
         document.getElementById('timerLabel').textContent = '✓ concluído!';
         document.getElementById('timerDisplay').textContent = '00:00';
         showToast('🎉 Sessão concluída! Parabéns!');
-        // Save to Firestore
         if (currentUser) {
           await updateDoc(doc(db, 'users', currentUser.uid), {
             totalSessions: increment(1),
@@ -889,7 +867,6 @@ window.resetTimer = function() {
 window.skipTimer = function() { resetTimer(); showToast('⏭ Sessão pulada'); };
 window.changeTask = function() { const t = prompt('Tarefa atual:'); if (t) document.getElementById('focoTaskText').textContent = t; };
 
-// ═══ DIÁRIO ═══
 window.selectHumor = function(el, humor) {
   document.querySelectorAll('.humor-item').forEach(i => i.classList.remove('active'));
   el.classList.add('active');
@@ -926,7 +903,6 @@ window.salvarDiario = async function() {
   loadStats();
 };
 
-// ═══ COMUNIDADE ═══
 window.selectComTab = function(el) {
   document.querySelectorAll('.com-tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
@@ -950,7 +926,6 @@ window.reactPost = async function(id, emoji) {
   await updateDoc(doc(db, 'posts', id), { likes: increment(1) });
 };
 
-// ═══ CRISE ═══
 window.openCrise = function() {
   document.getElementById('criseModal').classList.add('active');
   const circle = document.getElementById('breathCircle');
@@ -966,7 +941,6 @@ window.closeCrise = function(e) {
   }
 };
 
-// ═══ SHARE ═══
 window.shareApp = function() {
   const url = 'https://focohapp.github.io/focoh';
   const text = '🧠 Encontrei o Focoh — app para mentes que funcionam diferente! TDAH, ansiedade, burnout... Entra comigo!';
@@ -974,7 +948,6 @@ window.shareApp = function() {
   else { navigator.clipboard.writeText(url).then(() => showToast('🔗 Link copiado!')); }
 };
 
-// ═══ TOAST ═══
 window.showToast = function(msg) {
   const toast = document.getElementById('toast');
   toast.textContent = msg;
@@ -985,6 +958,7 @@ window.showToast = function(msg) {
 function showToast(msg) { window.showToast(msg); }
 
 </script>
+
 
 
 </body></html>
