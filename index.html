@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0052)file:///C:/Users/Vinicius/Downloads/focoh-pwa_2.html -->
+<!-- saved from url=(0055)file:///C:/Users/Vinicius/Downloads/focoh-firebase.html -->
 <html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -9,1044 +9,474 @@
 <meta name="apple-mobile-web-app-title" content="Focoh">
 <meta name="theme-color" content="#4A8C5C">
 <title>Focoh — Para mentes que funcionam diferente</title>
-<link href="./focoh-pwa_files/css2" rel="stylesheet">
+<link href="./index_files/css2" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
-
 :root {
-  --green: #4A8C5C;
-  --green-mid: #6AAF80;
-  --green-light: #A8D4B4;
-  --green-bg: #EEF7F1;
-  --green-deep: #1A4A28;
-  --bege: #F5EFE4;
-  --bege-mid: #E8DDD0;
-  --bege-dark: #C4B49A;
-  --white: #FFFFFF;
-  --mist: #FAFDF8;
-  --ink: #1A2E22;
-  --ink-soft: #3D5446;
-  --ink-muted: #7A9485;
-  --orange: #E8854A;
-  --orange-bg: #FDF0E8;
-  --purple: #7A6AB4;
-  --purple-bg: #F0EEF9;
-  --yellow: #D4A820;
-  --yellow-bg: #FDF6E0;
-  --pink: #C45A8A;
-  --pink-bg: #FAEAF2;
-  --red: #C44A4A;
-  --red-bg: #FAEAEA;
+  --green: #4A8C5C; --green-mid: #6AAF80; --green-light: #A8D4B4;
+  --green-bg: #EEF7F1; --green-deep: #1A4A28; --bege: #F5EFE4;
+  --bege-mid: #E8DDD0; --bege-dark: #C4B49A; --white: #FFFFFF;
+  --mist: #FAFDF8; --ink: #1A2E22; --ink-soft: #3D5446; --ink-muted: #7A9485;
+  --orange: #E8854A; --orange-bg: #FDF0E8; --purple: #7A6AB4;
+  --purple-bg: #F0EEF9; --yellow: #D4A820; --yellow-bg: #FDF6E0;
+  --pink: #C45A8A; --pink-bg: #FAEAF2; --red: #C44A4A; --red-bg: #FAEAEA;
 }
+html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--mist); overflow: hidden; }
 
-html, body {
-  height: 100%;
-  font-family: 'Nunito', sans-serif;
-  background: var(--mist);
-  overflow: hidden;
-}
+#app { height: 100vh; display: flex; flex-direction: column; max-width: 430px; margin: 0 auto; background: var(--mist); box-shadow: 0 0 40px rgba(0,0,0,0.15); }
 
-/* APP SHELL */
-#app {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  max-width: 430px;
-  margin: 0 auto;
-  position: relative;
-  background: var(--mist);
-  box-shadow: 0 0 40px rgba(0,0,0,0.15);
-}
-
-/* SCREENS */
-.screen {
-  display: none;
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
-  flex-direction: column;
-}
+.screen { display: none; flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; flex-direction: column; }
 .screen.active { display: flex; }
 .screen::-webkit-scrollbar { display: none; }
 
-/* BOTTOM NAV */
-.bottom-nav {
-  background: var(--white);
-  border-top: 1px solid var(--bege-mid);
-  display: flex;
-  padding: 10px 0 24px;
-  padding-bottom: max(24px, env(safe-area-inset-bottom, 24px));
-  flex-shrink: 0;
-  z-index: 100;
-  position: sticky;
-  bottom: 0;
-}
-
-.nav-btn {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  padding: 8px 4px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: 'Nunito', sans-serif;
-  transition: all 0.2s;
-  min-height: 56px;
-}
-
+.bottom-nav { background: var(--white); border-top: 1px solid var(--bege-mid); display: flex; padding: 10px 0; padding-bottom: max(20px, env(safe-area-inset-bottom, 20px)); flex-shrink: 0; z-index: 100; position: sticky; bottom: 0; }
+.nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 4px; background: none; border: none; cursor: pointer; font-family: 'Nunito', sans-serif; min-height: 52px; }
 .nav-icon { font-size: 22px; }
 .nav-label { font-size: 10px; color: var(--bege-dark); font-weight: 600; }
 .nav-btn.active .nav-label { color: var(--green); font-weight: 700; }
-.nav-btn.active .nav-icon { transform: scale(1.1); }
 
-/* ══════════ ONBOARDING ══════════ */
-#onboarding {
-  position: fixed;
-  inset: 0;
-  z-index: 999;
-  background: var(--green-deep);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 32px;
-  text-align: center;
-}
+/* LOADING */
+#loading { position: fixed; inset: 0; background: var(--green-deep); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; }
+.loading-logo { margin-bottom: 20px; }
+.loading-title { font-size: 48px; font-weight: 900; color: white; letter-spacing: -1px; margin-bottom: 8px; }
+.loading-sub { font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 32px; }
+.loading-dots { display: flex; gap: 8px; }
+.loading-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.4); animation: pulse 1.4s ease-in-out infinite; }
+.loading-dot:nth-child(1) { animation-delay: 0s; background: white; }
+.loading-dot:nth-child(2) { animation-delay: 0.2s; }
+.loading-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes pulse { 0%,80%,100% { opacity:0.3; transform:scale(0.8); } 40% { opacity:1; transform:scale(1); } }
 
+/* ONBOARDING */
+#onboarding { position: fixed; inset: 0; z-index: 999; background: var(--green-deep); display: none; flex-direction: column; align-items: center; justify-content: center; padding: 40px 28px; text-align: center; }
 .ob-step { display: none; flex-direction: column; align-items: center; width: 100%; }
 .ob-step.active { display: flex; }
+.ob-title { font-size: 28px; font-weight: 900; color: white; margin-bottom: 10px; line-height: 1.2; }
+.ob-sub { font-size: 14px; color: rgba(255,255,255,0.7); margin-bottom: 28px; line-height: 1.6; }
+.ob-btn { width: 100%; background: white; color: var(--green); border: none; border-radius: 100px; padding: 16px; font-size: 16px; font-weight: 800; cursor: pointer; font-family: 'Nunito', sans-serif; margin-bottom: 12px; }
+.ob-btn-ghost { width: 100%; background: transparent; color: rgba(255,255,255,0.7); border: 1.5px solid rgba(255,255,255,0.3); border-radius: 100px; padding: 14px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'Nunito', sans-serif; }
 
-.ob-logo {
-  margin-bottom: 24px;
-}
+.trilha-grid { width: 100%; display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; max-height: 55vh; overflow-y: auto; }
+.trilha-option { background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.15); border-radius: 14px; padding: 12px 14px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: all 0.2s; text-align: left; }
+.trilha-option.selected { border-color: white; background: rgba(255,255,255,0.2); }
+.trilha-emoji { font-size: 22px; flex-shrink: 0; }
+.trilha-name { font-size: 14px; font-weight: 700; color: white; }
+.trilha-desc { font-size: 11px; color: rgba(255,255,255,0.65); }
 
-.ob-title {
-  font-size: 32px;
-  font-weight: 900;
-  color: white;
-  margin-bottom: 10px;
-  line-height: 1.2;
-}
-
-.ob-sub {
-  font-size: 15px;
-  color: rgba(255,255,255,0.7);
-  margin-bottom: 36px;
-  line-height: 1.6;
-}
-
-.ob-btn {
-  width: 100%;
-  background: white;
-  color: var(--green);
-  border: none;
-  border-radius: 100px;
-  padding: 16px;
-  font-size: 16px;
-  font-weight: 800;
-  cursor: pointer;
-  font-family: 'Nunito', sans-serif;
-  margin-bottom: 12px;
-}
-
-.ob-btn-ghost {
-  width: 100%;
-  background: transparent;
-  color: rgba(255,255,255,0.7);
-  border: 1.5px solid rgba(255,255,255,0.3);
-  border-radius: 100px;
-  padding: 14px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: 'Nunito', sans-serif;
-}
-
-/* Trilha selection */
-.trilha-grid {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 24px;
-  max-height: 60vh;
-  overflow-y: auto;
-}
-
-.trilha-option {
-  background: rgba(255,255,255,0.1);
-  border: 2px solid rgba(255,255,255,0.15);
-  border-radius: 16px;
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  transition: all 0.2s;
-  text-align: left;
-}
-
-.trilha-option.selected {
-  border-color: white;
-  background: rgba(255,255,255,0.2);
-}
-
-.trilha-emoji { font-size: 24px; flex-shrink: 0; }
-.trilha-name { font-size: 15px; font-weight: 700; color: white; }
-.trilha-desc { font-size: 12px; color: rgba(255,255,255,0.65); }
-
-/* Nome input */
-.ob-input {
-  width: 100%;
-  background: rgba(255,255,255,0.15);
-  border: 2px solid rgba(255,255,255,0.3);
-  border-radius: 14px;
-  padding: 14px 18px;
-  font-size: 18px;
-  color: white;
-  font-family: 'Nunito', sans-serif;
-  font-weight: 600;
-  outline: none;
-  margin-bottom: 24px;
-  text-align: center;
-}
+.ob-input { width: 100%; background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3); border-radius: 14px; padding: 14px 18px; font-size: 18px; color: white; font-family: 'Nunito', sans-serif; font-weight: 600; outline: none; margin-bottom: 20px; text-align: center; }
 .ob-input::placeholder { color: rgba(255,255,255,0.4); }
 
-/* ══════════ HOME SCREEN ══════════ */
-.home-header {
-  background: linear-gradient(160deg, var(--green) 0%, var(--green-deep) 100%);
-  padding: 20px 20px 28px;
-  flex-shrink: 0;
-}
-
+/* HOME */
+.home-header { background: linear-gradient(160deg, var(--green) 0%, var(--green-deep) 100%); padding: 20px 20px 24px; flex-shrink: 0; }
 .home-greeting { font-size: 13px; color: rgba(255,255,255,0.75); margin-bottom: 3px; }
 .home-name { font-size: 22px; font-weight: 800; color: white; margin-bottom: 16px; }
-
-.energy-card {
-  background: rgba(255,255,255,0.12);
-  border-radius: 16px;
-  padding: 14px 16px;
-  margin-bottom: 14px;
-}
-
+.energy-card { background: rgba(255,255,255,0.12); border-radius: 16px; padding: 14px 16px; margin-bottom: 14px; }
 .energy-row { display: flex; align-items: center; gap: 10px; }
 .energy-emoji { font-size: 28px; }
 .energy-label { font-size: 12px; color: rgba(255,255,255,0.75); }
 .energy-value { font-size: 16px; font-weight: 700; color: white; }
 .energy-bar { height: 6px; background: rgba(255,255,255,0.2); border-radius: 100px; margin-top: 8px; }
 .energy-fill { height: 100%; width: 72%; background: linear-gradient(90deg, var(--green-light), white); border-radius: 100px; }
-
-.foco-card {
-  background: rgba(255,255,255,0.95);
-  border-radius: 16px;
-  padding: 16px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  cursor: pointer;
-}
-
-.foco-circle {
-  width: 52px; height: 52px; border-radius: 50%;
-  background: var(--green-bg);
-  border: 2px solid var(--green-light);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-
+.foco-card { background: rgba(255,255,255,0.95); border-radius: 16px; padding: 16px; display: flex; align-items: center; gap: 14px; cursor: pointer; }
+.foco-circle { width: 52px; height: 52px; border-radius: 50%; background: var(--green-bg); border: 2px solid var(--green-light); display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; }
 .foco-num { font-size: 18px; font-weight: 800; color: var(--green); line-height: 1; }
 .foco-min { font-size: 9px; color: var(--green-mid); letter-spacing: 1px; }
 .foco-title { font-size: 15px; font-weight: 700; color: var(--ink); }
 .foco-sub { font-size: 12px; color: var(--ink-muted); }
-.foco-play {
-  margin-left: auto;
-  width: 36px; height: 36px; border-radius: 50%;
-  background: var(--green); border: none;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 14px; cursor: pointer; flex-shrink: 0;
-}
+.foco-play { margin-left: auto; width: 36px; height: 36px; border-radius: 50%; background: var(--green); border: none; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; flex-shrink: 0; }
 
-/* Home sections */
 .home-section { padding: 18px 20px 0; }
 .section-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
 .section-title { font-size: 17px; font-weight: 800; color: var(--ink); }
 .section-link { font-size: 12px; color: var(--green); font-weight: 700; background: none; border: none; cursor: pointer; font-family: 'Nunito', sans-serif; }
 
-/* Código card */
-.codigo-card {
-  background: linear-gradient(135deg, var(--purple-bg), #E8E6F8);
-  border: 1.5px solid #C8C0E8;
-  border-radius: 18px;
-  padding: 16px;
-  margin-bottom: 18px;
-  cursor: pointer;
-}
-
+.codigo-card { background: linear-gradient(135deg, var(--purple-bg), #E8E6F8); border: 1.5px solid #C8C0E8; border-radius: 18px; padding: 16px; margin-bottom: 18px; cursor: pointer; }
 .codigo-badge { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--purple); font-weight: 700; margin-bottom: 8px; }
 .codigo-title { font-size: 17px; font-weight: 800; color: var(--ink); margin-bottom: 5px; }
 .codigo-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 12px; }
-.codigo-btn {
-  background: var(--purple); color: white;
-  border: none; border-radius: 100px; padding: 9px 20px;
-  font-size: 12px; font-weight: 700; cursor: pointer;
-  font-family: 'Nunito', sans-serif;
-}
+.codigo-btn { background: var(--purple); color: white; border: none; border-radius: 100px; padding: 9px 20px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Nunito', sans-serif; }
 
-/* Task list */
 .task-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-
-.task-item {
-  background: white; border-radius: 14px;
-  padding: 14px 16px; display: flex; align-items: center; gap: 12px;
-  border: 1.5px solid transparent; cursor: pointer; transition: all 0.2s;
-}
-
-.task-item.done { opacity: 0.6; }
-
-.task-check {
-  width: 24px; height: 24px; border-radius: 50%;
-  border: 2px solid var(--bege-dark);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px; flex-shrink: 0; transition: all 0.2s;
-  color: transparent;
-}
-
+.task-item { background: white; border-radius: 14px; padding: 14px 16px; display: flex; align-items: center; gap: 12px; border: 1.5px solid transparent; transition: all 0.2s; }
 .task-item.done .task-check { background: var(--green); border-color: var(--green); color: white; }
 .task-item.done .task-text { text-decoration: line-through; color: var(--ink-muted); }
-
+.task-check { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--bege-dark); display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; color: transparent; cursor: pointer; }
 .task-color { width: 4px; height: 36px; border-radius: 100px; flex-shrink: 0; }
-.task-text { flex: 1; font-size: 14px; font-weight: 600; color: var(--ink); }
+.task-text { flex: 1; font-size: 14px; font-weight: 600; color: var(--ink); cursor: pointer; }
 .task-time { font-size: 11px; color: var(--bege-dark); }
+.task-del { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--bege-dark); padding: 4px; flex-shrink: 0; }
 
-/* Conquistas */
 .wins-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
 .win-card { background: white; border-radius: 14px; padding: 14px; text-align: center; }
 .win-emoji { font-size: 26px; margin-bottom: 5px; }
 .win-value { font-size: 22px; font-weight: 800; color: var(--ink); line-height: 1; margin-bottom: 2px; }
 .win-label { font-size: 10px; color: var(--ink-muted); }
 
-/* ══════════ FOCO SCREEN ══════════ */
-.foco-header {
-  background: white;
-  padding: 20px 20px 16px;
-  border-bottom: 1px solid var(--bege-mid);
-  flex-shrink: 0;
-}
-
+/* FOCO */
+.foco-header { background: white; padding: 20px 20px 16px; border-bottom: 1px solid var(--bege-mid); flex-shrink: 0; }
 .foco-screen-title { font-size: 20px; font-weight: 800; color: var(--ink); }
-
-.mode-tabs {
-  display: flex; gap: 8px; padding: 16px 20px 0; flex-shrink: 0;
-}
-
-.mode-tab {
-  flex: 1; background: white; border: 2px solid var(--bege-mid);
-  border-radius: 14px; padding: 10px 4px; text-align: center;
-  cursor: pointer; transition: all 0.2s; font-family: 'Nunito', sans-serif;
-  font-size: 11px; font-weight: 700; color: var(--ink-muted);
-}
-
+.mode-tabs { display: flex; gap: 8px; padding: 16px 20px 0; flex-shrink: 0; }
+.mode-tab { flex: 1; background: white; border: 2px solid var(--bege-mid); border-radius: 14px; padding: 10px 4px; text-align: center; cursor: pointer; font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 700; color: var(--ink-muted); }
 .mode-tab.active { border-color: var(--green); color: var(--green); background: var(--green-bg); }
 .mode-tab-emoji { font-size: 18px; display: block; margin-bottom: 3px; }
-
-.timer-wrap {
-  display: flex; flex-direction: column; align-items: center;
-  padding: 24px 20px; flex: 1;
-}
-
-.timer-circle {
-  position: relative; width: 200px; height: 200px; margin-bottom: 28px;
-}
-
+.timer-wrap { display: flex; flex-direction: column; align-items: center; padding: 24px 20px; flex: 1; }
+.timer-circle { position: relative; width: 200px; height: 200px; margin-bottom: 24px; }
 .timer-svg { width: 200px; height: 200px; transform: rotate(-90deg); }
 .timer-bg { fill: none; stroke: var(--bege-mid); stroke-width: 8; }
-.timer-progress {
-  fill: none; stroke: var(--green); stroke-width: 8;
-  stroke-linecap: round;
-  stroke-dasharray: 565;
-  stroke-dashoffset: 141;
-  transition: stroke-dashoffset 1s linear;
-}
-
-.timer-center {
-  position: absolute; inset: 0;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-}
-
+.timer-progress { fill: none; stroke: var(--green); stroke-width: 8; stroke-linecap: round; stroke-dasharray: 565; stroke-dashoffset: 0; transition: stroke-dashoffset 1s linear; }
+.timer-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .timer-time { font-size: 44px; font-weight: 800; color: var(--ink); line-height: 1; }
 .timer-label { font-size: 13px; color: var(--ink-muted); margin-top: 4px; }
-
-.timer-controls { display: flex; gap: 20px; align-items: center; margin-bottom: 24px; }
-
-.ctrl-btn {
-  width: 48px; height: 48px; border-radius: 50%;
-  background: var(--bege); border: none; cursor: pointer;
-  font-size: 18px; display: flex; align-items: center; justify-content: center;
-}
-
-.ctrl-play {
-  width: 72px; height: 72px; border-radius: 50%;
-  background: var(--green); border: none; cursor: pointer;
-  font-size: 26px; display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 8px 20px rgba(74,140,92,0.35); transition: all 0.2s;
-}
-
-.foco-task-card {
-  width: 100%; background: white; border-radius: 16px; padding: 16px;
-  display: flex; align-items: center; gap: 12px;
-}
-
+.timer-controls { display: flex; gap: 20px; align-items: center; margin-bottom: 20px; }
+.ctrl-btn { width: 48px; height: 48px; border-radius: 50%; background: var(--bege); border: none; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; }
+.ctrl-play { width: 72px; height: 72px; border-radius: 50%; background: var(--green); border: none; cursor: pointer; font-size: 26px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(74,140,92,0.35); }
+.foco-task-card { width: 100%; background: white; border-radius: 16px; padding: 16px; display: flex; align-items: center; gap: 12px; }
 .foco-task-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
 .foco-task-text { flex: 1; font-size: 14px; font-weight: 600; color: var(--ink); }
 .foco-task-btn { font-size: 11px; color: var(--green); font-weight: 700; background: none; border: none; cursor: pointer; font-family: 'Nunito', sans-serif; }
-
 .foco-stats { display: flex; gap: 10px; width: 100%; margin-top: 12px; }
 .foco-stat { flex: 1; background: white; border-radius: 14px; padding: 12px; text-align: center; }
 .foco-stat-val { font-size: 20px; font-weight: 800; color: var(--ink); }
 .foco-stat-label { font-size: 10px; color: var(--ink-muted); }
 
-/* ══════════ CÓDIGOS SCREEN ══════════ */
-.codigos-header {
-  background: linear-gradient(160deg, var(--purple) 0%, #5A4A94 100%);
-  padding: 20px 20px 24px; flex-shrink: 0;
-}
-
+/* CODIGOS */
+.codigos-header { background: linear-gradient(160deg, var(--purple) 0%, #5A4A94 100%); padding: 20px 20px 24px; flex-shrink: 0; }
 .codigos-title { font-size: 22px; font-weight: 800; color: white; margin-bottom: 4px; }
 .codigos-sub { font-size: 13px; color: rgba(255,255,255,0.7); }
-
 .codigos-list { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; }
-
-.codigo-item {
-  background: white; border-radius: 18px; padding: 16px;
-  border: 1.5px solid var(--bege-mid); transition: all 0.2s;
-}
-
+.codigo-item { background: white; border-radius: 18px; padding: 16px; border: 1.5px solid var(--bege-mid); }
 .codigo-item-header { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 10px; }
-.codigo-item-emoji {
-  width: 44px; height: 44px; border-radius: 14px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px; flex-shrink: 0;
-}
+.codigo-item-emoji { width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
 .codigo-item-title { font-size: 15px; font-weight: 800; color: var(--ink); margin-bottom: 2px; }
 .codigo-item-sub { font-size: 12px; color: var(--ink-muted); }
-.codigo-item-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 12px; }
-.codigo-item-footer { display: flex; justify-content: space-between; align-items: center; }
-.codigo-duration { font-size: 11px; color: var(--ink-muted); }
+.codigo-locked { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--bege-dark); font-weight: 600; }
 
-.btn-iniciar {
-  background: var(--purple); color: white;
-  border: none; border-radius: 100px; padding: 8px 18px;
-  font-size: 12px; font-weight: 700; cursor: pointer;
-  font-family: 'Nunito', sans-serif;
-}
-
-.done-badge {
-  font-size: 10px; color: var(--green); background: var(--green-bg);
-  padding: 5px 12px; border-radius: 100px; font-weight: 700;
-}
-
-/* ══════════ DIÁRIO SCREEN ══════════ */
-.diario-header {
-  background: white; padding: 20px 20px;
-  border-bottom: 1px solid var(--bege-mid); flex-shrink: 0;
-}
-
+/* DIARIO */
+.diario-header { background: white; padding: 20px; border-bottom: 1px solid var(--bege-mid); flex-shrink: 0; }
 .diario-title { font-size: 20px; font-weight: 800; color: var(--ink); margin-bottom: 3px; }
 .diario-date { font-size: 13px; color: var(--ink-muted); }
-
 .diario-body { padding: 20px; display: flex; flex-direction: column; gap: 20px; }
-
 .d-section-title { font-size: 15px; font-weight: 800; color: var(--ink); margin-bottom: 12px; }
-
 .humor-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
-
-.humor-item {
-  display: flex; flex-direction: column; align-items: center; gap: 4px;
-  cursor: pointer; padding: 10px 4px; border-radius: 14px;
-  border: 2px solid transparent; background: white; transition: all 0.2s;
-}
-
+.humor-item { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 10px 4px; border-radius: 14px; border: 2px solid transparent; background: white; transition: all 0.2s; }
 .humor-item.active { border-color: var(--green); background: var(--green-bg); }
 .humor-emoji { font-size: 24px; }
 .humor-text { font-size: 9px; color: var(--ink-muted); font-weight: 700; text-align: center; }
 .humor-item.active .humor-text { color: var(--green); }
-
-.energia-wrap { padding: 0; }
 .energia-bar-outer { height: 8px; background: var(--bege-mid); border-radius: 100px; position: relative; cursor: pointer; }
-.energia-bar-inner { height: 100%; width: 70%; background: linear-gradient(90deg, var(--green-light), var(--green)); border-radius: 100px; }
+.energia-bar-inner { height: 100%; width: 70%; background: linear-gradient(90deg, var(--green-light), var(--green)); border-radius: 100px; pointer-events: none; }
 .energia-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--ink-muted); margin-top: 6px; }
-
-.d-textarea {
-  width: 100%; background: white; border: 1.5px solid var(--bege-mid);
-  border-radius: 16px; padding: 14px 16px; font-size: 14px; color: var(--ink);
-  font-family: 'Nunito', sans-serif; resize: none; outline: none; line-height: 1.6;
-}
+.d-textarea { width: 100%; background: white; border: 1.5px solid var(--bege-mid); border-radius: 16px; padding: 14px 16px; font-size: 14px; color: var(--ink); font-family: 'Nunito', sans-serif; resize: none; outline: none; line-height: 1.6; }
 .d-textarea:focus { border-color: var(--green); }
-
 .vitoria-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
 .vitoria-item { background: var(--green-bg); border-radius: 12px; padding: 12px 14px; display: flex; align-items: center; gap: 10px; }
 .vitoria-star { font-size: 16px; }
-.vitoria-text { font-size: 13px; color: var(--ink-soft); font-weight: 600; }
+.vitoria-text { font-size: 13px; color: var(--ink-soft); font-weight: 600; flex: 1; }
+.vitoria-del { background: none; border: none; font-size: 16px; cursor: pointer; color: var(--bege-dark); }
+.btn-add-vitoria { width: 100%; background: transparent; border: 2px dashed var(--green-light); border-radius: 12px; padding: 12px; font-size: 13px; color: var(--green); font-weight: 700; cursor: pointer; font-family: 'Nunito', sans-serif; }
+.btn-salvar-diario { width: 100%; background: var(--green); color: white; border: none; border-radius: 100px; padding: 16px; font-size: 15px; font-weight: 800; cursor: pointer; font-family: 'Nunito', sans-serif; box-shadow: 0 8px 20px rgba(74,140,92,0.3); margin-bottom: 24px; }
 
-.btn-add-vitoria {
-  width: 100%; background: transparent; border: 2px dashed var(--green-light);
-  border-radius: 12px; padding: 12px; font-size: 13px; color: var(--green);
-  font-weight: 700; cursor: pointer; font-family: 'Nunito', sans-serif;
-}
-
-.btn-salvar-diario {
-  width: 100%; background: var(--green); color: white;
-  border: none; border-radius: 100px; padding: 16px;
-  font-size: 15px; font-weight: 800; cursor: pointer;
-  font-family: 'Nunito', sans-serif;
-  box-shadow: 0 8px 20px rgba(74,140,92,0.3);
-  margin-bottom: 24px;
-}
-
-/* ══════════ COMUNIDADE SCREEN ══════════ */
-.com-header {
-  background: linear-gradient(160deg, var(--orange) 0%, #C4703A 100%);
-  padding: 20px 20px 24px; flex-shrink: 0;
-}
-
+/* COMUNIDADE */
+.com-header { background: linear-gradient(160deg, var(--orange) 0%, #C4703A 100%); padding: 20px 20px 24px; flex-shrink: 0; }
 .com-title { font-size: 22px; font-weight: 800; color: white; margin-bottom: 4px; }
 .com-sub { font-size: 13px; color: rgba(255,255,255,0.8); }
-
-.crise-banner {
-  margin: 16px 20px 0;
-  background: var(--red-bg); border: 1.5px solid #E8B4B4;
-  border-radius: 16px; padding: 14px 16px;
-  display: flex; gap: 12px; align-items: center; cursor: pointer;
-  flex-shrink: 0;
-}
-
-.crise-icon { font-size: 22px; }
+.crise-banner { margin: 16px 20px 0; background: var(--red-bg); border: 1.5px solid #E8B4B4; border-radius: 16px; padding: 14px 16px; display: flex; gap: 12px; align-items: center; cursor: pointer; flex-shrink: 0; }
 .crise-title { font-size: 14px; font-weight: 800; color: var(--red); margin-bottom: 2px; }
 .crise-sub { font-size: 12px; color: var(--ink-soft); }
-
-.com-tabs {
-  background: white; border-bottom: 1px solid var(--bege-mid);
-  display: flex; padding: 0 20px; flex-shrink: 0;
-  overflow-x: auto;
-}
+.com-tabs { background: white; border-bottom: 1px solid var(--bege-mid); display: flex; padding: 0 20px; flex-shrink: 0; overflow-x: auto; }
 .com-tabs::-webkit-scrollbar { display: none; }
-
-.com-tab {
-  flex-shrink: 0; padding: 12px 12px; font-size: 12px; font-weight: 700;
-  color: var(--ink-muted); border-bottom: 2.5px solid transparent;
-  cursor: pointer; border: none; background: none;
-  font-family: 'Nunito', sans-serif; transition: all 0.2s;
-  white-space: nowrap;
-}
+.com-tab { flex-shrink: 0; padding: 12px 12px; font-size: 12px; font-weight: 700; color: var(--ink-muted); cursor: pointer; border: none; border-bottom: 2.5px solid transparent; background: none; font-family: 'Nunito', sans-serif; white-space: nowrap; }
 .com-tab.active { color: var(--orange); border-bottom-color: var(--orange); }
-
 .post-list { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; }
-
 .post-card { background: white; border-radius: 18px; padding: 16px; }
 .post-header { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
-.post-avatar {
-  width: 36px; height: 36px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 15px; font-weight: 800; color: white; flex-shrink: 0;
-}
+.post-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; color: white; flex-shrink: 0; }
 .post-name { font-size: 13px; font-weight: 800; color: var(--ink); }
 .post-time { font-size: 11px; color: var(--ink-muted); }
-.post-tag {
-  margin-left: auto; font-size: 10px; padding: 3px 10px;
-  border-radius: 100px; font-weight: 700;
-}
+.post-tag { margin-left: auto; font-size: 10px; padding: 3px 10px; border-radius: 100px; font-weight: 700; }
 .post-text { font-size: 14px; color: var(--ink-soft); line-height: 1.6; margin-bottom: 12px; }
 .post-reactions { display: flex; gap: 12px; }
-.reaction {
-  display: flex; align-items: center; gap: 5px;
-  font-size: 12px; color: var(--ink-muted); cursor: pointer;
-  border: none; background: none; font-family: 'Nunito', sans-serif;
-}
+.reaction { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--ink-muted); cursor: pointer; border: none; background: none; font-family: 'Nunito', sans-serif; }
 
-.add-post-btn {
-  position: fixed; bottom: 80px; right: 20px;
-  width: 52px; height: 52px; border-radius: 50%;
-  background: var(--orange); border: none; cursor: pointer;
-  font-size: 24px; color: white;
-  box-shadow: 0 4px 16px rgba(232,133,74,0.4);
-  display: none;
-}
+/* CONTADOR */
+.counter-card { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 18px; padding: 18px; width: 100%; margin-bottom: 20px; }
+.counter-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 10px; font-weight: 700; text-align: center; }
+.counter-nums { display: flex; align-items: baseline; gap: 6px; justify-content: center; margin-bottom: 10px; }
+.counter-main { font-size: 52px; font-weight: 900; color: white; line-height: 1; }
+.counter-sep { font-size: 28px; color: rgba(255,255,255,0.3); }
+.counter-meta { font-size: 28px; font-weight: 700; color: rgba(255,255,255,0.3); }
+.counter-bar-outer { height: 8px; background: rgba(255,255,255,0.1); border-radius: 100px; overflow: hidden; margin-bottom: 6px; }
+.counter-bar-inner { height: 100%; background: linear-gradient(90deg, var(--green-light), white); border-radius: 100px; transition: width 1s ease; }
+.counter-info { font-size: 11px; color: rgba(255,255,255,0.5); text-align: center; }
 
-/* ══════════ MODAL CRISE ══════════ */
-.modal-overlay {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.6);
-  z-index: 500; display: none; align-items: flex-end;
-}
+/* MODAL */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 500; display: none; align-items: flex-end; }
 .modal-overlay.active { display: flex; }
-
-.modal-box {
-  background: white; border-radius: 24px 24px 0 0;
-  padding: 32px 24px 40px; width: 100%;
-  max-width: 430px; margin: 0 auto;
-  animation: slideUp 0.3s ease;
-}
-
-@keyframes slideUp {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
-}
-
+.modal-box { background: white; border-radius: 24px 24px 0 0; padding: 32px 24px 40px; width: 100%; max-width: 430px; margin: 0 auto; }
 .modal-title { font-size: 22px; font-weight: 800; color: var(--ink); margin-bottom: 8px; text-align: center; }
 .modal-sub { font-size: 14px; color: var(--ink-muted); text-align: center; margin-bottom: 24px; line-height: 1.6; }
+.breathing-circle { width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, var(--green-bg), var(--green-light)); border: 3px solid var(--green); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 14px; font-weight: 700; color: var(--green); animation: breathe 4s ease-in-out infinite; }
+@keyframes breathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+.modal-close { width: 100%; background: var(--green); color: white; border: none; border-radius: 100px; padding: 14px; font-size: 15px; font-weight: 800; cursor: pointer; font-family: 'Nunito', sans-serif; }
 
-.breathing-circle {
-  width: 120px; height: 120px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--green-bg), var(--green-light));
-  border: 3px solid var(--green);
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 24px;
-  font-size: 14px; font-weight: 700; color: var(--green);
-  animation: breathe 4s ease-in-out infinite;
-}
-
-@keyframes breathe {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.2); }
-}
-
-.modal-close {
-  width: 100%; background: var(--green); color: white;
-  border: none; border-radius: 100px; padding: 14px;
-  font-size: 15px; font-weight: 800; cursor: pointer;
-  font-family: 'Nunito', sans-serif;
-}
-
-/* ══════════ TOAST ══════════ */
-.toast {
-  position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
-  background: var(--ink); color: white; padding: 12px 24px;
-  border-radius: 100px; font-size: 14px; font-weight: 600;
-  z-index: 400; opacity: 0; transition: opacity 0.3s;
-  white-space: nowrap;
-}
+/* TOAST */
+.toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: var(--ink); color: white; padding: 12px 24px; border-radius: 100px; font-size: 14px; font-weight: 600; z-index: 400; opacity: 0; transition: opacity 0.3s; white-space: nowrap; pointer-events: none; }
 .toast.show { opacity: 1; }
 
-/* Instalar banner */
-.install-banner {
-  background: var(--green); color: white;
-  padding: 12px 20px; display: flex; align-items: center; gap: 12px;
-  flex-shrink: 0; cursor: pointer;
-}
-.install-banner-text { flex: 1; font-size: 13px; font-weight: 700; }
-.install-banner-btn {
-  background: white; color: var(--green);
-  border: none; border-radius: 100px; padding: 6px 16px;
-  font-size: 12px; font-weight: 800; cursor: pointer;
-  font-family: 'Nunito', sans-serif; white-space: nowrap;
-}
-
-/* Timer running */
-.timer-running .timer-progress {
-  animation: countdown 25m linear forwards;
-}
+/* USER INFO BAR */
+.user-bar { background: rgba(255,255,255,0.08); border-radius: 12px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.user-avatar { width: 32px; height: 32px; border-radius: 50%; background: white; overflow: hidden; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; color: var(--green); }
+.user-name { font-size: 13px; font-weight: 700; color: white; flex: 1; }
+.user-days { font-size: 11px; color: rgba(255,255,255,0.6); }
+.btn-logout { font-size: 11px; color: rgba(255,255,255,0.5); background: none; border: none; cursor: pointer; font-family: 'Nunito', sans-serif; }
 </style>
 </head>
 <body>
 
-<!-- ONBOARDING -->
-<div id="onboarding">
+<!-- LOADING -->
+<div id="loading" style="display: none;">
+  <div class="loading-logo">
+    <svg width="72" height="48" viewBox="0 0 80 56" fill="none">
+      <path d="M4 28 C10 10, 20 46, 30 28 C40 10, 50 46, 60 28 C64 20, 67 26, 68 28" stroke="white" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.9"></path>
+      <circle cx="75" cy="28" r="5" fill="white"></circle>
+    </svg>
+  </div>
+  <div class="loading-title">focoh</div>
+  <div class="loading-sub">Para mentes que funcionam diferente.</div>
+  <div class="loading-dots">
+    <div class="loading-dot"></div>
+    <div class="loading-dot"></div>
+    <div class="loading-dot"></div>
+  </div>
+</div>
 
-  <!-- Step 1: Splash -->
+<!-- ONBOARDING -->
+<div id="onboarding" style="display: flex;">
+  <!-- Step 1 -->
   <div class="ob-step active" id="ob1">
-    <div class="ob-logo">
-      <svg width="80" height="56" viewBox="0 0 80 56" fill="none">
+    <div style="margin-bottom:20px">
+      <svg width="72" height="48" viewBox="0 0 80 56" fill="none">
         <path d="M4 28 C10 10, 20 46, 30 28 C40 10, 50 46, 60 28 C64 20, 67 26, 68 28" stroke="white" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.9"></path>
         <circle cx="75" cy="28" r="5" fill="white"></circle>
       </svg>
     </div>
     <div class="ob-title">focoh</div>
     <div class="ob-sub">Para mentes que<br>funcionam diferente.</div>
-    <button class="ob-btn" onclick="nextOb(2)">Começar agora — é gratuito</button>
-    <button class="ob-btn-ghost" onclick="skipOnboarding()">Já tenho conta · Entrar</button>
+    <button class="ob-btn" onclick="loginGoogle()">🔐 Entrar com Google</button>
+    <p style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:8px">Seus dados ficam salvos e seguros</p>
   </div>
 
   <!-- Step 2: Trilha -->
   <div class="ob-step" id="ob2">
-    <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.6);font-weight:700;margin-bottom:16px">Passo 1 de 3</div>
-    <div class="ob-title" style="font-size:24px">O que melhor<br>te descreve?</div>
-    <div class="ob-sub" style="margin-bottom:20px">Escolha sua trilha. Pode mudar depois.</div>
+    <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.6);font-weight:700;margin-bottom:14px">Passo 1 de 2</div>
+    <div class="ob-title" style="font-size:22px">O que melhor<br>te descreve?</div>
+    <div class="ob-sub" style="margin-bottom:16px;font-size:13px">Pode escolher mais de um. Muda quando quiser.</div>
     <div class="trilha-grid">
-      <div class="trilha-option" onclick="selectTrilha(this,&#39;TDAH&#39;)">
-        <div class="trilha-emoji">⚡</div>
-        <div>
-          <div class="trilha-name">TDAH</div>
-          <div class="trilha-desc">Tenho TDAH ou suspeito ter</div>
-        </div>
-      </div>
-      <div class="trilha-option" onclick="selectTrilha(this,&#39;Ansiedade&#39;)">
-        <div class="trilha-emoji">🌊</div>
-        <div>
-          <div class="trilha-name">Ansiedade</div>
-          <div class="trilha-desc">Mente acelerada, difícil desligar</div>
-        </div>
-      </div>
-      <div class="trilha-option" onclick="selectTrilha(this,&#39;Mães&#39;)">
-        <div class="trilha-emoji">💗</div>
-        <div>
-          <div class="trilha-name">Mães</div>
-          <div class="trilha-desc">Mãe de filho com TDAH</div>
-        </div>
-      </div>
-      <div class="trilha-option" onclick="selectTrilha(this,&#39;Autismo&#39;)">
-        <div class="trilha-emoji">🌟</div>
-        <div>
-          <div class="trilha-name">Autismo</div>
-          <div class="trilha-desc">Sou autista ou em diagnóstico</div>
-        </div>
-      </div>
-      <div class="trilha-option" onclick="selectTrilha(this,&#39;Burnout&#39;)">
-        <div class="trilha-emoji">🔥</div>
-        <div>
-          <div class="trilha-name">Burnout</div>
-          <div class="trilha-desc">Esgotado, sem conseguir focar</div>
-        </div>
-      </div>
-      <div class="trilha-option" onclick="selectTrilha(this,&#39;Altas Habilidades&#39;)">
-        <div class="trilha-emoji">⚡</div>
-        <div>
-          <div class="trilha-name">Altas Habilidades</div>
-          <div class="trilha-desc">Superdotado ou Twice Exceptional</div>
-        </div>
-      </div>
-      <div class="trilha-option" onclick="selectTrilha(this,&#39;Cuidadores&#39;)">
-        <div class="trilha-emoji">💙</div>
-        <div>
-          <div class="trilha-name">Cuidadores</div>
-          <div class="trilha-desc">Cuido de alguém com Alzheimer</div>
-        </div>
-      </div>
-      <div class="trilha-option" onclick="selectTrilha(this,&#39;Foco&#39;)">
-        <div class="trilha-emoji">🔮</div>
-        <div>
-          <div class="trilha-name">Só quero focar</div>
-          <div class="trilha-desc">Sem rótulo, preciso de foco</div>
-        </div>
-      </div>
+      <div class="trilha-option" onclick="toggleTrilha(this,&#39;TDAH&#39;)"><span class="trilha-emoji">⚡</span><div><div class="trilha-name">TDAH</div><div class="trilha-desc">Tenho TDAH ou suspeito ter</div></div></div>
+      <div class="trilha-option" onclick="toggleTrilha(this,&#39;Ansiedade&#39;)"><span class="trilha-emoji">🌊</span><div><div class="trilha-name">Ansiedade</div><div class="trilha-desc">Mente acelerada, difícil desligar</div></div></div>
+      <div class="trilha-option" onclick="toggleTrilha(this,&#39;Mães&#39;)"><span class="trilha-emoji">💗</span><div><div class="trilha-name">Mães</div><div class="trilha-desc">Mãe de filho com TDAH</div></div></div>
+      <div class="trilha-option" onclick="toggleTrilha(this,&#39;Autismo&#39;)"><span class="trilha-emoji">🌟</span><div><div class="trilha-name">Autismo</div><div class="trilha-desc">Sou autista ou em diagnóstico</div></div></div>
+      <div class="trilha-option" onclick="toggleTrilha(this,&#39;Burnout&#39;)"><span class="trilha-emoji">🔥</span><div><div class="trilha-name">Burnout</div><div class="trilha-desc">Esgotado, sem conseguir focar</div></div></div>
+      <div class="trilha-option" onclick="toggleTrilha(this,&#39;Altas Habilidades&#39;)"><span class="trilha-emoji">⭐</span><div><div class="trilha-name">Altas Habilidades</div><div class="trilha-desc">Superdotado ou Twice Exceptional</div></div></div>
+      <div class="trilha-option" onclick="toggleTrilha(this,&#39;Cuidadores&#39;)"><span class="trilha-emoji">💙</span><div><div class="trilha-name">Cuidadores</div><div class="trilha-desc">Cuido de alguém com Alzheimer</div></div></div>
+      <div class="trilha-option" onclick="toggleTrilha(this,&#39;Foco&#39;)"><span class="trilha-emoji">🔮</span><div><div class="trilha-name">Só quero focar</div><div class="trilha-desc">Sem rótulo, preciso de foco</div></div></div>
     </div>
-    <button class="ob-btn" onclick="nextOb(3)">Continuar</button>
+    <button class="ob-btn" onclick="nextOb(3)">Continuar →</button>
   </div>
 
-  <!-- Step 3: Nome -->
+  <!-- Step 3: Pronto -->
   <div class="ob-step" id="ob3">
-    <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.6);font-weight:700;margin-bottom:16px">Passo 2 de 3</div>
-    <div class="ob-title" style="font-size:24px">Como quer<br>ser chamado?</div>
-    <div class="ob-sub">Sem burocracia. Só seu nome ou apelido.</div>
-    <input type="text" class="ob-input" id="nomeInput" placeholder="Seu nome aqui..." maxlength="20">
-    <button class="ob-btn" onclick="nextOb(4)">Continuar</button>
-  </div>
-
-  <!-- Step 4: Pronto -->
-  <div class="ob-step" id="ob4">
-    <div style="font-size:48px;margin-bottom:16px">🎉</div>
+    <div style="font-size:52px;margin-bottom:16px">🎉</div>
     <div class="ob-title">Tudo pronto,<br><span id="nomeDisplay">amigo</span>!</div>
-    <div class="ob-sub">Você é um dos primeiros.<br>Sua jornada começa agora.</div>
-
-    <div style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:18px;padding:18px;width:100%;margin-bottom:20px">
-      <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:10px;font-weight:700">🔥 Meta de lançamento</div>
-      <div style="display:flex;align-items:baseline;gap:6px;justify-content:center;margin-bottom:10px">
-        <span style="font-size:48px;font-weight:900;color:white" id="counterDisplay">273</span>
-        <span style="font-size:24px;color:rgba(255,255,255,0.4)">/</span>
-        <span style="font-size:24px;font-weight:700;color:rgba(255,255,255,0.4)">500</span>
+    <div class="ob-sub">Você é um dos primeiros pioneiros.<br>Sua jornada começa agora.</div>
+    <div class="counter-card">
+      <div class="counter-label">🔥 Pioneiros · Meta de lançamento</div>
+      <div class="counter-nums">
+        <span class="counter-main" id="obCounter">0</span>
+        <span class="counter-sep">/</span>
+        <span class="counter-meta">500</span>
       </div>
-      <div style="height:8px;background:rgba(255,255,255,0.1);border-radius:100px;overflow:hidden;margin-bottom:6px">
-        <div style="height:100%;width:54.6%;background:linear-gradient(90deg,var(--green-light),white);border-radius:100px"></div>
-      </div>
-      <div style="font-size:11px;color:rgba(255,255,255,0.5);text-align:center">Você é pioneiro! Faltam <span id="faltam">227</span> para a App Store 🚀</div>
+      <div class="counter-bar-outer"><div class="counter-bar-inner" id="obBar" style="width:0%"></div></div>
+      <div class="counter-info" id="obFaltam">Carregando...</div>
     </div>
-
-    <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:14px 16px;width:100%;margin-bottom:20px;text-align:center">
+    <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:14px;width:100%;text-align:center;margin-bottom:20px">
       <div style="font-size:13px;color:rgba(255,255,255,0.8);margin-bottom:10px">💚 Conhece alguém que precisa disso?</div>
       <button onclick="shareApp()" style="background:white;color:var(--green);border:none;border-radius:100px;padding:10px 24px;font-size:13px;font-weight:800;cursor:pointer;font-family:&#39;Nunito&#39;,sans-serif">🚀 Compartilhar o Focoh</button>
     </div>
-
-    <button class="ob-btn" onclick="startApp()">Começar minha jornada →</button>
+    <button class="ob-btn" onclick="finishOnboarding()">Começar minha jornada →</button>
   </div>
-
 </div>
 
 <!-- MAIN APP -->
 <div id="app" style="display:none">
 
-  <!-- Install banner -->
-  <div class="install-banner" id="installBanner" style="display:none" onclick="installApp()">
-    <span class="install-banner-text">📱 Instalar o Focoh na tela inicial</span>
-    <button class="install-banner-btn">Instalar</button>
-  </div>
-
-  <!-- ══ HOME ══ -->
+  <!-- HOME -->
   <div class="screen active" id="screen-home">
     <div class="home-header">
-      <div class="home-greeting">Bom dia 👋</div>
-      <div class="home-name" id="homeTitle">Como você está hoje?</div>
+      <div class="home-greeting" id="homeGreeting">Bom dia 👋</div>
+      <div class="home-name" id="homeName">Como você está hoje?</div>
       <div class="energy-card">
         <div class="energy-row">
           <div class="energy-emoji">⚡</div>
-          <div>
-            <div class="energy-label">Energia atual</div>
-            <div class="energy-value">Alta — 72%</div>
-          </div>
+          <div><div class="energy-label">Energia atual</div><div class="energy-value">Alta — 72%</div></div>
         </div>
         <div class="energy-bar"><div class="energy-fill"></div></div>
       </div>
       <div class="foco-card" onclick="goTo(&#39;foco&#39;)">
-        <div class="foco-circle">
-          <div class="foco-num">25</div>
-          <div class="foco-min">MIN</div>
-        </div>
-        <div>
-          <div class="foco-title">Modo Foco</div>
-          <div class="foco-sub">Próxima sessão disponível</div>
-        </div>
+        <div class="foco-circle"><div class="foco-num">25</div><div class="foco-min">MIN</div></div>
+        <div><div class="foco-title">Modo Foco</div><div class="foco-sub">Próxima sessão disponível</div></div>
         <button class="foco-play">▶</button>
       </div>
     </div>
 
     <div class="home-section">
-      <div class="section-row">
-        <div class="section-title">Código do dia</div>
-        <button class="section-link" onclick="goTo(&#39;codigos&#39;)">Ver todos</button>
-      </div>
+      <div class="section-row"><div class="section-title">Código do dia</div><button class="section-link" onclick="goTo(&#39;codigos&#39;)">Ver todos</button></div>
       <div class="codigo-card" onclick="goTo(&#39;codigos&#39;)">
-        <div class="codigo-badge">🔮 Reset Codes™ · Hoje</div>
-        <div class="codigo-title">Código da Procrastinação</div>
-        <div class="codigo-desc">A procrastinação não é preguiça — é um código de proteção instalado. Hoje vamos identificar e desativar a origem.</div>
-        <button class="codigo-btn">Iniciar meditação · 3 min</button>
+        <div class="codigo-badge">🔮 Reset Codes™ · Em breve</div>
+        <div class="codigo-title">Códigos em preparação</div>
+        <div class="codigo-desc">Os Códigos Reset Codes™ estão sendo preparados por Vinicius Paradi. Em breve você terá acesso às meditações guiadas exclusivas.</div>
+        <button class="codigo-btn">🔒 Em breve</button>
       </div>
     </div>
 
     <div class="home-section">
-      <div class="section-row">
-        <div class="section-title">Tarefas de hoje</div>
-        <button class="section-link" onclick="addTask()">+ Adicionar</button>
-      </div>
+      <div class="section-row"><div class="section-title">Tarefas de hoje</div><button class="section-link" onclick="addTask()">+ Adicionar</button></div>
       <div class="task-list" id="taskList">
-        <div style="text-align:center;padding:20px;color:var(--ink-muted);font-size:13px" id="emptyTasks">
-          Nenhuma tarefa ainda.<br>Toque em <strong>+ Adicionar</strong> para começar 💚
+        <div style="text-align:center;padding:20px;color:var(--ink-muted);font-size:13px;background:white;border-radius:14px" id="emptyTasks">
+          Nenhuma tarefa ainda.<br>Toque em <strong style="color:var(--green)">+ Adicionar</strong> para começar 💚
         </div>
       </div>
     </div>
 
     <div class="home-section">
-      <div class="section-row">
-        <div class="section-title">Suas conquistas</div>
-      </div>
+      <div class="section-row"><div class="section-title">Suas conquistas</div></div>
       <div class="wins-grid" style="margin-bottom:24px">
-        <div class="win-card"><div class="win-emoji">🔥</div><div class="win-value">7</div><div class="win-label">dias seguidos</div></div>
-        <div class="win-card"><div class="win-emoji">⏱️</div><div class="win-value">4h20</div><div class="win-label">em foco essa semana</div></div>
-        <div class="win-card"><div class="win-emoji">✅</div><div class="win-value">23</div><div class="win-label">tarefas concluídas</div></div>
-        <div class="win-card"><div class="win-emoji">🔮</div><div class="win-value">5</div><div class="win-label">códigos desativados</div></div>
+        <div class="win-card"><div class="win-emoji">🔥</div><div class="win-value" id="winDias">0</div><div class="win-label">dias no app</div></div>
+        <div class="win-card"><div class="win-emoji">⏱️</div><div class="win-value" id="winFoco">0</div><div class="win-label">sessões de foco</div></div>
+        <div class="win-card"><div class="win-emoji">✅</div><div class="win-value" id="winTarefas">0</div><div class="win-label">tarefas concluídas</div></div>
+        <div class="win-card"><div class="win-emoji">📔</div><div class="win-value" id="winDiarios">0</div><div class="win-label">dias no diário</div></div>
       </div>
     </div>
   </div>
 
-  <!-- ══ FOCO ══ -->
+  <!-- FOCO -->
   <div class="screen" id="screen-foco">
-    <div class="foco-header">
-      <div class="foco-screen-title">⏱️ Modo Foco</div>
-    </div>
-
+    <div class="foco-header"><div class="foco-screen-title">⏱️ Modo Foco</div></div>
     <div class="mode-tabs">
-      <div class="mode-tab active" onclick="selectMode(this,&#39;25:00&#39;)">
-        <span class="mode-tab-emoji">🎯</span>Foco<br><small>25 min</small>
-      </div>
-      <div class="mode-tab" onclick="selectMode(this,&#39;05:00&#39;)">
-        <span class="mode-tab-emoji">☕</span>Pausa<br><small>5 min</small>
-      </div>
-      <div class="mode-tab" onclick="selectMode(this,&#39;15:00&#39;)">
-        <span class="mode-tab-emoji">🌿</span>Longa<br><small>15 min</small>
-      </div>
-      <div class="mode-tab" onclick="selectMode(this,&#39;50:00&#39;)">
-        <span class="mode-tab-emoji">⚡</span>Hiperfoco<br><small>50 min</small>
-      </div>
+      <div class="mode-tab active" onclick="selectMode(this,&#39;25:00&#39;,25)"><span class="mode-tab-emoji">🎯</span>Foco<br><small>25 min</small></div>
+      <div class="mode-tab" onclick="selectMode(this,&#39;05:00&#39;,5)"><span class="mode-tab-emoji">☕</span>Pausa<br><small>5 min</small></div>
+      <div class="mode-tab" onclick="selectMode(this,&#39;15:00&#39;,15)"><span class="mode-tab-emoji">🌿</span>Longa<br><small>15 min</small></div>
+      <div class="mode-tab" onclick="selectMode(this,&#39;50:00&#39;,50)"><span class="mode-tab-emoji">⚡</span>Hiperfoco<br><small>50 min</small></div>
     </div>
-
     <div class="timer-wrap">
       <div class="timer-circle">
         <svg class="timer-svg" viewBox="0 0 200 200">
           <circle class="timer-bg" cx="100" cy="100" r="90"></circle>
-          <circle class="timer-progress" id="timerProgress" cx="100" cy="100" r="90" style="stroke-dashoffset: 0;"></circle>
+          <circle class="timer-progress" id="timerProgress" cx="100" cy="100" r="90"></circle>
         </svg>
         <div class="timer-center">
           <div class="timer-time" id="timerDisplay">25:00</div>
           <div class="timer-label" id="timerLabel">pronto</div>
         </div>
       </div>
-
       <div class="timer-controls">
         <button class="ctrl-btn" onclick="resetTimer()">⏮</button>
         <button class="ctrl-play" id="playBtn" onclick="toggleTimer()">▶</button>
         <button class="ctrl-btn" onclick="skipTimer()">⏭</button>
       </div>
-
       <div class="foco-task-card">
         <div class="foco-task-dot"></div>
-        <div class="foco-task-text" id="focoTask">Gravar vídeo TikTok</div>
+        <div class="foco-task-text" id="focoTaskText">Adicione uma tarefa para focar</div>
         <button class="foco-task-btn" onclick="changeTask()">Trocar</button>
       </div>
-
       <div class="foco-stats">
-        <div class="foco-stat"><div class="foco-stat-val" id="sessionsToday">3</div><div class="foco-stat-label">sessões hoje</div></div>
-        <div class="foco-stat"><div class="foco-stat-val" id="timeToday">1h15</div><div class="foco-stat-label">em foco hoje</div></div>
-        <div class="foco-stat"><div class="foco-stat-val">🔥 7</div><div class="foco-stat-label">dias seguidos</div></div>
+        <div class="foco-stat"><div class="foco-stat-val" id="statSessoes">0</div><div class="foco-stat-label">sessões hoje</div></div>
+        <div class="foco-stat"><div class="foco-stat-val" id="statDias">0</div><div class="foco-stat-label">dias seguidos</div></div>
+        <div class="foco-stat"><div class="foco-stat-val" id="statTotal">0</div><div class="foco-stat-label">total sessões</div></div>
       </div>
     </div>
   </div>
 
-  <!-- ══ CÓDIGOS ══ -->
+  <!-- CODIGOS -->
   <div class="screen" id="screen-codigos">
     <div class="codigos-header">
       <div class="codigos-title">Reset Codes™</div>
-      <div class="codigos-sub">Meditações para desativar padrões</div>
+      <div class="codigos-sub">Meditações para desativar padrões · Em breve</div>
     </div>
-
     <div class="codigos-list">
-      <div class="codigo-item" style="border-color:var(--green);background:var(--green-bg)">
-        <div class="codigo-item-header">
-          <div class="codigo-item-emoji" style="background:white">✅</div>
-          <div>
-            <div class="codigo-item-title">Código da Autossabotagem</div>
-            <div class="codigo-item-sub">Concluído hoje · 3 min</div>
-          </div>
-        </div>
-        <div class="codigo-item-footer">
-          <div class="codigo-duration">Desativado com sucesso</div>
-          <div class="done-badge">✓ Feito</div>
-        </div>
+      <div style="background:var(--purple-bg);border-radius:18px;padding:20px;text-align:center;border:1.5px solid #C8C0E8">
+        <div style="font-size:40px;margin-bottom:12px">🔮</div>
+        <div style="font-size:18px;font-weight:800;color:var(--ink);margin-bottom:8px">Códigos em preparação</div>
+        <div style="font-size:14px;color:var(--ink-soft);line-height:1.6;margin-bottom:16px">Vinicius Paradi está criando as meditações guiadas exclusivas do Reset Codes™. Você será notificado quando estiverem disponíveis.</div>
+        <div style="font-size:12px;color:var(--purple);font-weight:700">🔒 Em breve · Acesso exclusivo para pioneiros</div>
       </div>
-
-      <div class="codigo-item" style="border-color:var(--purple);background:var(--purple-bg)">
-        <div class="codigo-item-header">
-          <div class="codigo-item-emoji" style="background:white">🔮</div>
-          <div>
-            <div class="codigo-item-title">Código da Procrastinação</div>
-            <div class="codigo-item-sub">Hoje · Recomendado para você</div>
-          </div>
-        </div>
-        <div class="codigo-item-desc">A procrastinação não é falta de força de vontade. É um código de proteção instalado no campo. Vamos identificar a origem e desativar na raiz.</div>
-        <div class="codigo-item-footer">
-          <div class="codigo-duration">⏱ 3 minutos</div>
-          <button class="btn-iniciar" onclick="iniciarCodigo(this)">Iniciar agora</button>
-        </div>
+      <div class="codigo-item" style="opacity:0.5">
+        <div class="codigo-item-header"><div class="codigo-item-emoji" style="background:var(--purple-bg)">🔒</div><div><div class="codigo-item-title">Código da Procrastinação</div><div class="codigo-item-sub">Em breve</div></div></div>
+        <div class="codigo-locked">🔒 Disponível em breve</div>
       </div>
-
-      <div class="codigo-item">
-        <div class="codigo-item-header">
-          <div class="codigo-item-emoji" style="background:var(--orange-bg)">🔥</div>
-          <div>
-            <div class="codigo-item-title">Código do Medo de Errar</div>
-            <div class="codigo-item-sub">Amanhã</div>
-          </div>
-        </div>
-        <div class="codigo-item-desc">O perfeccionismo no TDAH vem do medo de errar. Esse código paralisa antes de começar.</div>
-        <div class="codigo-item-footer">
-          <div class="codigo-duration">⏱ 5 minutos</div>
-          <button class="btn-iniciar" style="background:var(--bege-dark)">Em breve</button>
-        </div>
+      <div class="codigo-item" style="opacity:0.5">
+        <div class="codigo-item-header"><div class="codigo-item-emoji" style="background:var(--orange-bg)">🔒</div><div><div class="codigo-item-title">Código da Autossabotagem</div><div class="codigo-item-sub">Em breve</div></div></div>
+        <div class="codigo-locked">🔒 Disponível em breve</div>
       </div>
-
-      <div class="codigo-item">
-        <div class="codigo-item-header">
-          <div class="codigo-item-emoji" style="background:var(--yellow-bg)">💛</div>
-          <div>
-            <div class="codigo-item-title">Código do Não Merecimento</div>
-            <div class="codigo-item-sub">Próxima semana</div>
-          </div>
-        </div>
-        <div class="codigo-item-desc">Sentir que não merece coisas boas. Raiz geracional e emocional comum em pessoas neurodivergentes.</div>
-        <div class="codigo-item-footer">
-          <div class="codigo-duration">⏱ 4 minutos</div>
-          <button class="btn-iniciar" style="background:var(--bege-dark)">Bloqueado</button>
-        </div>
+      <div class="codigo-item" style="opacity:0.5">
+        <div class="codigo-item-header"><div class="codigo-item-emoji" style="background:var(--yellow-bg)">🔒</div><div><div class="codigo-item-title">Código do Não Merecimento</div><div class="codigo-item-sub">Em breve</div></div></div>
+        <div class="codigo-locked">🔒 Disponível em breve</div>
       </div>
-
-      <div class="codigo-item">
-        <div class="codigo-item-header">
-          <div class="codigo-item-emoji" style="background:var(--green-bg)">⚡</div>
-          <div>
-            <div class="codigo-item-title">Código do Hiperfoco</div>
-            <div class="codigo-item-sub">Aprenda a usar como superpoder</div>
-          </div>
-        </div>
-        <div class="codigo-item-desc">O hiperfoco é seu maior dom. Esse código te ensina a ativá-lo intencionalmente.</div>
-        <div class="codigo-item-footer">
-          <div class="codigo-duration">⏱ 6 minutos</div>
-          <button class="btn-iniciar" style="background:var(--bege-dark)">Bloqueado</button>
-        </div>
+      <div class="codigo-item" style="opacity:0.5">
+        <div class="codigo-item-header"><div class="codigo-item-emoji" style="background:var(--green-bg)">🔒</div><div><div class="codigo-item-title">Código do Hiperfoco</div><div class="codigo-item-sub">Em breve</div></div></div>
+        <div class="codigo-locked">🔒 Disponível em breve</div>
       </div>
     </div>
   </div>
 
-  <!-- ══ DIÁRIO ══ -->
+  <!-- DIARIO -->
   <div class="screen" id="screen-diario">
     <div class="diario-header">
       <div class="diario-title">Diário de hoje</div>
       <div class="diario-date" id="diarioDate"></div>
     </div>
-
     <div class="diario-body">
       <div>
         <div class="d-section-title">Como você está agora? 😊</div>
         <div class="humor-grid">
-          <div class="humor-item" onclick="selectHumor(this)"><span class="humor-emoji">😔</span><span class="humor-text">Mal</span></div>
-          <div class="humor-item" onclick="selectHumor(this)"><span class="humor-emoji">😕</span><span class="humor-text">Regular</span></div>
-          <div class="humor-item active" onclick="selectHumor(this)"><span class="humor-emoji">😊</span><span class="humor-text">Bem</span></div>
-          <div class="humor-item" onclick="selectHumor(this)"><span class="humor-emoji">😄</span><span class="humor-text">Ótimo</span></div>
-          <div class="humor-item" onclick="selectHumor(this)"><span class="humor-emoji">🤩</span><span class="humor-text">Incrível</span></div>
+          <div class="humor-item" onclick="selectHumor(this,&#39;Mal&#39;)"><span class="humor-emoji">😔</span><span class="humor-text">Mal</span></div>
+          <div class="humor-item" onclick="selectHumor(this,&#39;Regular&#39;)"><span class="humor-emoji">😕</span><span class="humor-text">Regular</span></div>
+          <div class="humor-item" onclick="selectHumor(this,&#39;Bem&#39;)"><span class="humor-emoji">😊</span><span class="humor-text">Bem</span></div>
+          <div class="humor-item" onclick="selectHumor(this,&#39;Ótimo&#39;)"><span class="humor-emoji">😄</span><span class="humor-text">Ótimo</span></div>
+          <div class="humor-item" onclick="selectHumor(this,&#39;Incrível&#39;)"><span class="humor-emoji">🤩</span><span class="humor-text">Incrível</span></div>
         </div>
       </div>
-
       <div>
         <div class="d-section-title">Nível de energia ⚡</div>
-        <div class="energia-bar-outer" onclick="setEnergia(event, this)">
-          <div class="energia-bar-inner" id="energiaBar"></div>
+        <div class="energia-bar-outer" id="energiaBar" onclick="setEnergia(event, this)">
+          <div class="energia-bar-inner" id="energiaFill" style="width:70%"></div>
         </div>
         <div class="energia-labels"><span>Esgotado</span><span>Energizado</span></div>
       </div>
-
       <div>
         <div class="d-section-title">Como foi seu dia? ✍️</div>
-        <textarea class="d-textarea" rows="4" placeholder="Escreva livremente... sem julgamentos."></textarea>
+        <textarea class="d-textarea" id="diarioNota" rows="4" placeholder="Escreva livremente... sem julgamentos."></textarea>
       </div>
-
       <div>
         <div class="d-section-title">Suas vitórias de hoje 🏆</div>
-        <div class="vitoria-list" id="vitoriaList">
-          <div class="vitoria-item"><span class="vitoria-star">⭐</span><span class="vitoria-text">Acordei no horário</span></div>
-          <div class="vitoria-item"><span class="vitoria-star">⭐</span><span class="vitoria-text">Fiz 2 sessões de foco</span></div>
-        </div>
+        <div class="vitoria-list" id="vitoriaList"></div>
         <button class="btn-add-vitoria" onclick="addVitoria()">+ Adicionar vitória</button>
       </div>
-
       <button class="btn-salvar-diario" onclick="salvarDiario()">Salvar diário do dia ✓</button>
     </div>
   </div>
 
-  <!-- ══ COMUNIDADE ══ -->
+  <!-- COMUNIDADE -->
   <div class="screen" id="screen-comunidade">
     <div class="com-header">
       <div class="com-title">Comunidade Focoh</div>
       <div class="com-sub">Espaço seguro · Sem julgamentos 💚</div>
     </div>
-
     <div class="crise-banner" onclick="openCrise()">
-      <div class="crise-icon">🆘</div>
-      <div>
-        <div class="crise-title">Modo Crise</div>
-        <div class="crise-sub">Está em colapso? Toque aqui agora.</div>
-      </div>
+      <span style="font-size:22px">🆘</span>
+      <div><div class="crise-title">Modo Crise</div><div class="crise-sub">Está em colapso? Toque aqui agora.</div></div>
       <span style="margin-left:auto;font-size:20px;color:var(--red)">›</span>
     </div>
-
     <div class="com-tabs">
       <button class="com-tab active" onclick="selectComTab(this)">Geral</button>
       <button class="com-tab" onclick="selectComTab(this)">TDAH</button>
@@ -1054,56 +484,10 @@ html, body {
       <button class="com-tab" onclick="selectComTab(this)">Mães</button>
       <button class="com-tab" onclick="selectComTab(this)">Cuidadores</button>
     </div>
-
-    <div class="post-list">
-      <div class="post-card">
-        <div class="post-header">
-          <div class="post-avatar" style="background:var(--green)">C</div>
-          <div><div class="post-name">Camila R.</div><div class="post-time">há 2 horas</div></div>
-          <div class="post-tag" style="background:var(--green-bg);color:var(--green)">🏆 Vitória</div>
-        </div>
-        <div class="post-text">Fiz 3 sessões de foco hoje sem interrupção! O código da procrastinação mudou algo em mim mesmo 🔮</div>
-        <div class="post-reactions">
-          <button class="reaction" onclick="react(this)">❤️ 24</button>
-          <button class="reaction">💬 8</button>
-          <button class="reaction" onclick="react(this)">🔥 12</button>
-        </div>
-      </div>
-
-      <div class="post-card">
-        <div class="post-header">
-          <div class="post-avatar" style="background:var(--purple)">L</div>
-          <div><div class="post-name">Lucas M.</div><div class="post-time">há 5 horas</div></div>
-          <div class="post-tag" style="background:var(--purple-bg);color:var(--purple)">💬 Desabafo</div>
-        </div>
-        <div class="post-text">Dia difícil hoje. Não consegui fazer nada que planejei. Mas abri o app e registrei no diário. Pequena vitória 🌱</div>
-        <div class="post-reactions">
-          <button class="reaction" onclick="react(this)">🤗 31</button>
-          <button class="reaction">💬 15</button>
-          <button class="reaction" onclick="react(this)">💜 27</button>
-        </div>
-      </div>
-
-      <div class="post-card">
-        <div class="post-header">
-          <div class="post-avatar" style="background:var(--orange)">M</div>
-          <div><div class="post-name">Mariana F.</div><div class="post-time">ontem</div></div>
-          <div class="post-tag" style="background:var(--orange-bg);color:var(--orange)">💡 Dica</div>
-        </div>
-        <div class="post-text">Descobri que funciono muito melhor de manhã. O app mapeou isso no meu diário e agora organiza minhas tarefas difíceis pra esse horário 🌅</div>
-        <div class="post-reactions">
-          <button class="reaction" onclick="react(this)">❤️ 18</button>
-          <button class="reaction">💬 6</button>
-          <button class="reaction" onclick="react(this)">⭐ 22</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Add post form -->
-    <div style="padding:0 20px 20px">
+    <div style="padding:16px 20px 0">
       <div style="background:white;border-radius:18px;padding:16px;border:1.5px solid var(--bege-mid)">
         <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px">💬 Compartilhar com a comunidade</div>
-        <textarea id="postText" style="width:100%;background:var(--bege);border:1.5px solid var(--bege-mid);border-radius:12px;padding:12px;font-size:14px;color:var(--ink);font-family:&#39;Nunito&#39;,sans-serif;resize:none;outline:none;line-height:1.5" rows="3" placeholder="O que você quer compartilhar? Uma vitória, um desabafo, uma dica..."></textarea>
+        <textarea id="postText" style="width:100%;background:var(--bege);border:1.5px solid var(--bege-mid);border-radius:12px;padding:12px;font-size:14px;color:var(--ink);font-family:&#39;Nunito&#39;,sans-serif;resize:none;outline:none;line-height:1.5" rows="3" placeholder="Uma vitória, desabafo ou dica..."></textarea>
         <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
           <button onclick="postComunidade(&#39;🏆 Vitória&#39;)" style="background:var(--green-bg);color:var(--green);border:none;border-radius:100px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:&#39;Nunito&#39;,sans-serif">🏆 Vitória</button>
           <button onclick="postComunidade(&#39;💬 Desabafo&#39;)" style="background:var(--purple-bg);color:var(--purple);border:none;border-radius:100px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:&#39;Nunito&#39;,sans-serif">💬 Desabafo</button>
@@ -1111,180 +495,346 @@ html, body {
         </div>
       </div>
     </div>
+    <div class="post-list" id="postList">
+      <div style="text-align:center;padding:20px;color:var(--ink-muted);font-size:13px" id="emptyPosts">
+        Seja o primeiro a compartilhar! 💚
+      </div>
+    </div>
     <div style="height:20px"></div>
   </div>
 
   <!-- BOTTOM NAV -->
   <div class="bottom-nav">
-    <button class="nav-btn active" onclick="goTo(&#39;home&#39;)">
-      <span class="nav-icon">🏠</span>
-      <span class="nav-label">Início</span>
-    </button>
-    <button class="nav-btn" onclick="goTo(&#39;foco&#39;)">
-      <span class="nav-icon">⏱️</span>
-      <span class="nav-label">Foco</span>
-    </button>
-    <button class="nav-btn" onclick="goTo(&#39;codigos&#39;)">
-      <span class="nav-icon">🔮</span>
-      <span class="nav-label">Códigos</span>
-    </button>
-    <button class="nav-btn" onclick="goTo(&#39;diario&#39;)">
-      <span class="nav-icon">📔</span>
-      <span class="nav-label">Diário</span>
-    </button>
-    <button class="nav-btn" onclick="goTo(&#39;comunidade&#39;)">
-      <span class="nav-icon">💬</span>
-      <span class="nav-label">Comunidade</span>
-    </button>
+    <button class="nav-btn active" onclick="goTo(&#39;home&#39;)"><span class="nav-icon">🏠</span><span class="nav-label">Início</span></button>
+    <button class="nav-btn" onclick="goTo(&#39;foco&#39;)"><span class="nav-icon">⏱️</span><span class="nav-label">Foco</span></button>
+    <button class="nav-btn" onclick="goTo(&#39;codigos&#39;)"><span class="nav-icon">🔮</span><span class="nav-label">Códigos</span></button>
+    <button class="nav-btn" onclick="goTo(&#39;diario&#39;)"><span class="nav-icon">📔</span><span class="nav-label">Diário</span></button>
+    <button class="nav-btn" onclick="goTo(&#39;comunidade&#39;)"><span class="nav-icon">💬</span><span class="nav-label">Comunidade</span></button>
   </div>
-
 </div>
 
-<!-- MODAL CRISE -->
+<!-- CRISE MODAL -->
 <div class="modal-overlay" id="criseModal" onclick="closeCrise(event)">
   <div class="modal-box">
     <div class="modal-title">🆘 Modo Crise</div>
     <div class="modal-sub">Respira. Você está seguro aqui.<br>Siga o círculo com sua respiração.</div>
     <div class="breathing-circle" id="breathCircle">Respira</div>
-    <p style="text-align:center;font-size:13px;color:var(--ink-muted);margin-bottom:20px">Inspire 4 segundos → Segure 4 → Expire 4</p>
+    <p style="text-align:center;font-size:13px;color:var(--ink-muted);margin-bottom:20px">Inspire 4s → Segure 4s → Expire 4s</p>
     <button class="modal-close" onclick="closeCrise()">Estou melhor agora ✓</button>
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<script>
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import { getFirestore, doc, setDoc, getDoc, addDoc, collection, onSnapshot, query, orderBy, serverTimestamp, updateDoc, increment } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCn7b466tI-mFor-4mNTjE-b0ELE05qH-s",
+  authDomain: "focohapp.firebaseapp.com",
+  projectId: "focohapp",
+  storageBucket: "focohapp.firebasestorage.app",
+  messagingSenderId: "10997554549",
+  appId: "1:10997554549:web:306da588faa969b6cb873c"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
+let currentUser = null;
+let userData = null;
+let selectedTrilhas = [];
+let timerRunning = false;
+let timerInterval = null;
+let totalSeconds = 25 * 60;
+let currentSeconds = 25 * 60;
+let currentHumor = '';
+let energiaValue = 70;
+let sessionsToday = 0;
+let tasksCompleted = 0;
+let diariesCount = 0;
+
+// ═══ AUTH ═══
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    currentUser = user;
+    await loadUserData();
+  } else {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('onboarding').style.display = 'flex';
+  }
+});
+
+window.loginGoogle = async function() {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    currentUser = result.user;
+    await loadUserData();
+  } catch(e) {
+    showToast('❌ Erro ao entrar. Tente novamente.');
+  }
+};
+
+async function loadUserData() {
+  const userRef = doc(db, 'users', currentUser.uid);
+  const snap = await getDoc(userRef);
+  
+  if (snap.exists()) {
+    userData = snap.data();
+    // Update last seen
+    await updateDoc(userRef, { lastSeen: serverTimestamp() });
+    showApp();
+  } else {
+    // New user - show onboarding step 2
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('onboarding').style.display = 'flex';
+    document.querySelectorAll('.ob-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('ob2').classList.add('active');
+    // Increment counter
+    await updateCounter();
+  }
+}
+
+async function updateCounter() {
+  const counterRef = doc(db, 'meta', 'counter');
+  try {
+    await updateDoc(counterRef, { count: increment(1) });
+  } catch(e) {
+    await setDoc(counterRef, { count: 1 });
+  }
+}
+
+async function loadCounter() {
+  const counterRef = doc(db, 'meta', 'counter');
+  try {
+    const snap = await getDoc(counterRef);
+    if (snap.exists()) return snap.data().count;
+  } catch(e) {}
+  return 273;
+}
+
+function showApp() {
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('onboarding').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  
+  // Update UI with user data
+  const name = currentUser.displayName?.split(' ')[0] || 'amigo';
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? 'Bom dia' : hour < 18 ? 'Boa tarde' : 'Boa noite';
+  document.getElementById('homeGreeting').textContent = `${greeting}, ${name} 👋`;
+  document.getElementById('homeName').textContent = 'Como você está hoje?';
+  
+  // Date
+  const now = new Date();
+  document.getElementById('diarioDate').textContent = now.toLocaleDateString('pt-BR', {weekday:'long', day:'numeric', month:'long'});
+  
+  // Load stats
+  loadStats();
+  loadPosts();
+  loadTasks();
+  updateTimerDisplay();
+}
+
+async function loadStats() {
+  if (!currentUser) return;
+  const userRef = doc(db, 'users', currentUser.uid);
+  const snap = await getDoc(userRef);
+  if (snap.exists()) {
+    const data = snap.data();
+    const joinDate = data.joinedAt?.toDate() || new Date();
+    const days = Math.max(1, Math.floor((new Date() - joinDate) / (1000*60*60*24)) + 1);
+    document.getElementById('winDias').textContent = days;
+    document.getElementById('winFoco').textContent = data.totalSessions || 0;
+    document.getElementById('winTarefas').textContent = data.tasksCompleted || 0;
+    document.getElementById('winDiarios').textContent = data.diariesCount || 0;
+    document.getElementById('statSessoes').textContent = data.sessionsToday || 0;
+    document.getElementById('statDias').textContent = days;
+    document.getElementById('statTotal').textContent = data.totalSessions || 0;
+    sessionsToday = data.sessionsToday || 0;
+    tasksCompleted = data.tasksCompleted || 0;
+    diariesCount = data.diariesCount || 0;
+  }
+}
+
+async function loadTasks() {
+  if (!currentUser) return;
+  const tasksRef = collection(db, 'users', currentUser.uid, 'tasks');
+  const q = query(tasksRef, orderBy('createdAt', 'desc'));
+  onSnapshot(q, (snap) => {
+    const list = document.getElementById('taskList');
+    const empty = document.getElementById('emptyTasks');
+    if (snap.empty) {
+      empty.style.display = 'block';
+      list.innerHTML = '';
+      list.appendChild(empty);
+      return;
+    }
+    empty.style.display = 'none';
+    list.innerHTML = '';
+    snap.forEach(d => {
+      const task = d.data();
+      const div = document.createElement('div');
+      div.className = 'task-item' + (task.done ? ' done' : '');
+      div.innerHTML = `
+        <div class="task-color" style="background:${task.color}"></div>
+        <div class="task-check" onclick="toggleTask('${d.id}', ${task.done})">${task.done ? '✓' : ''}</div>
+        <div class="task-text" onclick="toggleTask('${d.id}', ${task.done})">${task.text}</div>
+        <div class="task-time">${task.time || 'Hoje'}</div>
+        <button class="task-del" onclick="deleteTask('${d.id}')">×</button>`;
+      list.appendChild(div);
+    });
+  });
+}
+
+async function loadPosts() {
+  const postsRef = collection(db, 'posts');
+  const q = query(postsRef, orderBy('createdAt', 'desc'));
+  onSnapshot(q, (snap) => {
+    const list = document.getElementById('postList');
+    const empty = document.getElementById('emptyPosts');
+    if (snap.empty) {
+      list.innerHTML = '';
+      list.appendChild(empty);
+      return;
+    }
+    list.innerHTML = '';
+    snap.forEach(d => {
+      const post = d.data();
+      const colors = {'🏆 Vitória':'var(--green)','💬 Desabafo':'var(--purple)','💡 Dica':'var(--orange)'};
+      const bgColors = {'🏆 Vitória':'var(--green-bg)','💬 Desabafo':'var(--purple-bg)','💡 Dica':'var(--orange-bg)'};
+      const time = post.createdAt?.toDate();
+      const timeStr = time ? formatTime(time) : 'agora';
+      const div = document.createElement('div');
+      div.className = 'post-card';
+      div.innerHTML = `
+        <div class="post-header">
+          <div class="post-avatar" style="background:${colors[post.tag]||'var(--green)'}">${(post.userName||'U')[0].toUpperCase()}</div>
+          <div><div class="post-name">${post.userName||'Anônimo'}</div><div class="post-time">${timeStr}</div></div>
+          <div class="post-tag" style="background:${bgColors[post.tag]||'var(--green-bg)'};color:${colors[post.tag]||'var(--green)'}">${post.tag}</div>
+        </div>
+        <div class="post-text">${post.text}</div>
+        <div class="post-reactions">
+          <button class="reaction" onclick="reactPost('${d.id}','❤️')">❤️ ${post.likes||0}</button>
+          <button class="reaction">💬 ${post.comments||0}</button>
+        </div>`;
+      list.appendChild(div);
+    });
+  });
+}
+
+function formatTime(date) {
+  const diff = Math.floor((new Date() - date) / 1000);
+  if (diff < 60) return 'agora';
+  if (diff < 3600) return `há ${Math.floor(diff/60)} min`;
+  if (diff < 86400) return `há ${Math.floor(diff/3600)}h`;
+  return `há ${Math.floor(diff/86400)} dias`;
+}
+
 // ═══ ONBOARDING ═══
-let selectedTrilha = 'TDAH';
-let userName = '';
-let counter = 273;
-
-function nextOb(step) {
-  document.querySelectorAll('.ob-step').forEach(s => s.classList.remove('active'));
-  const el = document.getElementById('ob' + step);
-  if (el) el.classList.add('active');
-
-  if (step === 3) {
-    document.getElementById('nomeInput').focus();
-  }
-
-  if (step === 4) {
-    const nome = document.getElementById('nomeInput').value.trim();
-    userName = nome || 'amigo';
-    document.getElementById('nomeDisplay').textContent = userName;
-    // Animate counter
-    animCounter();
-  }
-}
-
-function animCounter() {
-  const el = document.getElementById('counterDisplay');
-  let c = 200;
-  const timer = setInterval(() => {
-    c += 3;
-    if (c >= counter) { el.textContent = counter; clearInterval(timer); }
-    else el.textContent = c;
-  }, 20);
-}
-
-let selectedTrilhas = ['TDAH'];
-
-function selectTrilha(el, trilha) {
+window.toggleTrilha = function(el, trilha) {
   el.classList.toggle('selected');
   if (el.classList.contains('selected')) {
     if (!selectedTrilhas.includes(trilha)) selectedTrilhas.push(trilha);
   } else {
     selectedTrilhas = selectedTrilhas.filter(t => t !== trilha);
-    if (selectedTrilhas.length === 0) {
-      el.classList.add('selected');
-      selectedTrilhas = [trilha];
-    }
+    if (selectedTrilhas.length === 0) { el.classList.add('selected'); selectedTrilhas = [trilha]; }
   }
-  selectedTrilha = selectedTrilhas[0];
-}
+};
 
-function skipOnboarding() {
-  startApp();
-}
-
-function startApp() {
-  document.getElementById('onboarding').style.display = 'none';
-  document.getElementById('app').style.display = 'flex';
-  // Update greeting
-  const greeting = userName ? `Olá, ${userName} 👋` : 'Olá 👋';
-  document.getElementById('homeTitle').textContent = 'Como você está hoje?';
-  // Set date
-  const now = new Date();
-  document.getElementById('diarioDate').textContent = now.toLocaleDateString('pt-BR', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
-  // Show install banner if applicable
-  if (deferredPrompt) {
-    document.getElementById('installBanner').style.display = 'flex';
+window.nextOb = async function(step) {
+  if (step === 3) {
+    if (selectedTrilhas.length === 0) { showToast('Escolha pelo menos uma trilha!'); return; }
+    document.querySelectorAll('.ob-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('ob3').classList.add('active');
+    const name = currentUser?.displayName?.split(' ')[0] || 'amigo';
+    document.getElementById('nomeDisplay').textContent = name;
+    // Load real counter
+    const count = await loadCounter();
+    document.getElementById('obCounter').textContent = count;
+    const pct = Math.min(100, (count/500)*100);
+    document.getElementById('obBar').style.width = pct + '%';
+    document.getElementById('obFaltam').textContent = `Faltam ${Math.max(0,500-count)} para a App Store 🚀`;
   }
-}
+};
+
+window.finishOnboarding = async function() {
+  if (!currentUser) return;
+  // Save user to Firestore
+  await setDoc(doc(db, 'users', currentUser.uid), {
+    name: currentUser.displayName,
+    email: currentUser.email,
+    photo: currentUser.photoURL,
+    trilhas: selectedTrilhas,
+    joinedAt: serverTimestamp(),
+    lastSeen: serverTimestamp(),
+    totalSessions: 0,
+    sessionsToday: 0,
+    tasksCompleted: 0,
+    diariesCount: 0
+  });
+  showApp();
+};
 
 // ═══ NAVIGATION ═══
-function goTo(screen) {
+window.goTo = function(screen) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + screen).classList.add('active');
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   const map = {home:0, foco:1, codigos:2, diario:3, comunidade:4};
   document.querySelectorAll('.nav-btn')[map[screen]].classList.add('active');
-  // Scroll to top
   document.getElementById('screen-' + screen).scrollTop = 0;
-}
+};
 
 // ═══ TASKS ═══
-function toggleTask(el) {
-  el.classList.toggle('done');
-  const check = el.querySelector('.task-check');
-  check.textContent = el.classList.contains('done') ? '✓' : '';
-  if (el.classList.contains('done')) showToast('✅ Tarefa concluída!');
-}
-
-function deleteTask(el, e) {
-  e.stopPropagation();
-  el.closest('.task-item').remove();
-  const list = document.getElementById('taskList');
-  if (list.querySelectorAll('.task-item').length === 0) {
-    document.getElementById('emptyTasks').style.display = 'block';
-  }
-}
-
-function addTask() {
+window.addTask = async function() {
   const text = prompt('Nova tarefa:');
-  if (text && text.trim()) {
-    const list = document.getElementById('taskList');
-    const empty = document.getElementById('emptyTasks');
-    if (empty) empty.style.display = 'none';
-    const colors = ['var(--green)', 'var(--orange)', 'var(--purple)', 'var(--pink)', 'var(--yellow)'];
-    const color = colors[Math.floor(Math.random() * colors.length)];
-    const div = document.createElement('div');
-    div.className = 'task-item';
-    div.innerHTML = `<div class="task-color" style="background:${color}"></div><div class="task-check" onclick="toggleTask(this.closest('.task-item'))"></div><div class="task-text" onclick="toggleTask(this.closest('.task-item'))">${text}</div><div class="task-time">Hoje</div><button onclick="deleteTask(this, event)" style="background:none;border:none;font-size:16px;cursor:pointer;color:var(--bege-dark);padding:4px;flex-shrink:0">×</button>`;
-    list.appendChild(div);
-    showToast('✅ Tarefa adicionada!');
+  if (!text?.trim() || !currentUser) return;
+  const colors = ['#4A8C5C','#E8854A','#7A6AB4','#C45A8A','#D4A820'];
+  const color = colors[Math.floor(Math.random() * colors.length)];
+  await addDoc(collection(db, 'users', currentUser.uid, 'tasks'), {
+    text: text.trim(), color, done: false, createdAt: serverTimestamp(), time: 'Hoje'
+  });
+  showToast('✅ Tarefa adicionada!');
+};
+
+window.toggleTask = async function(id, currentDone) {
+  if (!currentUser) return;
+  const taskRef = doc(db, 'users', currentUser.uid, 'tasks', id);
+  const newDone = !currentDone;
+  await updateDoc(taskRef, { done: newDone });
+  if (newDone) {
+    await updateDoc(doc(db, 'users', currentUser.uid), { tasksCompleted: increment(1) });
+    showToast('✅ Tarefa concluída!');
+    loadStats();
   }
-}
+};
+
+window.deleteTask = async function(id) {
+  if (!currentUser) return;
+  const { deleteDoc } = await import("https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js");
+  await deleteDoc(doc(db, 'users', currentUser.uid, 'tasks', id));
+  showToast('🗑️ Tarefa removida');
+};
 
 // ═══ TIMER ═══
-let timerRunning = false;
-let timerInterval = null;
-let totalSeconds = 25 * 60;
-let currentSeconds = 25 * 60;
 const circumference = 2 * Math.PI * 90;
 
-function selectMode(el, time) {
+window.selectMode = function(el, time, mins) {
   document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
   resetTimer();
-  const parts = time.split(':');
-  totalSeconds = parseInt(parts[0]) * 60 + parseInt(parts[1]);
+  totalSeconds = mins * 60;
   currentSeconds = totalSeconds;
   updateTimerDisplay();
-}
+};
 
-function toggleTimer() {
+window.toggleTimer = async function() {
   if (timerRunning) {
     clearInterval(timerInterval);
     timerRunning = false;
@@ -1294,22 +844,29 @@ function toggleTimer() {
     timerRunning = true;
     document.getElementById('playBtn').textContent = '⏸';
     document.getElementById('timerLabel').textContent = 'restando';
-    timerInterval = setInterval(() => {
+    timerInterval = setInterval(async () => {
       currentSeconds--;
       if (currentSeconds <= 0) {
         clearInterval(timerInterval);
         timerRunning = false;
         document.getElementById('playBtn').textContent = '▶';
-        document.getElementById('timerLabel').textContent = 'concluído!';
+        document.getElementById('timerLabel').textContent = '✓ concluído!';
         document.getElementById('timerDisplay').textContent = '00:00';
         showToast('🎉 Sessão concluída! Parabéns!');
-        document.getElementById('timerProgress').style.strokeDashoffset = circumference;
+        // Save to Firestore
+        if (currentUser) {
+          await updateDoc(doc(db, 'users', currentUser.uid), {
+            totalSessions: increment(1),
+            sessionsToday: increment(1)
+          });
+          loadStats();
+        }
         return;
       }
       updateTimerDisplay();
     }, 1000);
   }
-}
+};
 
 function updateTimerDisplay() {
   const m = Math.floor(currentSeconds / 60).toString().padStart(2, '0');
@@ -1320,167 +877,113 @@ function updateTimerDisplay() {
   document.getElementById('timerProgress').style.strokeDashoffset = offset;
 }
 
-function resetTimer() {
+window.resetTimer = function() {
   clearInterval(timerInterval);
   timerRunning = false;
   currentSeconds = totalSeconds;
   document.getElementById('playBtn').textContent = '▶';
   document.getElementById('timerLabel').textContent = 'pronto';
   updateTimerDisplay();
-}
+};
 
-function skipTimer() {
-  resetTimer();
-  showToast('⏭ Sessão pulada');
-}
-
-function changeTask() {
-  const tasks = ['Gravar vídeo TikTok', 'Responder e-mails', 'Estudar Reset Codes', 'Sessão com cliente', 'Criar conteúdo'];
-  const current = document.getElementById('focoTask').textContent;
-  const next = tasks[(tasks.indexOf(current) + 1) % tasks.length];
-  document.getElementById('focoTask').textContent = next;
-}
-
-// ═══ CÓDIGOS ═══
-function iniciarCodigo(btn) {
-  btn.textContent = 'Iniciando...';
-  setTimeout(() => {
-    btn.textContent = '✓ Concluído';
-    btn.style.background = 'var(--green)';
-    showToast('🔮 Código iniciado! Respira fundo.');
-  }, 1000);
-}
+window.skipTimer = function() { resetTimer(); showToast('⏭ Sessão pulada'); };
+window.changeTask = function() { const t = prompt('Tarefa atual:'); if (t) document.getElementById('focoTaskText').textContent = t; };
 
 // ═══ DIÁRIO ═══
-function selectHumor(el) {
+window.selectHumor = function(el, humor) {
   document.querySelectorAll('.humor-item').forEach(i => i.classList.remove('active'));
   el.classList.add('active');
-}
+  currentHumor = humor;
+};
 
-function setEnergia(e, bar) {
+window.setEnergia = function(e, bar) {
   const rect = bar.getBoundingClientRect();
-  const pct = Math.min(Math.max((e.clientX - rect.left) / rect.width, 0), 1);
-  document.getElementById('energiaBar').style.width = (pct * 100) + '%';
-}
+  energiaValue = Math.round(Math.min(Math.max((e.clientX - rect.left) / rect.width, 0), 1) * 100);
+  document.getElementById('energiaFill').style.width = energiaValue + '%';
+};
 
-function addVitoria() {
+window.addVitoria = function() {
   const text = prompt('Qual foi sua vitória hoje?');
-  if (text && text.trim()) {
-    const list = document.getElementById('vitoriaList');
-    const div = document.createElement('div');
-    div.className = 'vitoria-item';
-    div.innerHTML = `<span class="vitoria-star">⭐</span><span class="vitoria-text">${text}</span>`;
-    list.appendChild(div);
-  }
-}
+  if (!text?.trim()) return;
+  const list = document.getElementById('vitoriaList');
+  const div = document.createElement('div');
+  div.className = 'vitoria-item';
+  div.innerHTML = `<span class="vitoria-star">⭐</span><span class="vitoria-text">${text}</span><button class="vitoria-del" onclick="this.closest('.vitoria-item').remove()">×</button>`;
+  list.appendChild(div);
+};
 
-function salvarDiario() {
+window.salvarDiario = async function() {
+  if (!currentUser) return;
+  const vitorias = [...document.querySelectorAll('.vitoria-text')].map(v => v.textContent);
+  const nota = document.getElementById('diarioNota').value;
+  const today = new Date().toISOString().split('T')[0];
+  await setDoc(doc(db, 'users', currentUser.uid, 'diarios', today), {
+    humor: currentHumor, energia: energiaValue, nota, vitorias,
+    savedAt: serverTimestamp()
+  });
+  await updateDoc(doc(db, 'users', currentUser.uid), { diariesCount: increment(1) });
   showToast('📔 Diário salvo com sucesso!');
-}
+  loadStats();
+};
 
 // ═══ COMUNIDADE ═══
-function selectComTab(el) {
+window.selectComTab = function(el) {
   document.querySelectorAll('.com-tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
-}
+};
 
-function react(btn) {
-  const parts = btn.textContent.split(' ');
-  const emoji = parts[0];
-  const count = parseInt(parts[1]) + 1;
-  btn.textContent = emoji + ' ' + count;
-  btn.style.color = 'var(--green)';
-}
-
-// ═══ COMUNIDADE POST ═══
-function postComunidade(tag) {
+window.postComunidade = async function(tag) {
   const text = document.getElementById('postText').value.trim();
   if (!text) { showToast('✍️ Escreva algo primeiro!'); return; }
-  const list = document.querySelector('.post-list');
-  const colors = {'🏆 Vitória':'var(--green)','💬 Desabafo':'var(--purple)','💡 Dica':'var(--orange)'};
-  const bgColors = {'🏆 Vitória':'var(--green-bg)','💬 Desabafo':'var(--purple-bg)','💡 Dica':'var(--orange-bg)'};
-  const div = document.createElement('div');
-  div.className = 'post-card';
-  div.innerHTML = `
-    <div class="post-header">
-      <div class="post-avatar" style="background:${colors[tag]}">${(userName||'V')[0].toUpperCase()}</div>
-      <div><div class="post-name">${userName||'Você'}</div><div class="post-time">agora</div></div>
-      <div class="post-tag" style="background:${bgColors[tag]};color:${colors[tag]}">${tag}</div>
-    </div>
-    <div class="post-text">${text}</div>
-    <div class="post-reactions">
-      <button class="reaction" onclick="react(this)">❤️ 0</button>
-      <button class="reaction">💬 0</button>
-    </div>`;
-  list.insertBefore(div, list.firstChild);
+  if (!currentUser) { showToast('❌ Faça login primeiro'); return; }
+  await addDoc(collection(db, 'posts'), {
+    text, tag, likes: 0, comments: 0,
+    userId: currentUser.uid,
+    userName: currentUser.displayName?.split(' ')[0] || 'Anônimo',
+    createdAt: serverTimestamp()
+  });
   document.getElementById('postText').value = '';
   showToast('💚 Publicado na comunidade!');
-}
+};
+
+window.reactPost = async function(id, emoji) {
+  await updateDoc(doc(db, 'posts', id), { likes: increment(1) });
+};
 
 // ═══ CRISE ═══
-function openCrise() {
+window.openCrise = function() {
   document.getElementById('criseModal').classList.add('active');
   const circle = document.getElementById('breathCircle');
-  let phase = 0;
   const phases = ['Inspire...', 'Segure...', 'Expire...', 'Segure...'];
-  setInterval(() => {
-    circle.textContent = phases[phase % 4];
-    phase++;
-  }, 4000);
-}
+  let phase = 0;
+  circle._interval = setInterval(() => { circle.textContent = phases[phase++ % 4]; }, 4000);
+};
 
-function closeCrise(e) {
+window.closeCrise = function(e) {
   if (!e || e.target === document.getElementById('criseModal')) {
     document.getElementById('criseModal').classList.remove('active');
+    clearInterval(document.getElementById('breathCircle')._interval);
   }
-}
+};
+
+// ═══ SHARE ═══
+window.shareApp = function() {
+  const url = 'https://focohapp.github.io/focoh';
+  const text = '🧠 Encontrei o Focoh — app para mentes que funcionam diferente! TDAH, ansiedade, burnout... Entra comigo!';
+  if (navigator.share) { navigator.share({ title: 'Focoh', text, url }); }
+  else { navigator.clipboard.writeText(url).then(() => showToast('🔗 Link copiado!')); }
+};
 
 // ═══ TOAST ═══
-function showToast(msg) {
+window.showToast = function(msg) {
   const toast = document.getElementById('toast');
   toast.textContent = msg;
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 2500);
-}
+};
 
-// ═══ SHARE ═══
-function shareApp() {
-  const url = window.location.href;
-  const text = '🧠 Encontrei o Focoh — um app para mentes que funcionam diferente! TDAH, ansiedade, burnout... Precisa de 500 pessoas para ir para a App Store. Entra comigo!';
-  if (navigator.share) {
-    navigator.share({ title: 'Focoh', text: text, url: url });
-  } else {
-    navigator.clipboard.writeText(url).then(() => showToast('🔗 Link copiado!'));
-  }
-}
+function showToast(msg) { window.showToast(msg); }
 
-// ═══ PWA INSTALL ═══
-let deferredPrompt = null;
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  document.getElementById('installBanner').style.display = 'flex';
-});
-
-function installApp() {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(() => {
-      deferredPrompt = null;
-      document.getElementById('installBanner').style.display = 'none';
-    });
-  }
-}
-
-// Init timer display
-updateTimerDisplay();
-
-// Counter animation on load
-setInterval(() => {
-  if (Math.random() > 0.8) {
-    counter++;
-  }
-}, 15000);
 </script>
 
 
