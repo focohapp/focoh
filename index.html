@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0052)file:///C:/Users/Vinicius/Downloads/focoh-pwa_1.html -->
+<!-- saved from url=(0052)file:///C:/Users/Vinicius/Downloads/focoh-pwa_2.html -->
 <html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -75,9 +75,12 @@ html, body {
   background: var(--white);
   border-top: 1px solid var(--bege-mid);
   display: flex;
-  padding: 8px 0 env(safe-area-inset-bottom, 16px);
+  padding: 10px 0 24px;
+  padding-bottom: max(24px, env(safe-area-inset-bottom, 24px));
   flex-shrink: 0;
   z-index: 100;
+  position: sticky;
+  bottom: 0;
 }
 
 .nav-btn {
@@ -86,12 +89,13 @@ html, body {
   flex-direction: column;
   align-items: center;
   gap: 3px;
-  padding: 6px 4px;
+  padding: 8px 4px;
   background: none;
   border: none;
   cursor: pointer;
   font-family: 'Nunito', sans-serif;
   transition: all 0.2s;
+  min-height: 56px;
 }
 
 .nav-icon { font-size: 22px; }
@@ -672,7 +676,7 @@ html, body {
     <div class="ob-title" style="font-size:24px">O que melhor<br>te descreve?</div>
     <div class="ob-sub" style="margin-bottom:20px">Escolha sua trilha. Pode mudar depois.</div>
     <div class="trilha-grid">
-      <div class="trilha-option selected" onclick="selectTrilha(this,&#39;TDAH&#39;)">
+      <div class="trilha-option" onclick="selectTrilha(this,&#39;TDAH&#39;)">
         <div class="trilha-emoji">⚡</div>
         <div>
           <div class="trilha-name">TDAH</div>
@@ -757,7 +761,7 @@ html, body {
       <div style="height:8px;background:rgba(255,255,255,0.1);border-radius:100px;overflow:hidden;margin-bottom:6px">
         <div style="height:100%;width:54.6%;background:linear-gradient(90deg,var(--green-light),white);border-radius:100px"></div>
       </div>
-      <div style="font-size:11px;color:rgba(255,255,255,0.5);text-align:center">Faltam 227 para o app ir para a App Store 🚀</div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.5);text-align:center">Você é pioneiro! Faltam <span id="faltam">227</span> para a App Store 🚀</div>
     </div>
 
     <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:14px 16px;width:100%;margin-bottom:20px;text-align:center">
@@ -826,29 +830,8 @@ html, body {
         <button class="section-link" onclick="addTask()">+ Adicionar</button>
       </div>
       <div class="task-list" id="taskList">
-        <div class="task-item done" onclick="toggleTask(this)">
-          <div class="task-color" style="background:var(--green)"></div>
-          <div class="task-check">✓</div>
-          <div class="task-text">Meditação matinal</div>
-          <div class="task-time">08:00</div>
-        </div>
-        <div class="task-item" onclick="toggleTask(this)">
-          <div class="task-color" style="background:var(--orange)"></div>
-          <div class="task-check"></div>
-          <div class="task-text">Gravar vídeo TikTok</div>
-          <div class="task-time">10:00</div>
-        </div>
-        <div class="task-item" onclick="toggleTask(this)">
-          <div class="task-color" style="background:var(--purple)"></div>
-          <div class="task-check"></div>
-          <div class="task-text">Sessão com cliente</div>
-          <div class="task-time">14:00</div>
-        </div>
-        <div class="task-item" onclick="toggleTask(this)">
-          <div class="task-color" style="background:var(--yellow)"></div>
-          <div class="task-check"></div>
-          <div class="task-text">Estudar Reset Codes</div>
-          <div class="task-time">16:00</div>
+        <div style="text-align:center;padding:20px;color:var(--ink-muted);font-size:13px" id="emptyTasks">
+          Nenhuma tarefa ainda.<br>Toque em <strong>+ Adicionar</strong> para começar 💚
         </div>
       </div>
     </div>
@@ -1116,7 +1099,19 @@ html, body {
       </div>
     </div>
 
-    <div style="height:80px"></div>
+    <!-- Add post form -->
+    <div style="padding:0 20px 20px">
+      <div style="background:white;border-radius:18px;padding:16px;border:1.5px solid var(--bege-mid)">
+        <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px">💬 Compartilhar com a comunidade</div>
+        <textarea id="postText" style="width:100%;background:var(--bege);border:1.5px solid var(--bege-mid);border-radius:12px;padding:12px;font-size:14px;color:var(--ink);font-family:&#39;Nunito&#39;,sans-serif;resize:none;outline:none;line-height:1.5" rows="3" placeholder="O que você quer compartilhar? Uma vitória, um desabafo, uma dica..."></textarea>
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+          <button onclick="postComunidade(&#39;🏆 Vitória&#39;)" style="background:var(--green-bg);color:var(--green);border:none;border-radius:100px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:&#39;Nunito&#39;,sans-serif">🏆 Vitória</button>
+          <button onclick="postComunidade(&#39;💬 Desabafo&#39;)" style="background:var(--purple-bg);color:var(--purple);border:none;border-radius:100px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:&#39;Nunito&#39;,sans-serif">💬 Desabafo</button>
+          <button onclick="postComunidade(&#39;💡 Dica&#39;)" style="background:var(--orange-bg);color:var(--orange);border:none;border-radius:100px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:&#39;Nunito&#39;,sans-serif">💡 Dica</button>
+        </div>
+      </div>
+    </div>
+    <div style="height:20px"></div>
   </div>
 
   <!-- BOTTOM NAV -->
@@ -1193,10 +1188,20 @@ function animCounter() {
   }, 20);
 }
 
+let selectedTrilhas = ['TDAH'];
+
 function selectTrilha(el, trilha) {
-  document.querySelectorAll('.trilha-option').forEach(o => o.classList.remove('selected'));
-  el.classList.add('selected');
-  selectedTrilha = trilha;
+  el.classList.toggle('selected');
+  if (el.classList.contains('selected')) {
+    if (!selectedTrilhas.includes(trilha)) selectedTrilhas.push(trilha);
+  } else {
+    selectedTrilhas = selectedTrilhas.filter(t => t !== trilha);
+    if (selectedTrilhas.length === 0) {
+      el.classList.add('selected');
+      selectedTrilhas = [trilha];
+    }
+  }
+  selectedTrilha = selectedTrilhas[0];
 }
 
 function skipOnboarding() {
@@ -1237,16 +1242,26 @@ function toggleTask(el) {
   if (el.classList.contains('done')) showToast('✅ Tarefa concluída!');
 }
 
+function deleteTask(el, e) {
+  e.stopPropagation();
+  el.closest('.task-item').remove();
+  const list = document.getElementById('taskList');
+  if (list.querySelectorAll('.task-item').length === 0) {
+    document.getElementById('emptyTasks').style.display = 'block';
+  }
+}
+
 function addTask() {
   const text = prompt('Nova tarefa:');
   if (text && text.trim()) {
     const list = document.getElementById('taskList');
+    const empty = document.getElementById('emptyTasks');
+    if (empty) empty.style.display = 'none';
     const colors = ['var(--green)', 'var(--orange)', 'var(--purple)', 'var(--pink)', 'var(--yellow)'];
     const color = colors[Math.floor(Math.random() * colors.length)];
     const div = document.createElement('div');
     div.className = 'task-item';
-    div.onclick = function() { toggleTask(this); };
-    div.innerHTML = `<div class="task-color" style="background:${color}"></div><div class="task-check"></div><div class="task-text">${text}</div><div class="task-time">Hoje</div>`;
+    div.innerHTML = `<div class="task-color" style="background:${color}"></div><div class="task-check" onclick="toggleTask(this.closest('.task-item'))"></div><div class="task-text" onclick="toggleTask(this.closest('.task-item'))">${text}</div><div class="task-time">Hoje</div><button onclick="deleteTask(this, event)" style="background:none;border:none;font-size:16px;cursor:pointer;color:var(--bege-dark);padding:4px;flex-shrink:0">×</button>`;
     list.appendChild(div);
     showToast('✅ Tarefa adicionada!');
   }
@@ -1375,6 +1390,31 @@ function react(btn) {
   const count = parseInt(parts[1]) + 1;
   btn.textContent = emoji + ' ' + count;
   btn.style.color = 'var(--green)';
+}
+
+// ═══ COMUNIDADE POST ═══
+function postComunidade(tag) {
+  const text = document.getElementById('postText').value.trim();
+  if (!text) { showToast('✍️ Escreva algo primeiro!'); return; }
+  const list = document.querySelector('.post-list');
+  const colors = {'🏆 Vitória':'var(--green)','💬 Desabafo':'var(--purple)','💡 Dica':'var(--orange)'};
+  const bgColors = {'🏆 Vitória':'var(--green-bg)','💬 Desabafo':'var(--purple-bg)','💡 Dica':'var(--orange-bg)'};
+  const div = document.createElement('div');
+  div.className = 'post-card';
+  div.innerHTML = `
+    <div class="post-header">
+      <div class="post-avatar" style="background:${colors[tag]}">${(userName||'V')[0].toUpperCase()}</div>
+      <div><div class="post-name">${userName||'Você'}</div><div class="post-time">agora</div></div>
+      <div class="post-tag" style="background:${bgColors[tag]};color:${colors[tag]}">${tag}</div>
+    </div>
+    <div class="post-text">${text}</div>
+    <div class="post-reactions">
+      <button class="reaction" onclick="react(this)">❤️ 0</button>
+      <button class="reaction">💬 0</button>
+    </div>`;
+  list.insertBefore(div, list.firstChild);
+  document.getElementById('postText').value = '';
+  showToast('💚 Publicado na comunidade!');
 }
 
 // ═══ CRISE ═══
