@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0048)file:///C:/Users/Vinicius/Downloads/index_3.html -->
+<!-- saved from url=(0048)file:///C:/Users/Vinicius/Downloads/index_4.html -->
 <html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -330,6 +330,15 @@ html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--
     </div>
 
     <div class="home-section">
+      <div class="section-row"><div class="section-title">Rotina equilibrada</div><button class="section-link" onclick="addRotinaItem()">+ Adicionar</button></div>
+      <div class="task-list" id="rotinaList">
+        <div style="text-align:center;padding:20px;color:var(--ink-muted);font-size:13px;background:white;border-radius:14px" id="emptyRotina">
+          Nenhum item ainda.<br>Toque em <strong style="color:var(--green)">+ Adicionar</strong> para montar sua rotina 🌱
+        </div>
+      </div>
+    </div>
+
+    <div class="home-section">
       <div class="section-row"><div class="section-title">Suas conquistas</div></div>
       <div class="wins-grid" style="margin-bottom:24px">
         <div class="win-card"><div class="win-emoji">🔥</div><div class="win-value" id="winDias">0</div><div class="win-label">dias no app</div></div>
@@ -433,7 +442,11 @@ html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--
       </div>
       <div>
         <div class="d-section-title">Como foi seu dia? ✍️</div>
-        <textarea class="d-textarea" id="diarioNota" rows="4" placeholder="Escreva livremente... sem julgamentos."></textarea>
+        <div style="position:relative">
+          <textarea class="d-textarea" id="diarioNota" rows="4" placeholder="Escreva livremente... sem julgamentos." style="padding-right:52px"></textarea>
+          <button id="micBtn" onclick="toggleVoiceInput()" style="position:absolute;bottom:10px;right:10px;width:36px;height:36px;border-radius:50%;background:var(--green);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;box-shadow:0 4px 10px rgba(74,140,92,0.3)">🎤</button>
+        </div>
+        <div id="micStatus" style="font-size:11px;color:var(--ink-muted);margin-top:6px;display:none">🔴 Ouvindo... toque no microfone para parar</div>
       </div>
       <div>
         <div class="d-section-title">Suas vitórias de hoje 🏆</div>
@@ -535,6 +548,16 @@ let sessionsToday = 0;
 let tasksCompleted = 0;
 let diariesCount = 0;
 
+let redirectChecked = false;
+let authStateReceived = false;
+
+function maybeShowLogin() {
+  if (redirectChecked && authStateReceived && !currentUser) {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('onboarding').style.display = 'flex';
+  }
+}
+
 getRedirectResult(auth).then((result) => {
   if (result && result.user) {
     currentUser = result.user;
@@ -542,15 +565,18 @@ getRedirectResult(auth).then((result) => {
 }).catch((e) => {
   console.error('Erro no redirect de login:', e);
   showToast('❌ Erro ao entrar. Tente novamente.');
+}).finally(() => {
+  redirectChecked = true;
+  maybeShowLogin();
 });
 
 onAuthStateChanged(auth, async (user) => {
+  authStateReceived = true;
   if (user) {
     currentUser = user;
     await loadUserData();
-  } else {
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('onboarding').style.display = 'flex';
+  } else if (!currentUser) {
+    maybeShowLogin();
   }
 });
 
@@ -624,8 +650,65 @@ function showApp() {
   loadStats();
   loadPosts();
   loadTasks();
+  loadRotina();
   updateTimerDisplay();
 }
+
+async function loadRotina() {
+  if (!currentUser) return;
+  const rotinaRef = collection(db, 'users', currentUser.uid, 'rotina');
+  const q = query(rotinaRef, orderBy('createdAt', 'asc'));
+  onSnapshot(q, (snap) => {
+    const list = document.getElementById('rotinaList');
+    const empty = document.getElementById('emptyRotina');
+    if (snap.empty) {
+      empty.style.display = 'block';
+      list.innerHTML = '';
+      list.appendChild(empty);
+      return;
+    }
+    empty.style.display = 'none';
+    list.innerHTML = '';
+    const today = new Date().toISOString().split('T')[0];
+    snap.forEach(d => {
+      const item = d.data();
+      const done = item.doneDate === today;
+      const div = document.createElement('div');
+      div.className = 'task-item' + (done ? ' done' : '');
+      div.innerHTML = `
+        <div class="task-color" style="background:${item.color||'#4A8C5C'}"></div>
+        <div class="task-check" onclick="toggleRotinaItem('${d.id}', ${done})">${done ? '✓' : ''}</div>
+        <div class="task-text" onclick="toggleRotinaItem('${d.id}', ${done})">${item.text}</div>
+        <button class="task-del" onclick="deleteRotinaItem('${d.id}')">×</button>`;
+      list.appendChild(div);
+    });
+  });
+}
+
+window.addRotinaItem = async function() {
+  const text = prompt('Novo item da rotina (ex: Beber água ao acordar, Pausa de 10min a cada foco, Rotina de sono às 22h):');
+  if (!text?.trim() || !currentUser) return;
+  const colors = ['#4A8C5C','#E8854A','#7A6AB4','#C45A8A','#D4A820'];
+  const color = colors[Math.floor(Math.random() * colors.length)];
+  await addDoc(collection(db, 'users', currentUser.uid, 'rotina'), {
+    text: text.trim(), color, doneDate: null, createdAt: serverTimestamp()
+  });
+  showToast('🌱 Item de rotina adicionado!');
+};
+
+window.toggleRotinaItem = async function(id, currentlyDone) {
+  if (!currentUser) return;
+  const today = new Date().toISOString().split('T')[0];
+  const itemRef = doc(db, 'users', currentUser.uid, 'rotina', id);
+  await updateDoc(itemRef, { doneDate: currentlyDone ? null : today });
+  if (!currentlyDone) showToast('🌱 Rotina cumprida hoje! Isso ajuda seu equilíbrio emocional.');
+};
+
+window.deleteRotinaItem = async function(id) {
+  if (!currentUser) return;
+  await deleteDoc(doc(db, 'users', currentUser.uid, 'rotina', id));
+  showToast('🗑️ Item removido');
+};
 
 async function loadStats() {
   if (!currentUser) return;
@@ -866,6 +949,80 @@ window.resetTimer = function() {
 
 window.skipTimer = function() { resetTimer(); showToast('⏭ Sessão pulada'); };
 window.changeTask = function() { const t = prompt('Tarefa atual:'); if (t) document.getElementById('focoTaskText').textContent = t; };
+
+// ═══ DIÁRIO DE VOZ ═══
+let recognition = null;
+let isRecording = false;
+
+function getSpeechRecognition() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  return SR ? new SR() : null;
+}
+
+window.toggleVoiceInput = function() {
+  const micBtn = document.getElementById('micBtn');
+  const micStatus = document.getElementById('micStatus');
+  const textarea = document.getElementById('diarioNota');
+
+  if (isRecording) {
+    if (recognition) recognition.stop();
+    isRecording = false;
+    micBtn.style.background = 'var(--green)';
+    micStatus.style.display = 'none';
+    return;
+  }
+
+  if (!recognition) recognition = getSpeechRecognition();
+
+  if (!recognition) {
+    showToast('🎤 Seu navegador não suporta ditado por voz. Tente pelo Chrome.');
+    return;
+  }
+
+  recognition.lang = 'pt-BR';
+  recognition.continuous = true;
+  recognition.interimResults = false;
+
+  recognition.onresult = function(event) {
+    let novoTexto = '';
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      if (event.results[i].isFinal) {
+        novoTexto += event.results[i][0].transcript + ' ';
+      }
+    }
+    if (novoTexto.trim()) {
+      const atual = textarea.value.trim();
+      textarea.value = atual ? atual + ' ' + novoTexto.trim() : novoTexto.trim();
+    }
+  };
+
+  recognition.onerror = function(event) {
+    console.error('Erro no reconhecimento de voz:', event.error);
+    if (event.error === 'not-allowed' || event.error === 'permission-denied') {
+      showToast('🎤 Permita o acesso ao microfone nas configurações.');
+    } else if (event.error !== 'no-speech') {
+      showToast('🎤 Não consegui entender. Tente novamente.');
+    }
+    isRecording = false;
+    micBtn.style.background = 'var(--green)';
+    micStatus.style.display = 'none';
+  };
+
+  recognition.onend = function() {
+    isRecording = false;
+    micBtn.style.background = 'var(--green)';
+    micStatus.style.display = 'none';
+  };
+
+  try {
+    recognition.start();
+    isRecording = true;
+    micBtn.style.background = 'var(--red)';
+    micStatus.style.display = 'block';
+  } catch(e) {
+    showToast('🎤 Erro ao iniciar o microfone.');
+  }
+};
 
 window.selectHumor = function(el, humor) {
   document.querySelectorAll('.humor-item').forEach(i => i.classList.remove('active'));
