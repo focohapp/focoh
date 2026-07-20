@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0048)file:///C:/Users/Vinicius/Downloads/index_4.html -->
+<!-- saved from url=(0048)file:///C:/Users/Vinicius/Downloads/index_5.html -->
 <html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -247,8 +247,35 @@ html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--
     </div>
     <div class="ob-title">focoh</div>
     <div class="ob-sub">Para mentes que<br>funcionam diferente.</div>
-    <button class="ob-btn" id="loginBtn" onclick="loginGoogle()">🔐 Entrar com Google</button>
-    <p style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:8px">Seus dados ficam salvos e seguros</p>
+    <input type="email" id="emailInput" class="ob-input" placeholder="seu@email.com" autocomplete="email" inputmode="email">
+    <button class="ob-btn" id="loginBtn" onclick="loginEmail()">✉️ Entrar com e-mail</button>
+    <p style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:8px">Vamos te enviar um link mágico, sem senha</p>
+  </div>
+
+  <div class="ob-step" id="obEmailSent">
+    <div style="font-size:52px;margin-bottom:16px">📩</div>
+    <div class="ob-title" style="font-size:24px">Verifique seu e-mail</div>
+    <div class="ob-sub">Mandamos um link de acesso para<br><strong id="emailSentTo" style="color:white"></strong><br><br>Toque no link para entrar — pode fechar essa aba.</div>
+    <button class="ob-btn-ghost" onclick="showStep(&#39;ob1&#39;)">← Usar outro e-mail</button>
+  </div>
+
+  <div class="ob-step" id="obProfile">
+    <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.6);font-weight:700;margin-bottom:14px">Quase lá</div>
+    <div class="ob-title" style="font-size:22px">Vamos nos<br>conhecer melhor</div>
+    <div style="width:88px;height:88px;border-radius:50%;background:rgba(255,255,255,0.12);border:2px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;font-size:38px;margin-bottom:14px;overflow:hidden;position:relative" id="avatarPreview">🙂</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:16px;max-width:280px">
+      <span class="trilha-emoji" style="cursor:pointer;font-size:26px" onclick="selectEmojiAvatar(&#39;🙂&#39;)">🙂</span>
+      <span class="trilha-emoji" style="cursor:pointer;font-size:26px" onclick="selectEmojiAvatar(&#39;😊&#39;)">😊</span>
+      <span class="trilha-emoji" style="cursor:pointer;font-size:26px" onclick="selectEmojiAvatar(&#39;🌟&#39;)">🌟</span>
+      <span class="trilha-emoji" style="cursor:pointer;font-size:26px" onclick="selectEmojiAvatar(&#39;⚡&#39;)">⚡</span>
+      <span class="trilha-emoji" style="cursor:pointer;font-size:26px" onclick="selectEmojiAvatar(&#39;🌊&#39;)">🌊</span>
+      <span class="trilha-emoji" style="cursor:pointer;font-size:26px" onclick="selectEmojiAvatar(&#39;🔥&#39;)">🔥</span>
+      <span class="trilha-emoji" style="cursor:pointer;font-size:26px" onclick="selectEmojiAvatar(&#39;🌈&#39;)">🌈</span>
+      <span class="trilha-emoji" style="cursor:pointer;font-size:26px" onclick="selectEmojiAvatar(&#39;💚&#39;)">💚</span>
+    </div>
+    <input type="text" id="nameInput" class="ob-input" placeholder="Seu nome">
+    <input type="date" id="birthdateInput" class="ob-input" placeholder="Data de nascimento">
+    <button class="ob-btn" onclick="saveProfile()">Continuar →</button>
   </div>
 
   <div class="ob-step" id="ob2">
@@ -517,7 +544,7 @@ html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 import { getFirestore, doc, setDoc, getDoc, addDoc, collection, onSnapshot, query, orderBy, serverTimestamp, updateDoc, increment, deleteDoc } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
-import { getAuth, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+import { getAuth, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCn7b466tI-mFor-4mNTjE-b0ELE05qH-s",
@@ -531,9 +558,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
-
-const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
 
 let currentUser = null;
 let userData = null;
@@ -548,60 +572,92 @@ let sessionsToday = 0;
 let tasksCompleted = 0;
 let diariesCount = 0;
 
-let redirectChecked = false;
-let authStateReceived = false;
+let profileName = '';
+let profileAvatarEmoji = '🙂';
+let profileBirthdate = '';
 
-function maybeShowLogin() {
-  if (redirectChecked && authStateReceived && !currentUser) {
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('onboarding').style.display = 'flex';
+function showStep(id) {
+  document.querySelectorAll('.ob-step').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+window.showStep = showStep;
+
+function calcAge(birthdateStr) {
+  if (!birthdateStr) return null;
+  const today = new Date();
+  const bd = new Date(birthdateStr);
+  let age = today.getFullYear() - bd.getFullYear();
+  const m = today.getMonth() - bd.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < bd.getDate())) age--;
+  return age;
+}
+
+// ═══ LOGIN POR LINK DE E-MAIL ═══
+
+async function handleEmailLinkIfPresent() {
+  if (isSignInWithEmailLink(auth, window.location.href)) {
+    let email = window.localStorage.getItem('emailForSignIn');
+    if (!email) {
+      email = window.prompt('Confirme seu e-mail para concluir o login:');
+    }
+    if (email) {
+      try {
+        await signInWithEmailLink(auth, email, window.location.href);
+        window.localStorage.removeItem('emailForSignIn');
+        window.history.replaceState({}, document.title, window.location.pathname);
+      } catch(e) {
+        console.error('Erro ao concluir login por e-mail:', e);
+        if (window.showToast) window.showToast('❌ Link inválido ou expirado. Tente entrar de novo.');
+      }
+    }
   }
 }
 
-getRedirectResult(auth).then((result) => {
-  if (result && result.user) {
-    currentUser = result.user;
+window.loginEmail = async function() {
+  const emailInput = document.getElementById('emailInput');
+  const email = emailInput.value.trim();
+  if (!email || !email.includes('@')) {
+    showToast('✉️ Digite um e-mail válido.');
+    return;
   }
-}).catch((e) => {
-  console.error('Erro no redirect de login:', e);
-  showToast('❌ Erro ao entrar. Tente novamente.');
-}).finally(() => {
-  redirectChecked = true;
-  maybeShowLogin();
-});
-
-onAuthStateChanged(auth, async (user) => {
-  authStateReceived = true;
-  if (user) {
-    currentUser = user;
-    await loadUserData();
-  } else if (!currentUser) {
-    maybeShowLogin();
-  }
-});
-
-window.loginGoogle = async function() {
   const btn = document.getElementById('loginBtn');
-  if (btn) { btn.textContent = 'Entrando...'; btn.disabled = true; }
+  if (btn) { btn.textContent = 'Enviando...'; btn.disabled = true; }
   try {
-    if (isMobile) {
-      await signInWithRedirect(auth, provider);
-    } else {
-      const result = await signInWithPopup(auth, provider);
-      currentUser = result.user;
-      await loadUserData();
-    }
+    const actionCodeSettings = {
+      url: window.location.origin + window.location.pathname,
+      handleCodeInApp: true
+    };
+    await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+    window.localStorage.setItem('emailForSignIn', email);
+    document.getElementById('emailSentTo').textContent = email;
+    showStep('obEmailSent');
   } catch(e) {
     console.error(e);
-    showToast('❌ Erro ao entrar. Tente novamente.');
-    if (btn) { btn.textContent = '🔐 Entrar com Google'; btn.disabled = false; }
+    showToast('❌ Erro ao enviar o link. Tente novamente.');
+  } finally {
+    if (btn) { btn.textContent = '✉️ Entrar com e-mail'; btn.disabled = false; }
   }
 };
 
-async function loadUserData() {
+// ═══ PERFIL (avatar, nome, nascimento) ═══
+
+window.selectEmojiAvatar = function(emoji) {
+  profileAvatarEmoji = emoji;
+  document.getElementById('avatarPreview').innerHTML = emoji;
+};
+
+window.saveProfile = function() {
+  const name = document.getElementById('nameInput').value.trim();
+  if (!name) { showToast('Digite seu nome para continuar'); return; }
+  profileName = name;
+  profileBirthdate = document.getElementById('birthdateInput').value || '';
+  showStep('ob2');
+};
+
+async function handleAuthenticatedUser() {
   const userRef = doc(db, 'users', currentUser.uid);
   const snap = await getDoc(userRef);
-  
+
   if (snap.exists()) {
     userData = snap.data();
     await updateDoc(userRef, { lastSeen: serverTimestamp() });
@@ -609,11 +665,33 @@ async function loadUserData() {
   } else {
     document.getElementById('loading').style.display = 'none';
     document.getElementById('onboarding').style.display = 'flex';
-    document.querySelectorAll('.ob-step').forEach(s => s.classList.remove('active'));
-    document.getElementById('ob2').classList.add('active');
+    showStep('obProfile');
     await updateCounter();
   }
 }
+
+await handleEmailLinkIfPresent();
+
+let redirectChecked = true;
+let authStateReceived = false;
+
+function maybeShowLogin() {
+  if (authStateReceived && !currentUser) {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('onboarding').style.display = 'flex';
+    showStep('ob1');
+  }
+}
+
+onAuthStateChanged(auth, async (user) => {
+  authStateReceived = true;
+  if (user) {
+    currentUser = user;
+    await handleAuthenticatedUser();
+  } else if (!currentUser) {
+    maybeShowLogin();
+  }
+});
 
 async function updateCounter() {
   const counterRef = doc(db, 'meta', 'counter');
@@ -638,7 +716,7 @@ function showApp() {
   document.getElementById('onboarding').style.display = 'none';
   document.getElementById('app').style.display = 'flex';
   
-  const name = currentUser.displayName?.split(' ')[0] || 'amigo';
+  const name = userData?.name?.split(' ')[0] || 'amigo';
   const hour = new Date().getHours();
   const greeting = hour < 12 ? 'Bom dia' : hour < 18 ? 'Boa tarde' : 'Boa noite';
   document.getElementById('homeGreeting').textContent = `${greeting}, ${name} 👋`;
@@ -820,7 +898,7 @@ window.nextOb = async function(step) {
     if (selectedTrilhas.length === 0) { showToast('Escolha pelo menos uma trilha!'); return; }
     document.querySelectorAll('.ob-step').forEach(s => s.classList.remove('active'));
     document.getElementById('ob3').classList.add('active');
-    const name = currentUser?.displayName?.split(' ')[0] || 'amigo';
+    const name = profileName?.split(' ')[0] || 'amigo';
     document.getElementById('nomeDisplay').textContent = name;
     const count = await loadCounter();
     document.getElementById('obCounter').textContent = count;
@@ -832,10 +910,14 @@ window.nextOb = async function(step) {
 
 window.finishOnboarding = async function() {
   if (!currentUser) return;
-  await setDoc(doc(db, 'users', currentUser.uid), {
-    name: currentUser.displayName,
+  const age = calcAge(profileBirthdate);
+  const newUserData = {
+    name: profileName,
     email: currentUser.email,
-    photo: currentUser.photoURL,
+    avatarEmoji: profileAvatarEmoji,
+    photo: null,
+    birthdate: profileBirthdate || null,
+    age: age,
     trilhas: selectedTrilhas,
     joinedAt: serverTimestamp(),
     lastSeen: serverTimestamp(),
@@ -843,7 +925,9 @@ window.finishOnboarding = async function() {
     sessionsToday: 0,
     tasksCompleted: 0,
     diariesCount: 0
-  });
+  };
+  await setDoc(doc(db, 'users', currentUser.uid), newUserData);
+  userData = newUserData;
   showApp();
 };
 
@@ -1072,7 +1156,7 @@ window.postComunidade = async function(tag) {
   await addDoc(collection(db, 'posts'), {
     text, tag, likes: 0, comments: 0,
     userId: currentUser.uid,
-    userName: currentUser.displayName?.split(' ')[0] || 'Anônimo',
+    userName: userData?.name?.split(' ')[0] || 'Anônimo',
     createdAt: serverTimestamp()
   });
   document.getElementById('postText').value = '';
