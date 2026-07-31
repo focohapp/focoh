@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Focoh — A história por trás do app para mentes que funcionam diferente</title>
+<meta name="description" content="Conheça o Focoh: o app criado por um terapeuta com TDAH que não encontrou nenhuma ferramenta feita pra mentes como a dele — e decidiu construir uma.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --green: #4A8C5C; --green-mid: #6AAF80; --green-light: #A8D4B4;
+  --green-bg: #EEF7F1; --green-deep: #1A4A28; --bege: #F5EFE4;
+  --bege-mid: #E8DDD0; --mist: #FAFDF8; --ink: #1A2E22;
+  --ink-soft: #3D5446; --ink-muted: #7A9485;
+  --purple: #7A6AB4; --purple-bg: #F0EEF9; --orange: #E8854A;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Nunito', sans-serif; background: var(--mist); color: var(--ink); line-height: 1.7; }
+
+.wrap { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+
+/* ═══ HERO ═══ */
+.hero { background: linear-gradient(165deg, var(--green-deep) 0%, #143d20 100%); color: white; padding: 72px 0 88px; text-align: center; }
+.hero-logo { margin-bottom: 18px; }
+.wave-path { stroke-dasharray: 260; stroke-dashoffset: 260; animation: draw 2.2s ease-out forwards; }
+.wave-dot { opacity: 0; animation: appear 0.6s ease-out 2s forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes appear { to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .wave-path { animation: none; stroke-dashoffset: 0; }
+  .wave-dot { animation: none; opacity: 1; }
+}
+.hero h1 { font-size: 56px; font-weight: 900; letter-spacing: -1.5px; line-height: 1; margin-bottom: 10px; }
+.hero .tag { font-size: 17px; color: rgba(255,255,255,0.75); margin-bottom: 8px; }
+.hero .sub { font-size: 14px; color: rgba(255,255,255,0.55); max-width: 440px; margin: 0 auto 36px; }
+.btn-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn { display: inline-block; border-radius: 100px; padding: 15px 32px; font-size: 15px; font-weight: 800; text-decoration: none; font-family: 'Nunito', sans-serif; transition: transform 0.15s ease; }
+.btn:hover { transform: translateY(-2px); }
+.btn:focus-visible { outline: 3px solid var(--green-light); outline-offset: 3px; }
+.btn-solid { background: white; color: var(--green-deep); }
+.btn-ghost { background: transparent; color: white; border: 2px solid rgba(255,255,255,0.35); }
+
+/* ═══ SECTIONS ═══ */
+section { padding: 64px 0; }
+.eyebrow { font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; font-weight: 800; color: var(--green); margin-bottom: 12px; }
+h2 { font-size: 30px; font-weight: 900; letter-spacing: -0.5px; line-height: 1.25; margin-bottom: 20px; color: var(--ink); }
+p + p { margin-top: 16px; }
+.muted { color: var(--ink-soft); }
+
+/* Divisor de onda entre seções */
+.wave-divider { display: block; margin: 0 auto; padding: 8px 0; }
+
+/* ═══ HISTÓRIA ═══ */
+.story { background: var(--mist); }
+.founder-photo { display: block; width: 100%; max-width: 340px; aspect-ratio: 4 / 5; border-radius: 24px; object-fit: cover; object-position: 50% 20%; border: 4px solid var(--green-light); margin: 0 0 28px; box-shadow: 0 12px 32px rgba(26,74,40,0.18); }
+.story-quote { border-left: 4px solid var(--green-light); padding: 4px 0 4px 20px; margin: 28px 0; font-size: 19px; font-weight: 700; color: var(--green-deep); line-height: 1.5; }
+
+/* ═══ TELAS ═══ */
+.telas { background: var(--green-bg); }
+.tela-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 28px; }
+@media (max-width: 560px) { .tela-grid { grid-template-columns: 1fr; } }
+.tela-card { background: white; border-radius: 18px; padding: 22px; border: 1.5px solid var(--bege-mid); }
+.tela-emoji { font-size: 30px; margin-bottom: 8px; display: block; }
+.tela-name { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+.tela-desc { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.tela-soon { display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--purple); background: var(--purple-bg); border-radius: 100px; padding: 3px 10px; margin-top: 8px; }
+
+/* ═══ TRILHAS ═══ */
+.trilha-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.chip { background: white; border: 1.5px solid var(--bege-mid); border-radius: 100px; padding: 9px 18px; font-size: 14px; font-weight: 700; color: var(--ink-soft); }
+
+/* ═══ ORÇAMENTO ═══ */
+.budget { background: var(--mist); }
+.budget-list { margin-top: 28px; display: flex; flex-direction: column; gap: 12px; }
+.budget-item { background: white; border: 1.5px solid var(--bege-mid); border-radius: 16px; padding: 18px 20px; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.budget-what { font-size: 15px; font-weight: 700; }
+.budget-detail { font-size: 12.5px; color: var(--ink-muted); font-weight: 400; display: block; margin-top: 2px; }
+.budget-val { font-size: 16px; font-weight: 900; color: var(--green); white-space: nowrap; }
+.budget-total { background: var(--green-deep); color: white; border: none; }
+.budget-total .budget-what { color: white; }
+.budget-total .budget-val { color: var(--green-light); font-size: 19px; }
+.budget-note { font-size: 12.5px; color: var(--ink-muted); margin-top: 14px; }
+
+/* ═══ CONTRAPARTIDAS ═══ */
+.thanks { background: var(--green-bg); }
+.thanks-list { margin-top: 24px; display: flex; flex-direction: column; gap: 12px; }
+.thanks-item { background: white; border-radius: 16px; padding: 18px 20px; border: 1.5px solid var(--bege-mid); display: flex; gap: 14px; align-items: flex-start; }
+.thanks-emoji { font-size: 24px; flex-shrink: 0; }
+.thanks-title { font-weight: 800; font-size: 15px; margin-bottom: 2px; }
+.thanks-desc { font-size: 13.5px; color: var(--ink-soft); }
+
+/* ═══ CTA FINAL ═══ */
+.cta-final { background: linear-gradient(165deg, var(--green-deep) 0%, #143d20 100%); color: white; text-align: center; padding: 72px 0; }
+.cta-final h2 { color: white; }
+.cta-final p { color: rgba(255,255,255,0.7); max-width: 480px; margin: 0 auto 32px; }
+
+/* ═══ FOOTER ═══ */
+footer { background: var(--green-deep); color: rgba(255,255,255,0.55); text-align: center; padding: 28px 24px 40px; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.1); }
+footer a { color: var(--green-light); text-decoration: none; font-weight: 700; }
+.disclaimer { font-size: 11.5px; margin-top: 10px; color: rgba(255,255,255,0.4); }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="wrap">
+    <div class="hero-logo">
+      <svg width="96" height="64" viewBox="0 0 80 56" fill="none" aria-hidden="true">
+        <path class="wave-path" d="M4 28 C10 10, 20 46, 30 28 C40 10, 50 46, 60 28 C64 20, 67 26, 68 28" stroke="white" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.9"></path>
+        <circle class="wave-dot" cx="75" cy="28" r="5" fill="white"></circle>
+      </svg>
+    </div>
+    <h1>focoh</h1>
+    <p class="tag">Para mentes que funcionam diferente.</p>
+    <p class="sub">Um app de foco, rotina e bem-estar emocional feito por quem vive com TDAH — para quem vive com TDAH, ansiedade, burnout e muito mais.</p>
+    <div class="btn-row">
+      <a class="btn btn-solid" href="LINK_DA_VAKINHA">💚 Apoiar o projeto</a>
+      <a class="btn btn-ghost" href="https://focohapp.github.io/focoh" target="_blank" rel="noopener">Testar o app agora</a>
+    </div>
+  </div>
+</div>
+
+<!-- HISTÓRIA -->
+<section class="story">
+  <div class="wrap">
+    <div class="eyebrow">A história</div>
+    <img class="founder-photo" src="vinicius.jpg" alt="Foto de Vinicius Paradi, criador do Focoh">
+    <h2>Eu procurei um app que me ajudasse.<br>Não encontrei. Então construí.</h2>
+    <p class="muted">Meu nome é Vinicius Paradi. Sou terapeuta há anos — ajudo pessoas a destravar bloqueios, ansiedade e autossabotagem. Mas tinha uma coisa que eu não conseguia explicar: por que <em>eu mesmo</em> vivia travado. A mente acelerada, os mil começos sem fim, o cansaço que ninguém via.</p>
+    <p class="muted">A resposta veio tarde, como vem pra muita gente: já adulto, fui diagnosticado com TDAH, TAG (transtorno de ansiedade generalizada) e autismo suporte 1. E aí tudo fez sentido — inclusive o motivo de nenhum app de produtividade nunca ter funcionado pra mim. Eles são feitos pra mentes lineares. A minha não é.</p>
+    <div class="story-quote">"O Focoh é o app que eu precisava e não existia. Então decidi que ele ia existir."</div>
+    <p class="muted">O Focoh já está no ar, funcionando, com os primeiros pioneiros usando. Agora falta um passo grande: colocar ele nas lojas de aplicativos (App Store e Google Play), onde ele pode chegar a quem realmente precisa — e é pra isso que estou pedindo sua ajuda.</p>
+  </div>
+</section>
+
+<svg class="wave-divider" width="120" height="24" viewBox="0 0 120 24" fill="none" aria-hidden="true">
+  <path d="M4 12 C14 2, 24 22, 34 12 C44 2, 54 22, 64 12 C74 2, 84 22, 94 12" stroke="#A8D4B4" stroke-width="3" stroke-linecap="round" fill="none"></path>
+  <circle cx="108" cy="12" r="4" fill="#4A8C5C"></circle>
+</svg>
+
+<!-- O QUE É -->
+<section class="telas">
+  <div class="wrap">
+    <div class="eyebrow">O que já está pronto</div>
+    <h2>Um app completo, pensado para o dia a dia de uma mente intensa</h2>
+    <div class="tela-grid">
+      <div class="tela-card">
+        <span class="tela-emoji">⏱️</span>
+        <div class="tela-name">Modo Foco</div>
+        <div class="tela-desc">Timer com modos adaptados — de pausas curtas ao hiperfoco de 50 minutos. Sem culpa, no seu ritmo.</div>
+      </div>
+      <div class="tela-card">
+        <span class="tela-emoji">📔</span>
+        <div class="tela-name">Diário</div>
+        <div class="tela-desc">Registro de humor, energia e vitórias do dia — inclusive por voz, pra quem fala melhor do que escreve.</div>
+      </div>
+      <div class="tela-card">
+        <span class="tela-emoji">🌱</span>
+        <div class="tela-name">Rotina equilibrada</div>
+        <div class="tela-desc">Blocos de rotina personalizáveis que ajudam na regulação emocional — do acordar ao dormir.</div>
+      </div>
+      <div class="tela-card">
+        <span class="tela-emoji">💬</span>
+        <div class="tela-name">Comunidade</div>
+        <div class="tela-desc">Espaço seguro pra dividir vitórias, desabafos e dicas com quem entende — sem julgamento. Com Modo Crise de respiração guiada.</div>
+      </div>
+      <div class="tela-card">
+        <span class="tela-emoji">🔮</span>
+        <div class="tela-name">Códigos Reset Codes™</div>
+        <div class="tela-desc">Meditações guiadas exclusivas para desativar padrões como procrastinação e autossabotagem.</div>
+        <span class="tela-soon">Em preparação</span>
+      </div>
+      <div class="tela-card">
+        <span class="tela-emoji">🏆</span>
+        <div class="tela-name">Conquistas</div>
+        <div class="tela-desc">Dias seguidos, sessões de foco, tarefas concluídas — progresso visível, porque pequenas vitórias importam.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRILHAS -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Pra quem é</div>
+    <h2>Cada pessoa escolhe a sua trilha</h2>
+    <p class="muted">No primeiro acesso, você conta pro app o que melhor te descreve — e pode escolher mais de uma trilha, porque a vida real não cabe em uma caixinha só.</p>
+    <div class="trilha-chips">
+      <span class="chip">⚡ TDAH</span>
+      <span class="chip">🌊 Ansiedade</span>
+      <span class="chip">💗 Mães</span>
+      <span class="chip">🌟 Autismo</span>
+      <span class="chip">🔥 Burnout</span>
+      <span class="chip">⭐ Altas Habilidades</span>
+      <span class="chip">💙 Cuidadores</span>
+      <span class="chip">🔮 Só quero focar</span>
+    </div>
+  </div>
+</section>
+
+<svg class="wave-divider" width="120" height="24" viewBox="0 0 120 24" fill="none" aria-hidden="true">
+  <path d="M4 12 C14 2, 24 22, 34 12 C44 2, 54 22, 64 12 C74 2, 84 22, 94 12" stroke="#A8D4B4" stroke-width="3" stroke-linecap="round" fill="none"></path>
+  <circle cx="108" cy="12" r="4" fill="#4A8C5C"></circle>
+</svg>
+
+<!-- ORÇAMENTO -->
+<section class="budget">
+  <div class="wrap">
+    <div class="eyebrow">Transparência total</div>
+    <h2>Pra onde vai cada real do apoio</h2>
+    <p class="muted">A meta de R$ 10.000 cobre tudo que falta pro Focoh sair do navegador e chegar às lojas oficiais de aplicativos — com valores abertos, sem mistério:</p>
+    <div class="budget-list">
+      <div class="budget-item">
+        <div class="budget-what">Contas de desenvolvedor das lojas
+          <span class="budget-detail">Apple App Store (anuidade) + Google Play (taxa única)</span>
+        </div>
+        <div class="budget-val">~R$ 700</div>
+      </div>
+      <div class="budget-item">
+        <div class="budget-what">Preparação técnica pras lojas
+          <span class="budget-detail">Empacotamento do app, ícones, capturas de tela e requisitos de publicação</span>
+        </div>
+        <div class="budget-val">~R$ 4.000</div>
+      </div>
+      <div class="budget-item">
+        <div class="budget-what">Infraestrutura do primeiro ano
+          <span class="budget-detail">Banco de dados, autenticação e serviços que mantêm o app no ar</span>
+        </div>
+        <div class="budget-val">~R$ 2.300</div>
+      </div>
+      <div class="budget-item">
+        <div class="budget-what">Novos recursos pros pioneiros
+          <span class="budget-detail">Notificações, modo noturno de desaceleração e melhorias de acessibilidade</span>
+        </div>
+        <div class="budget-val">~R$ 3.000</div>
+      </div>
+      <div class="budget-item budget-total">
+        <div class="budget-what">Meta da campanha</div>
+        <div class="budget-val">R$ 10.000</div>
+      </div>
+    </div>
+    <p class="budget-note">Valores aproximados. Qualquer valor arrecadado, mesmo abaixo da meta, já começa a ser usado nessa ordem — as contas das lojas são o primeiro passo.</p>
+  </div>
+</section>
+
+<!-- CONTRAPARTIDAS -->
+<section class="thanks">
+  <div class="wrap">
+    <div class="eyebrow">Pra quem apoiar</div>
+    <h2>Você não está doando. Está construindo junto.</h2>
+    <div class="thanks-list">
+      <div class="thanks-item">
+        <span class="thanks-emoji">🔓</span>
+        <div>
+          <div class="thanks-title">Acesso pioneiro vitalício</div>
+          <div class="thanks-desc">Quem apoiar a campanha entra no grupo dos pioneiros e mantém acesso completo ao app, pra sempre.</div>
+        </div>
+      </div>
+      <div class="thanks-item">
+        <span class="thanks-emoji">💚</span>
+        <div>
+          <div class="thanks-title">Nome na tela de agradecimento</div>
+          <div class="thanks-desc">Uma tela dentro do próprio Focoh com o nome de cada pessoa que ajudou ele a chegar nas lojas.</div>
+        </div>
+      </div>
+      <div class="thanks-item">
+        <span class="thanks-emoji">🗳️</span>
+        <div>
+          <div class="thanks-title">Voz nas próximas funções</div>
+          <div class="thanks-desc">Os apoiadores participam das decisões de quais recursos entram primeiro no app.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<div class="cta-final">
+  <div class="wrap">
+    <h2>Existe muita gente esperando<br>por um app assim.</h2>
+    <p>Talvez você conheça alguém. Talvez seja você. Cada apoio — de qualquer valor — aproxima o Focoh de quem precisa dele.</p>
+    <div class="btn-row">
+      <a class="btn btn-solid" href="LINK_DA_VAKINHA">💚 Apoiar a campanha</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div>Feito com 💚 por Vinicius Paradi</div>
+  <div style="margin-top:8px">
+    <a href="https://www.instagram.com/vinicius.paradi" target="_blank" rel="noopener">📷 Instagram</a>
+    &nbsp;·&nbsp;
+    <a href="https://www.tiktok.com/@vinicius.paradi" target="_blank" rel="noopener">🎵 TikTok</a>
+    &nbsp;·&nbsp; @vinicius.paradi
+  </div>
+  <div class="disclaimer">O Focoh é uma ferramenta de organização e bem-estar. Ele não substitui diagnóstico nem acompanhamento profissional de saúde.</div>
+</footer>
+
+</body>
+</html>
