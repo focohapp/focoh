@@ -262,6 +262,16 @@ html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--
     <button class="ob-btn-ghost" onclick="showStep(&#39;ob1&#39;)">← Usar outro e-mail</button>
   </div>
 
+  <div class="ob-step" id="obConfirmEmail">
+    <div style="font-size:52px;margin-bottom:16px">🔐</div>
+    <div class="ob-title" style="font-size:24px">Confirme seu e-mail</div>
+    <div class="ob-sub">Por segurança, digite o e-mail que você usou<br>para pedir o link de acesso.</div>
+    <input type="email" id="confirmEmailInput" class="ob-input" placeholder="seu@email.com" autocomplete="email" inputmode="email">
+    <div id="confirmEmailError" style="display:none;background:rgba(255,100,100,0.15);border:1px solid rgba(255,120,120,0.4);border-radius:14px;padding:12px;width:100%;margin-bottom:16px;font-size:12px;color:#ffd7d7;line-height:1.5"></div>
+    <button class="ob-btn" id="confirmEmailBtn" onclick="completeEmailSignIn()">Entrar →</button>
+    <button class="ob-btn-ghost" onclick="showStep('ob1')">← Pedir um novo link</button>
+  </div>
+
   <div class="ob-step" id="obProfile">
     <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.6);font-weight:700;margin-bottom:14px">Quase lá</div>
     <div class="ob-title" style="font-size:22px">Vamos nos<br>conhecer melhor</div>
@@ -597,24 +607,70 @@ function calcAge(birthdateStr) {
 
 // ═══ LOGIN POR LINK DE E-MAIL ═══
 
+let pendingSignInLink = null;
+let awaitingEmailConfirm = false;
+
 async function handleEmailLinkIfPresent() {
   if (isSignInWithEmailLink(auth, window.location.href)) {
-    let email = window.localStorage.getItem('emailForSignIn');
-    if (!email) {
-      email = window.prompt('Confirme seu e-mail para concluir o login:');
-    }
+    pendingSignInLink = window.location.href;
+    const email = window.localStorage.getItem('emailForSignIn');
     if (email) {
       try {
-        await signInWithEmailLink(auth, email, window.location.href);
+        await signInWithEmailLink(auth, email, pendingSignInLink);
         window.localStorage.removeItem('emailForSignIn');
         window.history.replaceState({}, document.title, window.location.pathname);
+        pendingSignInLink = null;
+        return;
       } catch(e) {
         console.error('Erro ao concluir login por e-mail:', e);
-        if (window.showToast) window.showToast('❌ Link inválido ou expirado. Tente entrar de novo.');
+        // Cai para a tela de confirmação manual abaixo
       }
     }
+    // Link aberto em outro navegador (sem e-mail salvo) ou falha acima:
+    // mostra a tela de confirmação do próprio app, em vez do prompt do navegador
+    awaitingEmailConfirm = true;
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('onboarding').style.display = 'flex';
+    showStep('obConfirmEmail');
   }
 }
+
+window.completeEmailSignIn = async function() {
+  const input = document.getElementById('confirmEmailInput');
+  const errBox = document.getElementById('confirmEmailError');
+  const btn = document.getElementById('confirmEmailBtn');
+  const email = input.value.trim();
+  errBox.style.display = 'none';
+  if (!email || !email.includes('@')) {
+    errBox.textContent = '✉️ Digite um e-mail válido.';
+    errBox.style.display = 'block';
+    return;
+  }
+  if (!pendingSignInLink) {
+    errBox.textContent = '❌ Esse link expirou. Volte e peça um novo.';
+    errBox.style.display = 'block';
+    return;
+  }
+  if (btn) { btn.textContent = 'Entrando...'; btn.disabled = true; }
+  try {
+    await signInWithEmailLink(auth, email, pendingSignInLink);
+    window.localStorage.removeItem('emailForSignIn');
+    window.history.replaceState({}, document.title, window.location.pathname);
+    pendingSignInLink = null;
+    awaitingEmailConfirm = false;
+    // onAuthStateChanged assume daqui e leva pro app/perfil
+  } catch(e) {
+    console.error('Erro ao concluir login por e-mail:', e);
+    let msg = '❌ Não foi possível entrar. Confira se o e-mail é o mesmo que pediu o link.';
+    if (e && (e.code === 'auth/invalid-action-code' || e.code === 'auth/expired-action-code')) {
+      msg = '❌ Esse link já foi usado ou expirou. Volte e peça um novo.';
+    }
+    errBox.textContent = msg;
+    errBox.style.display = 'block';
+  } finally {
+    if (btn) { btn.textContent = 'Entrar →'; btn.disabled = false; }
+  }
+};
 
 window.loginEmail = async function() {
   const emailInput = document.getElementById('emailInput');
@@ -679,6 +735,7 @@ let redirectChecked = true;
 let authStateReceived = false;
 
 function maybeShowLogin() {
+  if (awaitingEmailConfirm) return; // não atropela a tela de confirmação de e-mail
   if (authStateReceived && !currentUser) {
     document.getElementById('loading').style.display = 'none';
     document.getElementById('onboarding').style.display = 'flex';
